@@ -1,0 +1,42 @@
+# Riscos, lacunas e decisões pendentes
+
+## Pendências
+
+| ID | Informação/decisão | Quem resolve | Bloqueia |
+|---|---|---|---|
+| OPEN-01 | IP público, CPU/RAM/disco, arquitetura e acesso de console da VPS | Responsável técnico | Instalação |
+| OPEN-02 | Serviços existentes, Compose/Swarm, proxy, portas e redes ocupadas | Responsável técnico | Instalação sem conflito |
+| OPEN-03 | Domínio/DNS e método de certificados internos/públicos | Responsável técnico | TLS e exposição controlada |
+| OPEN-04 | Versão RouterOS/pacotes/RouterBOOT das RBs | Responsável técnico | WireGuard e provisionamento |
+| OPEN-05 | Redes existentes da casa, provedor e VPNs; sobreposições | Responsável técnico | IPAM e rotas |
+| OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
+| OPEN-07 | Mapa da área, altura, obstáculos, maré, energia na margem | Visita técnica | RF e montagem |
+| OPEN-08 | Banco de baterias, química, cargas, autonomia desejada e energia solar | Proprietário + instalador | Kit embarcado |
+| OPEN-09 | Modelos de central, sensores, sirenes, sinalizador e câmeras | Responsável técnico | Custo e compatibilidade |
+| OPEN-10 | Upload/download real, franquia e condições do provedor | Responsável técnico + provedor | Capacidade/comercialização |
+| OPEN-11 | Versões fixas Docker/Portainer/Zabbix/PG/Grafana/Kuma/plugin | Responsável técnico | Stack executável |
+| OPEN-12 | VLAN por estação, credenciais por barco, coleta AX e portas reais | Laboratório | Isolamento e métricas |
+| OPEN-13 | Destinatários/canais/plantão e tempos de atendimento | Operação + cliente | Alertas de produção |
+| OPEN-14 | Destino off-site, retenção aprovada, chaves e verba de backup | Responsável técnico | Recuperação |
+| OPEN-15 | Custos, contrato, tributos, vigilância e licença do projeto | Titular + especialistas | Oferta comercial |
+
+## Matriz de riscos
+
+| Risco | Impacto | Tratamento | Critério de liberação |
+|---|---|---|---|
+| Nulos de antena durante rotação | Falha de conectividade | Testar 360° e outra posição/rádio se necessário | RF-03 |
+| Maresia/condensação/UV | Corrosão e indisponibilidade | Materiais compatíveis, montagem e inspeção | OPS-02 |
+| Alimentação inadequada/descarga | Perda de serviço e dano | Projeto DC e medição, proteção independente | ENE-01 |
+| PoE incompatível | Dano a rádio | Conferência tensão, padrão e polaridade | HW-01 |
+| Todo gerenciamento passa pela VPS | Perda de observação/administração | Console, backups e operação local autônoma | BAK-01/VPN-03 |
+| Um core, um AP e uma WAN | Falha comum a todos | Assumir SPOFs na PoC; estoque e evolução | COM-01 |
+| Ausência de dado aparece normal | Diagnóstico incorreto | Estado sem dados, idade e erro explícitos | MON-02 |
+| LANs separadas sem ACL real | Acesso entre clientes | Isolamento L2/L3, anti-spoof e teste | SEC-01/02 |
+| Scripts/containers sem versão fixa | Deriva e quebra de compatibilidade | Manifesto, backup e rollback | STACK-01 |
+| Firewall Docker diverge do host | Gerência exposta/rota quebrada | Teste externo e reboot do daemon | SEC-03/OPS-01 |
+| Escala aumenta ocupação RF | Perda e latência sob vídeo | Medir airtime e concorrência; novos setores | CAP-01 |
+| Mensalidade insuficiente | Serviço inviável | CAPEX/OPEX, reposição, tributos e inadimplência | COM-01 |
+
+## Limite da conclusão
+
+A arquitetura é uma proposta fundamentada. Não há garantia de cobertura, autonomia, número de setores ou rentabilidade até execução dos testes correspondentes.

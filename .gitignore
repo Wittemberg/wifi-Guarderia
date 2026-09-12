@@ -1,0 +1,33 @@
+# Segredos e configurações reais
+.env
+.env.*
+!.env.example
+secrets/
+private/
+*.key
+*.pem
+*.p12
+*.pfx
+*.backup
+*.rsc
+*.dump
+*.sql
+*.pcap
+*.pcapng
+wg*.conf
+# Dados operacionais e artefatos
+data/
+backups/
+evidence-private/
+references-local/
+*.log
+*.zip
+*.tar
+*.gz
+# Ferramentas locais
+.venv/
+__pycache__/
+node_modules/
+.DS_Store
+Thumbs.db
+~$*
