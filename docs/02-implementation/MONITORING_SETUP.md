@@ -6,7 +6,7 @@ Estado: roteiro de implantação futura. Dependências: stack, VPN, inventário 
 
 1. Registrar versões de Zabbix, banco, Grafana/plugin e Kuma no manifesto.
 2. Configurar relógios e timezone de apresentação; criar usuários/papéis mínimos.
-3. Cadastrar VPS, core, AP, RB de casa e wAP de bancada com IDs do inventário.
+3. Cadastrar VPS, core, AP, RB da central NOC e wAP de bancada com IDs do inventário.
 4. Validar conexão SNMPv3/API e capacidade real antes de associar template.
 5. Habilitar recursos/interfaces e descoberta controlada, excluindo interfaces irrelevantes ou voláteis.
 6. Criar coleta RF mestre e itens dependentes quando necessário, com erro/estado explícito.

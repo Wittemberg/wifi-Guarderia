@@ -6,12 +6,12 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 |---|---|---|---|
 | DOC-01 | Estrutura, links, Git e publicação | Revisão local concluída | [Verificações](DOCUMENTATION_REVIEW.md); commit/publicação pelo histórico Git |
 | DOC-02 | Referência nocagent e padrões | Análise documental realizada | [Revisão](../08-reference/NOCAGENT_REVIEW.md) |
-| HW-01 | Inventário e compatibilidade elétrica/firmware | Não executado | Equipamentos não acessados |
+| HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB951G recebido do usuário; atualização concluída | [RB951G central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
 | VPS-01 | Inventário e caminho de instalação | Não executado | VPS não acessada |
 | STACK-01 | Stack, versões, rede e persistência | Não executado | Manifesto executável futuro |
 | VPN-01 | Hub e CGNAT | Não executado | Aguardar laboratório |
 | VPN-02 | Rotas, retorno e coleta container | Não executado | Aguardar laboratório |
-| VPN-03 | Falhas/recuperação e independência da casa | Não executado | Aguardar laboratório |
+| VPN-03 | Falhas/recuperação e independência da central NOC | Não executado | Aguardar laboratório |
 | MON-01 | Coleta real e comparação direta | Não executado | Aguardar equipamentos |
 | MON-02 | Sem dados, credencial e campos não suportados | Não executado | Aguardar stack |
 | MON-03 | Diagnóstico por camada | Não executado | Aguardar stack/rede |

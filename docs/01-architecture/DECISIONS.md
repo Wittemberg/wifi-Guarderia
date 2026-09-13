@@ -4,11 +4,11 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-001 — Reaproveitar infraestrutura disponível
 
-**Status:** confirmado pelo usuário para RBs e VPS. **Contexto:** reduzir desembolso inicial. **Decisão:** RB750Gr3 no core, RB951G em casa e VPS existente. **Consequência:** medir CPU, RAM e throughput com firewall, VPN e coleta ativos; substituição somente se a medição demonstrar insuficiência.
+**Status:** confirmado pelo usuário para RBs e VPS. **Contexto:** reduzir desembolso inicial. **Decisão:** RB750Gr3 no core, RB951G na central NOC e VPS existente. **Consequência:** medir CPU, RAM e throughput com firewall, VPN e coleta ativos; substituição somente se a medição demonstrar insuficiência.
 
 ## ADR-002 — WireGuard com hub público
 
-**Status:** adotado para especificação. **Contexto:** CGNAT nos dois locais. **Decisão:** peers casa/core iniciam túneis até VPS; WireGuard no host. **Alternativas:** conexão IPv6 direta ou CHR. **Consequência:** VPS é ponto único de gerenciamento; Internet local não depende dela. Console e restauração documentados são obrigatórios.
+**Status:** adotado para especificação. **Contexto:** CGNAT nos dois locais. **Decisão:** peers central NOC/core iniciam túneis até VPS; WireGuard no host. **Alternativas:** conexão IPv6 direta ou CHR. **Consequência:** VPS é ponto único de gerenciamento; Internet local não depende dela. Console e restauração documentados são obrigatórios.
 
 ## ADR-003 — Ubuntu 24.04 e Docker/Portainer
 

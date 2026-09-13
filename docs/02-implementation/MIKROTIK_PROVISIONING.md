@@ -17,7 +17,7 @@ Registrar saídas em armazenamento privado. Para rádios AX, inspecionar `/inter
 
 ## Padrão comum
 
-Identidades propostas: `GV-CORE-01`, `GV-AP-SETOR01`, `GV-CASA-01`, `GV-BARCO-001` a `020`. Usuários administrativos nominais; conta de coleta separada e privilégio mínimo; desativar contas padrão após testar substitutas. Desabilitar serviços não utilizados, WPS e descoberta/gerência MAC em interfaces não administrativas.
+Identidades propostas: `GV-CORE-01`, `GV-AP-SETOR01`, `GV-NOC-01`, `GV-BARCO-001` a `020`. Usuários administrativos nominais; conta de coleta separada e privilégio mínimo; desativar contas padrão após testar substitutas. Desabilitar serviços não utilizados, WPS e descoberta/gerência MAC em interfaces não administrativas.
 
 Atualização RouterOS/RouterBOOT deve ser feita em bancada com backup e acesso local, considerando arquitetura e espaço livre. WireGuard requer RouterOS v7; a versão exata deve ser escolhida e registrada após verificar compatibilidade das RBs. Não copiar pacotes ARM para equipamentos de outra arquitetura.
 
@@ -46,9 +46,11 @@ Identificar rádio 5 GHz como uplink `station`, IP WAN /30 fixo e default para c
 
 Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN de clientes recebe somente serviços locais necessários. Forward permite Internet e retorno de sessões, mas bloqueia redes de outros barcos e infraestrutura. O core repete a proteção como segunda fronteira. Validar ausência de bypass por IPv6/bridge.
 
-## Casa RB951G
+## Central NOC — RB951G
 
-Usar uma porta de uplink residencial e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede doméstica existente. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB951 em requisito da operação da guarderia.
+Atualização concluída pelo usuário: RouterOS 7.23.5 (long-term), RouterBOOT atual/disponível 7.23.5. A RB951G está pronta para receber a configuração após a VPS estar configurada. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
+
+Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB951 em requisito da operação da guarderia.
 
 ## Dados mínimos para futuro template
 

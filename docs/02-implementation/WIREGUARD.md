@@ -7,11 +7,11 @@ Estado: desenho implementável após inventário. Não inclui chaves nem comando
 | Ponta | IP WireGuard | Endpoint remoto | Keepalive proposto |
 |---|---|---|---|
 | VPS | 10.250.0.1 | Endpoints aprendidos dos clientes | Não necessário como padrão |
-| RB951 casa | 10.250.0.2 | IP público/DNS da VPS:51820 | 25 s |
+| RB951 central NOC | 10.250.0.2 | IP público/DNS da VPS:51820 | 25 s |
 | RB750 core | 10.250.0.3 | IP público/DNS da VPS:51820 | 25 s |
 | Notebook recuperação | 10.250.0.10 | VPS:51820 | Conforme NAT e uso |
 
-Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e casa. O keepalive mantém o mapeamento NAT; não prova saúde do caminho. Referência: [WireGuard RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
+Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e central NOC. O keepalive mantém o mapeamento NAT; não prova saúde do caminho. Referência: [WireGuard RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
 
 ## AllowedIPs e roteamento
 
@@ -19,10 +19,10 @@ Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e
 
 | Configuração local | Peer | Prefixos remotos permitidos |
 |---|---|---|
-| VPS | Casa | 10.250.0.2/32 e 10.21.0.0/24 |
+| VPS | Central NOC | 10.250.0.2/32 e 10.21.0.0/24 |
 | VPS | Core | 10.250.0.3/32, 10.20.0.0/24, LANs N ativas e /30 de trânsito ativos |
 | VPS | Notebook | 10.250.0.10/32 |
-| Casa | VPS/hub | 10.250.0.1/32, .3/32, .10/32 e redes guarderia ativas |
+| Central NOC | VPS/hub | 10.250.0.1/32, .3/32, .10/32 e redes guarderia ativas |
 | Core | VPS/hub | 10.250.0.1/32, .2/32, .10/32 e 10.21.0.0/24 |
 | Notebook | VPS/hub | 10.250.0.1/32, .3/32 e redes guarderia necessárias |
 
@@ -30,11 +30,11 @@ As abreviações `.2/.3/.10` na tabela significam `10.250.0.x`. Adicionar soment
 
 ## Trânsito da administração
 
-Habilitar forwarding IPv4 no host e permitir somente fluxos da [matriz de segurança](../04-security/SECURITY.md). Fluxo casa → guarderia entra e sai em `wg0` na VPS; precisa de regra de forwarding entre peers. O core deve ter rota de retorno para `10.21.0.0/24`. O wAP usa default do core.
+Habilitar forwarding IPv4 no host e permitir somente fluxos da [matriz de segurança](../04-security/SECURITY.md). Fluxo central NOC → guarderia entra e sai em `wg0` na VPS; precisa de regra de forwarding entre peers. O core deve ter rota de retorno para `10.21.0.0/24`. O wAP usa default do core.
 
 ## Containers de coleta
 
-Escolha proposta: SNAT explícito para `10.250.0.1` apenas quando a rede Docker de coleta autorizada alcança redes de gerência da guarderia pela `wg0`. Não NATear tráfego de casa, de retorno ou entre LANs de barcos. Restringir também portas/protocolos e origem do container no firewall antes do SNAT.
+Escolha proposta: SNAT explícito para `10.250.0.1` apenas quando a rede Docker de coleta autorizada alcança redes de gerência da guarderia pela `wg0`. Não NATear tráfego da central NOC, de retorno ou entre LANs de barcos. Restringir também portas/protocolos e origem do container no firewall antes do SNAT.
 
 Assim o core autoriza a VPS como coletor e não precisa aprender redes Docker. Confirmar por captura controlada/contadores o endereço de origem real: masquerade padrão de Docker não deve ser tomado como contrato. Se a opção mudar para roteamento puro, documentar prefixos Docker em AllowedIPs, rotas e ACLs nos dois lados.
 
@@ -48,7 +48,7 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 
 1. Backup protegido, console e sessão administrativa preservados.
 2. Habilitar acesso UDP no host/provedor e criar interface/peers sem alterar a rota default.
-3. Configurar casa e core com endpoint, chaves e keepalive.
+3. Configurar a central NOC e core com endpoint, chaves e keepalive.
 4. Validar handshake e contadores bidirecionais.
 5. Adicionar rotas específicas e testar gerência da VPS ao core.
 6. Testar PC na LAN administrativa → core → wAP e retorno.
@@ -59,8 +59,8 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 ## Testes VPN-01/02/03
 
 - Renovação de IP WAN/CGNAT não exige edição manual do endpoint cliente no hub.
-- Falha da casa não afeta guarderia; falha da VPS não altera a saída Internet do core.
-- Notebook de recuperação consegue administrar o core se a casa estiver indisponível e a VPS ativa.
+- Falha da central NOC não afeta guarderia; falha da VPS não altera a saída Internet do core.
+- Notebook de recuperação consegue administrar o core se a central NOC estiver indisponível e a VPS ativa.
 - Porta administrativa não responde à Internet pública.
 - Reinício de Docker preserva forwarding WireGuard.
 - Handshake sem rota funcional é reportado como VPN sem conectividade, não como serviço saudável.

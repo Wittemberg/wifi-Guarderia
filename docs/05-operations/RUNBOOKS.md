@@ -16,7 +16,7 @@ Não reiniciar rádio/core automaticamente por um único timeout. Preservar evid
 
 ## RB-02 — VPN com handshake e sem acesso
 
-Comparar AllowedIPs, rotas de ida/retorno, forwarding da VPS, regras Docker, NAT e origem real. Testar VPS→core e casa→VPS separadamente. Verificar MTU se ping pequeno funciona e aplicação falha. Não adicionar rota default à VPN como tentativa genérica de correção.
+Comparar AllowedIPs, rotas de ida/retorno, forwarding da VPS, regras Docker, NAT e origem real. Testar VPS→core e central NOC→VPS separadamente. Verificar MTU se ping pequeno funciona e aplicação falha. Não adicionar rota default à VPN como tentativa genérica de correção.
 
 ## RB-03 — Métrica RF não suportada
 

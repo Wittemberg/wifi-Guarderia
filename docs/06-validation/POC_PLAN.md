@@ -48,7 +48,7 @@ RSSI alvo inicial de investigação: preferir margem estável acima de −70 dBm
 
 ## Testes de falha
 
-Desconectar WAN, interromper VPS, desligar casa e reiniciar equipamento em janela controlada, um cenário por vez. Alarme e gravação locais devem continuar quando aplicável. Proposta de recuperação de rede: até 180 s após retorno do serviço/energia e boot concluído; medir também tempo total desde energização, separadamente. Verificar DNS, túnel, rotas e coleta, não somente LEDs.
+Desconectar WAN, interromper VPS, desligar a conexão da central NOC e reiniciar equipamento em janela controlada, um cenário por vez. Alarme e gravação locais devem continuar quando aplicável. Proposta de recuperação de rede: até 180 s após retorno do serviço/energia e boot concluído; medir também tempo total desde energização, separadamente. Verificar DNS, túnel, rotas e coleta, não somente LEDs.
 
 ## Decisão ao final
 

@@ -13,14 +13,16 @@ O responsável técnico deve definir alimentação mínima, manutenção prevent
 - Conhecimento prático de MikroTik, Intelbras, TP-Link e algum UniFi.
 - Barcos se deslocam e giram com vento e corrente; enlace não pode depender de alinhamento direcional fixo a bordo.
 - Internet inicial será provavelmente de provedor local, com CGNAT; Starlink saiu da primeira etapa.
-- Casa também está atrás de CGNAT.
-- RB951G-2HnD sem uso está disponível em casa e RB750Gr3 novo está disponível para o core.
+- A central NOC também está atrás de CGNAT.
+- RB951G-2HnD está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.5 e pronta para configuração após a VPS; RB750Gr3 novo está disponível para o core.
 - VPS já existe e, segundo o usuário, atende ao dimensionamento discutido. As características reais ainda não foram inventariadas.
 - Preferência por Ubuntu 24.04, Docker/Portainer e instalação via SetupOrion se viável.
 - Monitoramento deve estar preparado antes da PoC para registrar métricas reais desde o início.
 - Pasta local e GitHub foram definidos explicitamente em 12/09/2026.
 
 ## Evolução das propostas
+
+Atualização de 12/09/2026: o usuário forneceu as saídas de inventário da RB951G, registradas em [inventário da central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md). A atualização foi realizada pelo usuário; configuração e testes da VPN ainda não foram executados. O local administrativo é denominado “central NOC” em toda a documentação.
 
 | Tema | Ideia anterior | Direção mais recente |
 |---|---|---|

@@ -4,7 +4,7 @@ Estado: orçamento de capacidade paramétrico. Não há benchmark nem consumo de
 
 ## Inventário de escala
 
-Para 20 barcos, prever pelo menos core, AP(s), 20 wAPs e host VPS. Central e 1–2 câmeras por barco podem elevar o inventário para cerca de 62–82 equipamentos no local; isso não significa que todos suportem SNMP ou a mesma frequência de coleta. A RB de casa e serviços da VPS entram separadamente.
+Para 20 barcos, prever pelo menos core, AP(s), 20 wAPs e host VPS. Central e 1–2 câmeras por barco podem elevar o inventário para cerca de 62–82 equipamentos no local; isso não significa que todos suportem SNMP ou a mesma frequência de coleta. A RB da central NOC e serviços da VPS entram separadamente.
 
 ## Taxa de amostras
 

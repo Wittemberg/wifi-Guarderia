@@ -1,12 +1,12 @@
 # Plano de rede, endereçamento e interfaces
 
-Estado: **endereços reservados em projeto, não aplicados**. Conferir sobreposição com LAN residencial, provedor, Docker e VPNs antes da implantação. O projeto usa IPv4 na primeira etapa; IPv6 deve ser bloqueado ou segregado com regras equivalentes, sem permitir passagem lateral inadvertida.
+Estado: **endereços reservados em projeto, não aplicados**. Conferir sobreposição com LAN da central NOC, provedor, Docker e VPNs antes da implantação. O projeto usa IPv4 na primeira etapa; IPv6 deve ser bloqueado ou segregado com regras equivalentes, sem permitir passagem lateral inadvertida.
 
 ## Redes canônicas
 
 | Rede | Finalidade | Gateway/atribuições |
 |---|---|---|
-| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, casa `.2`, core `.3`, notebook de recuperação `.10` reservado |
+| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, central NOC `.2`, core `.3`, notebook de recuperação `.10` reservado |
 | `10.21.0.0/24` | LAN administrativa dedicada atrás da RB951 | RB951 `.1`; PC `.10` reservado |
 | `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver |
 | `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN |
@@ -53,12 +53,12 @@ Fórmula para barco N: VLAN = 1000 + N; último octeto da rede = 4 × (N − 1);
 | Core | LAN N /24 | WAN wAP N |
 | Core | 10.21.0.0/24, 10.250.0.1/32, .2/32 e .10/32 | WireGuard/hub |
 | Core | Default | Gateway real do provedor |
-| Casa | Prefixos de guarderia ativos e peers de gerência | WireGuard/hub |
-| Casa | Default | Gateway residencial existente |
+| Central NOC | Prefixos de guarderia ativos e peers de gerência | WireGuard/hub |
+| Central NOC | Default | Gateway existente da central NOC |
 | VPS | Redes guarderia ativas | Peer core |
-| VPS | 10.21.0.0/24 | Peer casa |
+| VPS | 10.21.0.0/24 | Peer central NOC |
 
-Sem NAT no wAP. No core, masquerade apenas das redes autorizadas quando a saída for WAN; não aplicar na VPN. Na casa, NAT apenas para Internet, preservando origem administrativa na VPN. O prefixo residencial existente não é exportado por padrão: PC usa a LAN administrativa dedicada. O acesso a essa LAN por um PC já na residência depende de rota adicional ou conexão física à RB951.
+Sem NAT no wAP. No core, masquerade apenas das redes autorizadas quando a saída for WAN; não aplicar na VPN. Na central NOC, NAT apenas para Internet, preservando origem administrativa na VPN. O prefixo existente da central NOC não é exportado por padrão: PC usa a LAN administrativa dedicada. O acesso a essa LAN por um PC já na central NOC depende de rota adicional ou conexão física à RB951.
 
 ## Mapeamento físico proposto
 

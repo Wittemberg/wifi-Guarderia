@@ -29,7 +29,7 @@
 
 ## Requisitos não funcionais propostos
 
-- Falha da Internet de casa não deve interromper a rede da guarderia.
+- Falha da Internet da central NOC não deve interromper a rede da guarderia.
 - Falha da VPS deve preservar Internet local e funcionamento autônomo de alarme/gravação; haverá lacuna na observação central.
 - Especificações e inventário público não contêm identificação pessoal ou segredos.
 - Coleta de PoC tem resolução pretendida de 5 s para rádio/tráfego e sonda ICMP local de 1 s durante ensaio controlado; suporte e custo serão medidos.

@@ -19,6 +19,7 @@ Baseline 0.1.0 — 12/09/2026. O projeto está especificado, ainda não implanta
 | [Plano de rede](01-architecture/NETWORK_PLAN.md) | IPAM para 20 barcos, VLANs, portas, rotas e NAT |
 | [Decisões](01-architecture/DECISIONS.md) | ADRs, alternativas e consequências |
 | [Hardware e RF](01-architecture/HARDWARE_AND_RF.md) | Modelos, perfil RF, levantamento e materiais |
+| [Inventário da RB951G central NOC](01-architecture/NOC_ROUTER_INVENTORY.md) | Atualização 7.23.5 e recursos informados pelo usuário |
 | [Energia e instalação](01-architecture/POWER_AND_INSTALLATION.md) | PoE, DC, autonomia e ambiente marítimo |
 
 ## 02 — Implementação

@@ -1,5 +1,17 @@
 # Histórico de alterações
 
+## 0.1.1 — 2026-09-12
+
+### Adicionado
+
+- Estimativa informada pelo usuário de aporte de aproximadamente R$ 3.000,00 para aquisição dos equipamentos básicos e início dos testes da PoC, registrada no README.
+- Inventário sanitizado da RB951G-2HnD: RouterOS 7.23.5 (long-term), RouterBOOT 7.23.5 e recursos fornecidos pelo usuário; pronta para configuração após a VPS.
+
+### Alterado
+
+- Padronizada a denominação “central NOC” para o local administrativo, inclusive topologia, rotas, procedimentos e memória.
+- Atualizados roadmap, pendências e homologação para refletir o inventário recebido sem presumir configuração ou testes de VPN.
+
 ## 0.1.0 — 2026-09-12
 
 ### Adicionado

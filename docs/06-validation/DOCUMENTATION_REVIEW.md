@@ -2,7 +2,7 @@
 
 Data: 12/09/2026. Escopo: arquivos Markdown e configuração Git desta primeira entrega. Esta revisão não executa testes de equipamentos, VPS ou serviços.
 
-## Verificações executadas nesta entrega
+## Verificações executadas na baseline 0.1.0
 
 | Verificação | Estado |
 |---|---|
@@ -23,5 +23,7 @@ O SHA do próprio commit não é embutido nos documentos para evitar autorrefer�
 Foram explicitados: rotas de retorno, SNAT restrito de coleta, política IPv6, segregação L2/L3, credenciais por estação, limites de campo RF, diferenças de alimentação PoE, lacunas de coleta, semântica history/trends, backup container/host, TLS e separação entre especificação e homologação.
 
 ## Limitações
+
+Atualização documental posterior em 12/09/2026: inventário da RB951G recebido do usuário, atualização RouterOS/RouterBOOT 7.23.5 registrada e denominação central NOC aplicada. A coleta foi realizada pelo usuário; não é homologação remota executada pelo agente. Os totais da tabela acima descrevem a baseline original.
 
 Versões exatas, domínio, segredos, inspeção local, aquisição e resultados de campo dependem da próxima fase. Critérios numéricos de PoC são propostas de aceite. Nenhum script executável de implantação foi gerado sem esses parâmetros. Comandos de inventário nos documentos não foram executados na VPS.
