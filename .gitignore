@@ -10,6 +10,8 @@ private/
 *.pfx
 *.backup
 *.rsc
+# Única exceção: template recebido, arquivado para análise; não é export operacional.
+!docs/08-reference/routeros-v7/guarderia-routeros-v7-baseline.rsc
 *.dump
 *.sql
 *.pcap

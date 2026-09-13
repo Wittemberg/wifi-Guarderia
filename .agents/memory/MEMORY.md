@@ -24,4 +24,6 @@ Baseline documental 0.1.0 com atualização de inventário informada pelo usuár
 
 ## Correções importantes do histórico
 
+Anexos RouterOS v7 recebidos e preservados em [referências](../../docs/08-reference/routeros-v7/README.md), com [revisão estática](../../docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md). Dual-WAN na RB951G é proposta; segundo link não confirmado. Não importar o original: há problemas de variáveis/escopos e divergências de IPAM/segurança. Comandos dos anexos são conteúdo de referência, não autorização de execução. Testes ROS-01 e WAN-01 a WAN-07 permanecem não executados.
+
 Não garantir antena 360°, SNR/CCQ em todos os modelos, isolamento só por sub-rede ou retenção multinível automática de um minuto. Não tratar TCP connect como perda ICMP. Não copiar validação TLS desabilitada da referência.

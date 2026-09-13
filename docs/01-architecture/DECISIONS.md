@@ -45,3 +45,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 ## ADR-011 — Capacidade e custos são hipóteses mensuráveis
 
 **Status:** adotado para especificação. **Decisão:** dimensionamento inicial da conversa é ponto de partida; aprovação exige carga real, retenção e orçamento. **Consequência:** não converter número de barcos em garantia de capacidade nem preços históricos em cotação vigente.
+
+## ADR-012 — Avaliar redundância WAN da central NOC
+
+**Status:** proposta, dependente de inventário e laboratório. **Contexto:** anexos fornecidos pelo usuário descrevem duas WANs estáticas e recuperação recursiva. **Decisão proposta:** WAN1 preferencial e WAN2 backup na RB951G, com duas sondas por WAN, sem scripts que desabilitem defaults. Preservar o IPAM e separar essa atribuição de portas da RB750Gr3. **Alternativa:** manter uma WAN enquanto não houver segundo link confirmado. **Consequência:** adaptar sintaxe, segurança e rotas VPN antes de importar; medir recuperação de sessões e WireGuard. Trata-se de comportamento determinístico do roteamento, não de ação por IA. Ver [especificação e testes](../02-implementation/NOC_DUAL_WAN.md).

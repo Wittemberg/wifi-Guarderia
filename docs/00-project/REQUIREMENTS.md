@@ -26,6 +26,8 @@
 | REQ-20 | Versionar documentação na pasta e GitHub definidos | C | P0 | DOC-01: links, Git e SHA remoto |
 | REQ-21 | Usar nocagent e Witteberg como referência rastreável | C | P1 | DOC-02: análise e mapeamento |
 | REQ-22 | Vigia terceirizado é opção separada da operação de rede | Demanda/P | P1 | SECUR-01, COM-01: responsabilidades |
+| REQ-23 | Avaliar WAN1 preferencial/WAN2 backup na central NOC, recuperando rotas sem desabilitá-las por script | Anexos/P/V | P1 | WAN-01 a WAN-07 |
+| REQ-24 | Corrigir e validar o template recebido antes de qualquer import operacional | Anexos/P/V | P0 | DOC-03, ROS-01, SEC-03 e SEC-04 |
 
 ## Requisitos não funcionais propostos
 

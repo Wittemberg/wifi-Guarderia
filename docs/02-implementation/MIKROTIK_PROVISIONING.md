@@ -1,6 +1,6 @@
 # Provisionamento MikroTik
 
-Estado: roteiro planejado; comandos abaixo são somente leitura. Scripts `.rsc` executáveis serão produzidos após inventário e homologação do modelo de VLAN/credenciais.
+Estado: roteiro planejado; comandos abaixo são somente leitura. Há um [template recebido arquivado](ROUTEROS_BASELINE_REVIEW.md), ainda inadequado para importação. Scripts `.rsc` adaptados serão produzidos após inventário e homologação do modelo de VLAN/credenciais.
 
 ## Inventário comum
 
@@ -51,6 +51,8 @@ Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN
 Atualização concluída pelo usuário: RouterOS 7.23.5 (long-term), RouterBOOT atual/disponível 7.23.5. A RB951G está pronta para receber a configuração após a VPS estar configurada. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
 
 Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB951 em requisito da operação da guarderia.
+
+A [variante dual-WAN](NOC_DUAL_WAN.md) propõe ether1/ether2 como WAN e ether3–5 como LAN na RB951G. Confirmar segundo link e portas antes de adotar. Resolver os achados da revisão, completar parâmetros e executar ROS-01; não importar o original nem seguir automaticamente seu comentário de reset.
 
 ## Dados mínimos para futuro template
 

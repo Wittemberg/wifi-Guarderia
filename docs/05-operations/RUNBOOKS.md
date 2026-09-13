@@ -43,3 +43,11 @@ Revogar credencial/peer afetado, preservar logs sanitizados e verificar escopo d
 ## RB-08 — Retirada de um barco
 
 Validar proprietário/ordem de retirada; revogar credenciais e acesso remoto; retirar associação/VLAN/rota conforme inventário; encerrar monitoração mantendo histórico no prazo aplicável. Remover segredos locais durante recolhimento do kit. Não reutilizar IP/identidade até baixa confirmada. Dados e microSD seguem processo de devolução/eliminação aprovado.
+
+## RB-09 — Falha ou oscilação das WANs da central NOC
+
+Procedimento futuro para a [variante dual-WAN](../02-implementation/NOC_DUAL_WAN.md), ainda não implantada. Registrar interface física, endereços/lease, gateway, estado das quatro sondas /32, defaults e próximo salto efetivo. Diferenciar falha do modem, upstream, uma sonda e indisponibilidade de todas as rotas de uma WAN.
+
+Na perda total, defaults devem ficar inativas, sem receber `disabled=yes`. Não corrigir ausência de Internet desabilitando rotas, nem limpar globalmente conntrack como reação automática. Conferir se cada sonda usa a WAN prevista; um ping genérico pode sair pelo outro link. Se houver oscilação, preservar horários e contagem das trocas antes de alterar parâmetros sob RB-05.
+
+Após retorno, testar novas conexões, DNS e caminho administrativo até o core, além do handshake. Registrar impacto em sessões anteriores e retomar a coleta. Se a mudança de configuração causar perda de acesso, usar recuperação local e backup conforme RB-05. Aceite pelos testes WAN-01 a WAN-07.

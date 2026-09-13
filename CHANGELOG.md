@@ -1,5 +1,12 @@
 # Histórico de alterações
 
+## 0.1.2 — 2026-09-12
+
+- Arquivados os dois anexos RouterOS v7 recebidos, preservando bytes e hashes SHA-256.
+- Documentados achados de sintaxe, escopo, IPAM, WireGuard, firewall e repetição do import.
+- Incorporada proposta de WAN primária/backup para a central NOC, com requisitos, pendências, procedimento e testes rastreáveis.
+- Nenhum script importado ou equipamento alterado; o original permanece referência não homologada.
+
 ## 0.1.1 — 2026-09-12
 
 ### Adicionado

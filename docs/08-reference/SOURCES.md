@@ -22,3 +22,14 @@ Consulta: 12/09/2026. Dados externos são referência; seleção final exige con
 ## Valores propostos pelo projeto
 
 Sub-redes, VLANs, IDs, intervalos, retenção inicial, RPO/RTO, critérios de perda/latência, rotina de manutenção e fórmulas de custos são especificações de engenharia desta baseline, não afirmações de desempenho medidas ou garantias dos fabricantes.
+
+## Revisão dos anexos RouterOS v7 — 12/09/2026
+
+- [Originais recebidos e hashes](routeros-v7/README.md): proposta fornecida pelo usuário, sem comprovação de implantação.
+- [Failover WAN Backup](https://help.mikrotik.com/docs/spaces/ROS/pages/26476608/Failover+WAN+Backup): sondas recursivas, distâncias e múltiplos alvos.
+- [Scripting](https://help.mikrotik.com/docs/spaces/ROS/pages/47579229/Scripting): nomes de variáveis e escopos.
+- [Configuration Management](https://help.mikrotik.com/docs/spaces/ROS/pages/328155/Configuration+Management): import e dry-run.
+- [Connection tracking](https://help.mikrotik.com/docs/spaces/ROS/pages/130220087/Connection+tracking): sessões e FastTrack.
+- [NAT](https://help.mikrotik.com/docs/spaces/ROS/pages/3211299/NAT): comportamento de traduções e conexões na mudança de caminho.
+
+Interpretações e limitações estão na [revisão técnica](../02-implementation/ROUTEROS_BASELINE_REVIEW.md); consulta ao manual não equivale a teste na RB951G.

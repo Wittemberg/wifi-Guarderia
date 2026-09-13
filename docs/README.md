@@ -1,6 +1,6 @@
 # Índice da documentação técnica
 
-Baseline 0.1.0 — 12/09/2026. O projeto está especificado, ainda não implantado. A distinção entre decisões, propostas e evidências é mantida em cada domínio.
+Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implantado. A distinção entre decisões, propostas e evidências é mantida em cada domínio.
 
 ## 00 — Projeto
 
@@ -31,6 +31,8 @@ Baseline 0.1.0 — 12/09/2026. O projeto está especificado, ainda não implanta
 | [WireGuard](02-implementation/WIREGUARD.md) | Peers, AllowedIPs, rotas, SNAT e recuperação |
 | [Provisionamento MikroTik](02-implementation/MIKROTIK_PROVISIONING.md) | Roteiro por equipamento e futuras configurações |
 | [Configuração do monitoramento](02-implementation/MONITORING_SETUP.md) | Sequência de templates, coleta, dashboards e alertas |
+| [Revisão RouterOS recebido](02-implementation/ROUTEROS_BASELINE_REVIEW.md) | Achados, divergências e condições para adaptar o template |
+| [Dual-WAN central NOC](02-implementation/NOC_DUAL_WAN.md) | Proposta de failover, pré-requisitos e ensaios |
 
 ## 03 — Monitoramento
 
@@ -76,6 +78,7 @@ Baseline 0.1.0 — 12/09/2026. O projeto está especificado, ainda não implanta
 | [Análise nocagent](08-reference/NOCAGENT_REVIEW.md) | Fontes, adoção e divergências encontradas |
 | [Inventário do snapshot](08-reference/REFERENCE_INVENTORY.md) | Caminhos e hashes da árvore consultada |
 | [Fontes externas](08-reference/SOURCES.md) | Links dos fabricantes e mantenedores |
+| [Anexos RouterOS v7](08-reference/routeros-v7/README.md) | Originais preservados, hashes e limites de uso |
 
 ## Orientações do repositório
 

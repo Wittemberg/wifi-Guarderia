@@ -29,6 +29,8 @@ Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, 
 
 **Central NOC:** a RB951G-2HnD foi atualizada e está pronta para receber a configuração assim que a VPS estiver configurada. O inventário informado pelo usuário registra RouterOS **7.23.5 (long-term)** e firmware atual/disponível **7.23.5**. A configuração e a homologação da VPN permanecem pendentes. Consulte o [registro técnico da RB951G](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
 
+Os anexos RouterOS v7 recebidos foram [revisados](docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md) e incorporados como [proposta de redundância WAN da central NOC](docs/02-implementation/NOC_DUAL_WAN.md). O template original exige adaptação e testes antes de importação; a existência de dois links ainda precisa ser confirmada.
+
 ## Investimento inicial para a PoC
 
 Após consultas e análises de preços de mercado, estima-se a necessidade de um **aporte financeiro de aproximadamente R$ 3.000,00** para viabilizar a prova de conceito (PoC), destinado à aquisição dos equipamentos básicos necessários para iniciar os testes.

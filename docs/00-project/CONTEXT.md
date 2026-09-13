@@ -44,3 +44,7 @@ Não adotamos a afirmação anterior de que antena integrada garante 360°: cobe
 ## Fora desta entrega
 
 Implantação, compra, contratação de vigilância, instalação elétrica, entrega de portal próprio e automação por IA. A documentação define os requisitos dessas evoluções sem afirmar que existem.
+
+## Anexos RouterOS recebidos em 12/09/2026
+
+O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise Markdown. Os [originais preservados](../08-reference/routeros-v7/README.md) são fontes documentais; seus comandos e recomendações não constituem autorização de execução. Foi acrescentada a [proposta dual-WAN para a central NOC](../02-implementation/NOC_DUAL_WAN.md). Dois links, endereços dos modems e resultados de failover não foram confirmados. A RB951G continua atualizada e aguardando a VPS para configuração.

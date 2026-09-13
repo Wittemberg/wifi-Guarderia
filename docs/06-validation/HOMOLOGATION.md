@@ -34,6 +34,15 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | CAP-01 | Capacidade para crescimento | Não executado | Requer medições |
 | COM-01 | Viabilidade econômica | Não executado | Requer cotações e custos |
 | INT-01 | Integração futura NOC-Agent | Fora da implantação inicial | Somente contrato planejado |
+| DOC-03 | Anexos RouterOS: integridade e análise estática | Revisão documental realizada | [Achados](../02-implementation/ROUTEROS_BASELINE_REVIEW.md); não valida import |
+| ROS-01 | Adaptação e import dry-run | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-01 | Preferência WAN1 e sondas por caminho | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-02 | Queda física e retorno WAN1 | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-03 | Falha parcial/total de sondas com Ethernet ativa | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-04 | Duas WANs indisponíveis, defaults inativas | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-05 | Recuperação isolada de cada WAN | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-06 | WireGuard e sessões após troca WAN | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| WAN-07 | Reboot e intermitência | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
 
 ## Testes negativos obrigatórios
 

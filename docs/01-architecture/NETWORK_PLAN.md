@@ -85,3 +85,9 @@ Gateway `.1`; central `.10`; câmeras `.20` e `.21`; sensores IP `.30–.49`; po
 No AP, validar a VLAN efetivamente atribuída a cada cliente e isolamento de estações. No core, rejeitar origem incompatível com a VLAN de entrada antes de aceitar encaminhamento. No wAP, rejeitar gerência vinda da LAN de clientes. No trunk, rejeitar tags não autorizadas e quadros sem tag fora da porta de recuperação.
 
 Se VLAN por estação não funcionar com autenticação e firmware escolhidos, a PoC de um barco pode continuar fisicamente isolada; expansão multicliente fica bloqueada até ADR de alternativa testada. Não substituir silenciosamente por bridge compartilhada. Credencial individual forte e teste de troca de MAC/VLAN são condições para homologar segregação.
+
+## Variante dual-WAN da central NOC
+
+A [proposta recebida](../02-implementation/NOC_DUAL_WAN.md) reserva ether1/ether2 da RB951G para WAN1/WAN2 e ether3–5 para LAN administrativa, sujeita a inventário. Nessa variante, a default única é substituída por defaults recursivas com prioridades distintas. O mapeamento ether2 trunk do core permanece válido.
+
+As redes 192.168.50.0/24 e 10.200.0.0/24 do anexo são exemplos divergentes, não novas reservas. Preservar as redes canônicas acima; IPs das WANs e pool DHCP administrativo dependem de confirmação. Ver [reconciliação](../02-implementation/ROUTEROS_BASELINE_REVIEW.md).

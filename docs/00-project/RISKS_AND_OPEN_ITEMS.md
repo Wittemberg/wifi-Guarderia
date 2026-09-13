@@ -19,6 +19,8 @@
 | OPEN-13 | Destinatários/canais/plantão e tempos de atendimento | Operação + cliente | Alertas de produção |
 | OPEN-14 | Destino off-site, retenção aprovada, chaves e verba de backup | Responsável técnico | Recuperação |
 | OPEN-15 | Custos, contrato, tributos, vigilância e licença do projeto | Titular + especialistas | Oferta comercial |
+| OPEN-16 | Confirmar duas WANs da central NOC, modems, portas, IPs/gateways e modo estático/DHCP/PPPoE | Responsável técnico | Variante dual-WAN executável |
+| OPEN-17 | Adaptar variáveis/escopos, parâmetros, ACLs e rotas do template RouterOS recebido | Responsável técnico + laboratório | ROS-01 e WAN-01 a WAN-07 |
 
 ## Matriz de riscos
 
@@ -36,6 +38,7 @@
 | Firewall Docker diverge do host | Gerência exposta/rota quebrada | Teste externo e reboot do daemon | SEC-03/OPS-01 |
 | Escala aumenta ocupação RF | Perda e latência sob vídeo | Medir airtime e concorrência; novos setores | CAP-01 |
 | Mensalidade insuficiente | Serviço inviável | CAPEX/OPEX, reposição, tributos e inadimplência | COM-01 |
+| Import parcial ou aplicação do template ao equipamento errado | Perda de acesso e exposição de gerência | Revisão, adaptação, dry-run, backup e recuperação local | ROS-01, SEC-03/04 |
 
 ## Limite da conclusão
 

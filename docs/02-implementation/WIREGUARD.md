@@ -68,3 +68,9 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 ## Recuperação
 
 Notebook também depende da VPS: não é contingência para falha total do hub. Nessa falha, usar console do provedor ou acesso físico à porta administrativa do core. Restaurar pares/chaves do backup protegido ou reprovisionar peers coordenadamente.
+
+## Ensaio com duas WANs na central NOC
+
+O [template recebido](ROUTEROS_BASELINE_REVIEW.md) usa 10.200.0.0/24 e aceita somente o /32 da VPS; isso não substitui a tabela de peers, AllowedIPs e rotas desta especificação. Adaptar ambos antes do import. A porta local UDP 51821 é candidata da RB951G; o endpoint da VPS continua UDP 51820.
+
+Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN, handshake e tráfego real central NOC→VPS→core, com verificação de retorno. Medir recuperação e efeito em sessões existentes; keepalive de 25 s não estabelece SLA de recuperação.
