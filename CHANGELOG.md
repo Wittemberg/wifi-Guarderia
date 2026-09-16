@@ -1,5 +1,12 @@
 # Histórico de alterações
 
+## 0.2.1 — 2026-09-16
+
+- Documentada a próxima etapa WireGuard: hub VPS, RB951G primeiro, core depois e endpoint DNS explícito.
+- Detalhados pré-requisitos LXC/rede, backup/console, validação, retorno e restrições administrativas.
+- Atualizados roadmap, requisitos, decisão, homologação e memória; implantação VPN permanece pendente.
+
+
 ## 0.2.0 — 2026-09-16
 
 - Concluída a etapa VPS/stack e coleta interna; atualizados roadmap, inventário, especificações, memória e homologação com pendências explícitas.

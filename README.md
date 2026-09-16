@@ -51,3 +51,7 @@ Repositório oficial: [Wittemberg/wifi-Guarderia](https://github.com/Wittemberg/
 ## Licenciamento
 
 A licença deste projeto ainda deve ser definida pelo titular. Nenhuma licença de software livre é presumida. O `nocagent` é referência de engenharia; seu código, marca, credenciais e infraestrutura não foram incorporados. Consulte a [proveniência](docs/08-reference/NOCAGENT_REVIEW.md).
+
+## Próxima etapa — WireGuard
+
+Preparar a VPS e conectar primeiro a RB951G da central NOC; depois integrar a RB750Gr3 da guarderia e a coleta pela VPN. Endpoint: `vpn-guarderia.awecloudsolution.com:51820` (UDP). O [plano de execução](docs/02-implementation/WIREGUARD.md) registra pré-requisitos, backup/recuperação, validação e restrições administrativas. Estado: planejado, ainda não executado.

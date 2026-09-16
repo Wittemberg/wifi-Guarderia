@@ -1,15 +1,15 @@
 # WireGuard, rotas e acesso administrativo
 
-Estado: desenho implementável após inventário. Não inclui chaves nem comandos de alteração prontos para execução. Endereçamento: [IPAM](../01-architecture/NETWORK_PLAN.md).
+Estado em 16/09/2026: próxima etapa planejada após conclusão da instalação da stack. WireGuard ainda não instalado/configurado/homologado. Esta entrega documenta o plano; não executa alterações na VPS ou nas RBs. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
 
 ## Peers
 
 | Ponta | IP WireGuard | Endpoint remoto | Keepalive proposto |
 |---|---|---|---|
 | VPS | 10.250.0.1 | Endpoints aprendidos dos clientes | Não necessário como padrão |
-| RB951 central NOC | 10.250.0.2 | IP público/DNS da VPS:51820 | 25 s |
-| RB750 core | 10.250.0.3 | IP público/DNS da VPS:51820 | 25 s |
-| Notebook recuperação | 10.250.0.10 | VPS:51820 | Conforme NAT e uso |
+| RB951 central NOC | 10.250.0.2 | vpn-guarderia.awecloudsolution.com:51820 | 25 s |
+| RB750 core | 10.250.0.3 | vpn-guarderia.awecloudsolution.com:51820 | 25 s |
+| Notebook recuperação | 10.250.0.10 | vpn-guarderia.awecloudsolution.com:51820 | Conforme NAT e uso |
 
 Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e central NOC. O keepalive mantém o mapeamento NAT; não prova saúde do caminho. Referência: [WireGuard RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
 
@@ -46,15 +46,35 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 
 ## Sequência segura
 
-1. Backup protegido, console e sessão administrativa preservados.
-2. Habilitar acesso UDP no host/provedor e criar interface/peers sem alterar a rota default.
-3. Configurar a central NOC e core com endpoint, chaves e keepalive.
-4. Validar handshake e contadores bidirecionais.
-5. Adicionar rotas específicas e testar gerência da VPS ao core.
-6. Testar PC na LAN administrativa → core → wAP e retorno.
-7. Testar container → alvo e comprovar SNAT pretendido.
-8. Aplicar ACLs restritivas e repetir testes positivos e negativos.
-9. Reiniciar em janela controlada; confirmar recuperação.
+### 1. Preparação da VPS e recuperação
+
+- Confirmar console do provedor e preservar uma sessão SSH na porta 5822; testar acesso de recuperação antes de restringir gerência.
+- Criar backup protegido das regras de firewall, rede e configurações afetadas; nas RBs, backup e export privados. Registrar versão e plano de retorno.
+- Verificar suporte efetivo a WireGuard e permissões no LXC antes da instalação. A ausência de `/dev/net/tun` não é prova isolada de incompatibilidade; o funcionamento de Docker não comprova suporte ao túnel.
+- Conferir rede real da central NOC, rotas e sobreposições com Docker/VPN/LANs antes de aplicar o IPAM proposto.
+- Revalidar resolução de `vpn-guarderia.awecloudsolution.com` fora da VPN. Endpoint proposto: UDP 51820.
+
+### 2. Hub na VPS e primeiro peer na central NOC
+
+- Instalar/configurar WireGuard no host e preparar interface e chaves exclusivas, guardadas fora do Git. Registrar versões e configuração sanitizada.
+- Preparar regras de entrada/encaminhamento no host e no provedor, liberando UDP 51820 e preservando SSH. O forwarding IPv4 já estava em 1 após Docker; confirmar o estado e as chains Docker, sem redefinir regras indiscriminadamente.
+- Configurar primeiro a RB951G da central NOC: VPS `10.250.0.1`, RB951G `10.250.0.2`, keepalive proposto 25 s e somente prefixos efetivamente implantados. Não adicionar rota default pela VPN.
+- Validar handshake, tráfego bidirecional, rotas de retorno e acesso administrativo em nova sessão. Se a LAN 10.21.0.0/24 ainda não corresponder à rede real, resolver o endereçamento antes de anunciá-la.
+- Preparar/testar peer de recuperação quando disponível. Reinício da VPS/RB somente em janela controlada, com console e pós-teste; verificar recuperação da VPN e dos serviços já instalados.
+
+### 3. Core da guarderia e coleta pela VPN
+
+- Após validar VPS ↔ central NOC, conferir inventário/backup da RB750Gr3 e adicioná-la como peer `10.250.0.3`.
+- Habilitar somente redes de gerência e do barco da PoC necessárias, com rotas de retorno e ACLs explícitas. Não anunciar redes futuras por conveniência.
+- Testar central NOC → core → wAP e retorno; testar coletor → alvo e comprovar SNAT/origem real conforme a seção de containers.
+- Verificar que falha da central NOC ou da VPS não altera a saída Internet local da guarderia.
+
+### 4. Restrições administrativas e encerramento
+
+- Com acesso via VPN comprovado, restringir painéis e portas de monitoramento à administração autorizada; conferir caminhos pelo IP público, proxy e portas diretas, em IPv4/IPv6.
+- Revalidar coleta Prometheus interna, serviços e regras após mudanças e restart Docker em janela controlada.
+- Registrar resultados em VPN-01/02/03, SEC-03/04 e OPS-01. A implantação do primeiro peer não aprova os testes que dependem do core, recuperação ou falhas.
+- Concluir em paralelo a revisão de persistência, backups e restauração; eles continuam necessários para homologar F2/STACK-01 integralmente.
 
 ## Testes VPN-01/02/03
 
@@ -74,3 +94,17 @@ Notebook também depende da VPS: não é contingência para falha total do hub. 
 O [template recebido](ROUTEROS_BASELINE_REVIEW.md) usa 10.200.0.0/24 e aceita somente o /32 da VPS; isso não substitui a tabela de peers, AllowedIPs e rotas desta especificação. Adaptar ambos antes do import. A porta local UDP 51821 é candidata da RB951G; o endpoint da VPS continua UDP 51820.
 
 Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN, handshake e tráfego real central NOC→VPS→core, com verificação de retorno. Medir recuperação e efeito em sessões existentes; keepalive de 25 s não estabelece SLA de recuperação.
+
+## Critérios de saída desta próxima etapa
+
+| Marco | Evidência exigida | Estado |
+|---|---|---|
+| VPS e RB951G conectadas | Handshake recente, tráfego bidirecional, rotas e nova sessão administrativa funcionando | Pendente |
+| Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Pendente |
+| Core integrado | Central NOC e coletor alcançam alvos autorizados, com retorno e origem de coleta confirmados | Pendente |
+| Gerência restrita | Acesso positivo pela VPN e negativo de origem externa autorizada, incluindo portas diretas | Pendente |
+| Continuidade | Reinício e falhas controladas preservam/recuperam serviços, com tempos medidos | Pendente |
+
+Se perder acesso, usar console e restaurar somente o conjunto alterado a partir do backup; verificar SSH, rotas, serviços e coleta. Não remover regras ou reiniciar a stack às cegas. Parar a expansão de peers enquanto o marco anterior estiver reprovado.
+
+Persistência do Grafana/Prometheus, diagnóstico dos VIPs Swarm e abrangência das métricas de host continuam pendências da etapa NOC, conforme [fechamento anterior](../06-validation/VPS_PHASE_COMPLETION.md).

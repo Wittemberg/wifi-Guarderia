@@ -42,3 +42,5 @@
 Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanece no histórico como substituído; não apagar evidências de uma reprovação.
 
 Atualização de 16/09/2026: a coleta complementar Prometheus/cAdvisor/Node Exporter foi incluída na instalação Orion e corrigida para rede interna. Ela contribui para REQ-08/18, mas não substitui MON-01/02/03 nem a coleta RF. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md).
+
+Próxima execução de REQ-05/10/11/19: [WireGuard em etapas](../02-implementation/WIREGUARD.md), com VPS/RB951G antes do core, backup/console, nova sessão administrativa, restrição de acesso e ensaios de recuperação. Planejamento não altera o estado pendente dos testes.

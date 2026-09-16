@@ -16,7 +16,7 @@ Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais p
 
 ## Próxima execução concreta
 
-Etapa VPS/stack e coleta interna encerrada conforme [registro de conclusão](../06-validation/VPS_PHASE_COMPLETION.md). Próxima execução: preparar WireGuard e acesso administrativo, revisar exposição e persistência, validar backups, conferir o core e configurar a RB951G. F2 permanece parcialmente concluída porque seus critérios incluem VPN e restauração.
+Etapa VPS/stack e coleta interna encerrada conforme [registro de conclusão](../06-validation/VPS_PHASE_COMPLETION.md). Próxima execução: seguir o [plano WireGuard](../02-implementation/WIREGUARD.md), preparando recuperação e suporte LXC, configurando VPS ↔ RB951G primeiro e RB750Gr3 depois. Validar handshake, rotas e administração antes de restringir painéis/portas. Revisar persistência e backups para a homologação completa. F2 permanece parcialmente concluída porque seus critérios incluem VPN e restauração.
 
 ## Critério para expansão
 

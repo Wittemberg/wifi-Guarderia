@@ -57,3 +57,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 ## ADR-014 — Coleta Prometheus pela rede interna
 
 Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três serviços de monitoramento, removendo dependência de DNS público/TLS. IPs virtuais recusaram conexão; tarefas responderam. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Diagnóstico da rede virtual permanece pendente.
+
+## ADR-015 — WireGuard em duas etapas de conexão
+
+**Data:** 16/09/2026. **Status:** plano documentado, implantação pendente. **Decisão:** após a stack, preparar o hub VPS e conectar primeiro a RB951G da central NOC; integrar a RB750Gr3 somente após validar a primeira conexão. **Consequência:** cada marco exige rotas, tráfego e recuperação comprovados. Restrição de gerência ocorre após novo acesso VPN funcionar. Persistência e restauração continuam requisitos de homologação do NOC. Ver [plano](../02-implementation/WIREGUARD.md).

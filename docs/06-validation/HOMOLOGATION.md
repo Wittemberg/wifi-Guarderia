@@ -55,3 +55,7 @@ Usar [modelo de evidência](EVIDENCE_TEMPLATES.md). Preencher responsável, data
 ## Verificação complementar — 16/09/2026
 
 Coleta interna Prometheus: três alvos UP e sem erro na API, com últimas coletas em 03:36:31–34 UTC, após validação promtool e SIGHUP. Ver [procedimento e limites](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Resultado restrito à coleta dos exporters e do próprio Prometheus; não aprova MON-01/02/03, STACK-01 ou aceite humano.
+
+## Próxima execução planejada — WireGuard
+
+Ordem documentada em 16/09/2026: preparação e recuperação → VPS/RB951G → core/coleta → restrição administrativa e falhas/reinício. Seguir os [critérios de saída](../02-implementation/WIREGUARD.md). VPN-01/02/03, SEC-03/04 e OPS-01 permanecem pendentes; nenhuma configuração ou homologação foi executada nesta atualização documental.

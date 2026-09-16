@@ -31,3 +31,5 @@ Anexos RouterOS v7 recebidos e preservados em [referências](../../docs/08-refer
 Não garantir antena 360°, SNR/CCQ em todos os modelos, isolamento só por sub-rede ou retenção multinível automática de um minuto. Não tratar TCP connect como perda ICMP. Não copiar validação TLS desabilitada da referência.
 
 16/09/2026: usuário instalou stack Orion em Swarm. Corrigida coleta Prometheus para tasks.monitor_prometheus:9090, tasks.monitor_cadvisor:8080 e tasks.monitor_node-exporter:9100. Configuração em /opt/monitor-orion/prometheus/prometheus.yml, validada por promtool e recarregada por SIGHUP. VIPs de serviço recusaram conexões, tarefas responderam; diagnóstico VIP pendente.
+
+Próxima etapa documentada em 16/09/2026: WireGuard no host VPS e RB951G primeiro; RB750Gr3 depois. Endpoint vpn-guarderia.awecloudsolution.com:51820 UDP. Antes de alterar: suporte LXC, inventário de redes, backup e console. Restringir painéis somente após acesso VPN validado. Esta solicitação autoriza documentação, commit e push; implantação ainda pendente. Fonte: docs/02-implementation/WIREGUARD.md.
