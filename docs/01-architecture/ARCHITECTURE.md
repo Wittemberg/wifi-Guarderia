@@ -1,11 +1,12 @@
 # Arquitetura da solução
 
-Estado em 16/09/2026: stack NOC instalada na VPS e coleta interna concluída; rede de campo, WireGuard e homologação continuam propostas. Ver [registro da fase](../06-validation/VPS_PHASE_COMPLETION.md), [contexto](../00-project/CONTEXT.md) e [plano de rede](NETWORK_PLAN.md).
+Estado em 16/09/2026: stack NOC instalada na VPS e coleta interna concluída; hub WireGuard e notebook implantados, com SSH confirmado. VPN das RBs, rede de campo e homologação integral continuam pendentes. Ver [registro da fase](../06-validation/VPS_PHASE_COMPLETION.md), [contexto](../00-project/CONTEXT.md) e [plano de rede](NETWORK_PLAN.md).
 
-## Topologia
+## Topologia de destino e caminho já implantado
 
 ```mermaid
 flowchart TD
+  NOTEBOOK[Notebook de recuperação] -->|WireGuard e SSH validados| VPS
   PC[Computador administrativo] --> NOC[RB951G na central NOC]
   NOC -->|WireGuard iniciado de dentro do CGNAT| VPS[VPS Ubuntu: WireGuard no host]
   ISP[Provedor local / CGNAT] --> CORE[RB750Gr3 Core]
@@ -17,9 +18,9 @@ flowchart TD
   VPS --> MONITORING[Docker: Zabbix, PostgreSQL, Grafana, Kuma]
 ```
 
-As setas representam conexões, não exclusividade de direção do tráfego. Não há encaminhamento permanente de vídeo pela VPS.
+As setas representam conexões, não exclusividade de direção do tráfego. Apenas o caminho notebook ↔ VPS e a stack têm implantação registrada; os enlaces das RBs e do campo são a topologia de destino. Não há encaminhamento permanente de vídeo pela VPS.
 
-A central NOC é o local administrativo com a RB951G; os serviços de monitoramento são hospedados na VPS. A RB951G está atualizada para 7.23.5 e aguarda configuração da VPS para receber sua configuração de rede.
+A central NOC é o local administrativo com a RB951G; os serviços de monitoramento são hospedados na VPS. A RB951G está atualizada para 7.23.5 e aguarda acesso pelo usuário e inventário de rede para receber sua configuração.
 
 ## Responsabilidades
 
@@ -35,7 +36,7 @@ A central NOC é o local administrativo com a RB951G; os serviços de monitorame
 | wAP | Cliente 5 GHz; roteador da LAN; AP 2,4 GHz | Rádio e alimentação embarcada |
 | Central/câmeras | Alarme e gravação locais; acesso remoto homologado | Alimentação e protocolos do fabricante |
 
-## Caminhos de tráfego
+## Caminhos de tráfego planejados para o campo
 
 1. **Internet do barco:** LAN → wAP → trânsito dedicado → core → NAT na WAN → provedor. O wAP não faz NAT na baseline roteada.
 2. **Gerência da central NOC:** PC administrativo → RB951 → WireGuard → VPS → WireGuard → core → equipamento. Rotas de retorno são obrigatórias.
@@ -62,3 +63,5 @@ Não há alta disponibilidade nesta etapa. Uma segunda WAN, segundo setor e cent
 ## Integração futura
 
 O NOC-Agent pode consumir métricas e eventos via API depois da homologação. Não é componente obrigatório nem dependência de execução. A integração inicia em leitura, conforme [contrato](../07-service/NOCAGENT_INTEGRATION.md).
+
+O caminho administrativo já validado é notebook → WireGuard → VPS → SSH TCP 5822. Não inclui core nem painéis web; ver [registro](../06-validation/NOTEBOOK_VPN_VALIDATION.md).

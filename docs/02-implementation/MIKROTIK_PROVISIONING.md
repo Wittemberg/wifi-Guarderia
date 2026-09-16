@@ -48,7 +48,7 @@ Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN
 
 ## Central NOC — RB951G
 
-Atualização concluída pelo usuário: RouterOS 7.23.5 (long-term), RouterBOOT atual/disponível 7.23.5. A RB951G está pronta para receber a configuração após a VPS estar configurada. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
+Atualização concluída pelo usuário: RouterOS 7.23.5 (long-term), RouterBOOT atual/disponível 7.23.5. A VPS e o notebook já estão conectados; a RB951G aguarda acesso pelo usuário, inventário de rede e backup antes da configuração. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
 
 Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB951 em requisito da operação da guarderia.
 

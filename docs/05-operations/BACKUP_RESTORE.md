@@ -51,3 +51,9 @@ Validar modelo/versão antes de restaurar backup binário RouterOS. Para modelo 
 ## Frequência de ensaio
 
 Primeira restauração antes da PoC; repetir trimestralmente e após mudanças de banco/backup. Resultado reprovado deixa prontidão operacional pendente, mesmo que o job diário esteja verde.
+
+## Backups locais WireGuard existentes — 16/09/2026
+
+A preparação do hub salvou regras IPv4/IPv6, rotas e inventário em armazenamento privado. Antes de cadastrar o notebook, foram copiados novamente wg0.conf, rotas e regras; identificador `wireguard-preflight/notebook-20260916T200122Z`. A configuração ativa foi persistida com modo 600; serviço habilitado no boot.
+
+Essas cópias locais não comprovam cifragem off-site, agendamento diário, backup pós-mudança independente ou restauração. A cópia anterior ao notebook restaura o estado sem esse peer; conferir mudanças posteriores antes de usá-la. BAK-01 e RPO/RTO permanecem sem ensaio. Ver [retorno específico e evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md).

@@ -4,11 +4,11 @@
 
 | ID | Informação/decisão | Quem resolve | Bloqueia |
 |---|---|---|---|
-| OPEN-01 | Parcial: IP, CPU visível, disco e arquitetura inventariados; Docker reconhece 9 CPUs/8 GiB e está em execução; confirmar recursos garantidos, console e suporte WireGuard | Responsável técnico | Instalação |
+| OPEN-01 | Parcial: IP, CPU visível, disco e arquitetura inventariados; Docker reconhece 9 CPUs/8 GiB e está em execução; console confirmado e WireGuard validado com notebook; confirmar recursos garantidos | Responsável técnico | Dimensionamento e recuperação integral |
 | OPEN-02 | Parcial: serviços e portas inventariados; Docker Swarm e Traefik instalados; revisar exposição, segregação de redes, rpcbind e falha dos VIPs | Responsável técnico | Instalação sem conflito |
-| OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; concluir DNS/TLS dos novos nomes e acesso via VPN | Responsável técnico | TLS e exposição controlada |
-| OPEN-04 | Parcialmente resolvida: RB951G central NOC em RouterOS/RouterBOOT 7.23.5; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB951G aguarda configuração da VPS |
-| OPEN-05 | Redes existentes da central NOC, provedor e VPNs; sobreposições | Responsável técnico | IPAM e rotas |
+| OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; SSH por IP VPN confirmado; concluir DNS/TLS dos novos nomes e painéis via VPN | Responsável técnico | TLS e exposição controlada |
+| OPEN-04 | Parcialmente resolvida: RB951G central NOC em RouterOS/RouterBOOT 7.23.5; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB951G aguarda acesso do usuário e inventário de rede |
+| OPEN-05 | Acesso à RB951G ainda indisponível; inventariar redes existentes da central NOC, provedor e VPNs para conferir sobreposições | Responsável técnico | IPAM e rotas |
 | OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
 | OPEN-07 | Mapa da área, altura, obstáculos, maré, energia na margem | Visita técnica | RF e montagem |
 | OPEN-08 | Banco de baterias, química, cargas, autonomia desejada e energia solar | Proprietário + instalador | Kit embarcado |
@@ -43,3 +43,7 @@
 ## Limite da conclusão
 
 A arquitetura é uma proposta fundamentada. Não há garantia de cobertura, autonomia, número de setores ou rentabilidade até execução dos testes correspondentes.
+
+## Dependência atual — 16/09/2026
+
+Hub/notebook conectados e SSH confirmado; OPEN-05 impede preparar a configuração real da RB951G. Não há chave/peer da RB, LAN conferida ou core integrado. Revisões de exposição, persistência e backup da VPS podem ser preparadas independentemente. Console confirmado e backups locais não resolvem OPEN-14 nem homologam restauração. Ver [roadmap](ROADMAP.md) e [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md).

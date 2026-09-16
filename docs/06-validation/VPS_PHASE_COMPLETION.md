@@ -47,3 +47,7 @@ Tags e digests abaixo foram lidos dos serviços Swarm. Tags mutáveis ainda prec
 ## Referências
 
 [Inventário](../01-architecture/VPS_INVENTORY.md), [DNS](../02-implementation/DOMAINS_AND_DNS.md), [correção e retorno](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md), [roadmap](../00-project/ROADMAP.md) e [homologação](HOMOLOGATION.md).
+
+## Evolução posterior ao fechamento da stack
+
+Ainda em 16/09/2026, hub WireGuard e notebook foram implantados; handshake/ping observados e SSH confirmado pelo usuário. Ver [registro próprio](NOTEBOOK_VPN_VALIDATION.md). A pendência de VPN acima passa a abranger integração das RBs, coleta e ensaios de falha; não é mais ausência total de VPN. O usuário segue sem acesso à RB951G. As três coletas UP deste fechamento não foram medidas novamente durante o cadastro do notebook; o pós-teste desse cadastro confirmou 12 serviços 1/1. F2 permanece parcial.

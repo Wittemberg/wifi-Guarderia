@@ -22,7 +22,7 @@ WireGuard no host VPS; Zabbix/PostgreSQL/Grafana/Kuma em containers; mANTBox ax 
 
 Etapa VPS/stack e coleta interna concluída em 16/09/2026. Docker 29.8.1 Swarm com 12 serviços 1/1; reconhece 9 CPUs/8 GiB; último disco observado 95 GB livres. Zabbix 7.4/PostgreSQL 15 dedicado e PostgreSQL 14 separado; Grafana, Kuma, Portainer, Traefik e exporters instalados pelo usuário via Orion. Três alvos Prometheus internos UP, config validada e recarregada com SIGHUP. Domínios/IP público documentados. Referência canônica: [fechamento](../../docs/06-validation/VPS_PHASE_COMPLETION.md).
 
-Próxima etapa: VPN, segurança, persistência/restauração, revisão VIP Swarm e métricas de host, core/RB951G e telemetria de campo. Não reinstalar a stack nem marcar F2/STACK-01 inteiramente homologados.
+Próxima etapa: integração das RBs à VPN, segurança, persistência/restauração, revisão VIP Swarm e métricas de host, core/RB951G e telemetria de campo. Não reinstalar a stack nem marcar F2/STACK-01 inteiramente homologados.
 
 ## Correções importantes do histórico
 
@@ -32,4 +32,14 @@ Não garantir antena 360°, SNR/CCQ em todos os modelos, isolamento só por sub-
 
 16/09/2026: usuário instalou stack Orion em Swarm. Corrigida coleta Prometheus para tasks.monitor_prometheus:9090, tasks.monitor_cadvisor:8080 e tasks.monitor_node-exporter:9100. Configuração em /opt/monitor-orion/prometheus/prometheus.yml, validada por promtool e recarregada por SIGHUP. VIPs de serviço recusaram conexões, tarefas responderam; diagnóstico VIP pendente.
 
-Próxima etapa documentada em 16/09/2026: WireGuard no host VPS e RB951G primeiro; RB750Gr3 depois. Endpoint vpn-guarderia.awecloudsolution.com:51820 UDP. Antes de alterar: suporte LXC, inventário de redes, backup e console. Restringir painéis somente após acesso VPN validado. Esta solicitação autoriza documentação, commit e push; implantação ainda pendente. Fonte: docs/02-implementation/WIREGUARD.md.
+## Estado consolidado WireGuard — 16/09/2026
+
+Wireguard-tools instalado e suporte LXC validado em namespace isolada; hub wg0 ativo em 10.250.0.1/32, UDP 51820, habilitado no boot. Notebook 10.250.0.10/32 cadastrado e persistido com rota específica; handshake e ping 3/3 observados na VPS. Usuário confirmou nova sessão SSH em 10.250.0.1:5822. Configuração privada modo 600, backup protegido, sem alteração de firewall/NAT/default e sem reboot. 12 serviços 1/1 após cadastro; três alvos Prometheus UP são evidência anterior, não nova consulta da API.
+
+Usuário continua sem acesso à RB951G; inventário de interfaces/LAN/rotas e backup da RB aguardam esse acesso. Não presumir que a VPN do notebook dá acesso à RB. Próxima integração: RB951G 10.250.0.2; core 10.250.0.3 depois. Não anunciar LAN não conferida. Notebook foi antecipado por disponibilidade do usuário, conforme ADR-015.
+
+Console Proxmox/SSH confirmado; restauração, reboot, restrição pública, painéis pela VPN, core e ensaios CGNAT continuam pendentes. VPN-01/02 parciais; VPN-03 não executado. Fonte canônica: [validação do notebook](../../docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+## Escopo autorizado e continuidade
+
+Usuário autorizou instalação/ativação do hub e cadastro do notebook nas etapas anteriores. Nesta retomada solicitou revisão minuciosa da documentação, commit e push. Isso não executa mudança de firewall, RBs, reboot ou restrição de painéis. Preservar alterações existentes relacionadas ao projeto e publicar somente documentação sanitizada; chaves, configurações reais e backups permanecem fora do Git.

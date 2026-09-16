@@ -58,3 +58,7 @@ Manter o backend de firewall explicitamente registrado. Não assumir que regras 
 ## Pós-testes e retorno
 
 VPS-01: OS e inventário aprovados. STACK-01: dependências saudáveis, login autenticado, dados persistentes e portas externas corretas. OPS-01: reboot não perde gerência ou dados. Se uma mudança retirar acesso, usar console e restaurar o conjunto anterior de regras/configuração; não repetir mudanças remotas às cegas.
+
+## Ponto de retomada após WireGuard
+
+Hub e notebook já implantados, com handshake/ping e SSH validados no [escopo registrado](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Console Proxmox confirmado e suporte WireGuard no LXC testado. As etapas de bootstrap anteriores são referência; não reinstalar ou recriar chaves existentes. RB951G aguarda acesso do usuário. Revisão de exposição, persistência e restauração continua pendente.

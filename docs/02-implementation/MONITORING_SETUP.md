@@ -1,6 +1,6 @@
 # Configuração inicial do monitoramento
 
-Estado em 16/09/2026: serviços instalados e coleta complementar Prometheus concluída, conforme [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Este roteiro continua aplicável aos templates, alertas e integração Zabbix/Grafana ainda não homologados; VPN, inventário e conta de leitura permanecem dependências para equipamentos.
+Estado em 16/09/2026: serviços instalados e coleta complementar Prometheus concluída, conforme [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Este roteiro continua aplicável aos templates, alertas e integração Zabbix/Grafana ainda não homologados; integração das RBs à VPN, inventário e conta de leitura permanecem dependências para equipamentos. O túnel do notebook e seu SSH à VPS estão validados, sem comprovar coleta remota de equipamentos.
 
 ## Ordem de configuração
 

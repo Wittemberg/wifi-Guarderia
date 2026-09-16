@@ -64,4 +64,4 @@ Release: snapshot/backup → aplicar versões fixas → verificar banco e servi�
 
 ## Gate de prontidão
 
-A instalação inicial está concluída. Antes de declarar operação homologada ou aplicar novas releases, completar manifesto de manutenção, backup/restauração, revisão de segredos e segurança, persistência e testes de VPN. A conclusão desta etapa não libera os gates de laboratório ou campo.
+A instalação inicial está concluída. Antes de declarar operação homologada ou aplicar novas releases, completar manifesto de manutenção, backup/restauração, revisão de segredos e segurança, persistência e testes de VPN das RBs/coleta. O acesso notebook ↔ VPS já tem [validação própria](../06-validation/NOTEBOOK_VPN_VALIDATION.md). A conclusão desta etapa não libera os gates de laboratório ou campo.

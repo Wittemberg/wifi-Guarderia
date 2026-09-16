@@ -4,7 +4,7 @@ Registro recebido em 12/09/2026. Fonte: saídas de `/system resource print`, `/s
 
 ## Estado e próxima etapa
 
-**RB951G-2HnD atualizada e pronta para configuração assim que a VPS estiver configurada**, conforme informado pelo usuário. RouterOS e RouterBOOT estão na versão 7.23.5. Isso registra a atualização do equipamento, não a implantação de WireGuard, firewall ou rotas do projeto.
+**RB951G-2HnD atualizada; acesso ao equipamento ainda indisponível ao usuário em 16/09/2026.** A VPS e o notebook já estão conectados; falta inventariar a rede da RB antes da configuração. RouterOS e RouterBOOT estão na versão 7.23.5. Isso registra a atualização do equipamento, não a implantação de WireGuard, firewall ou rotas do projeto.
 
 “Central NOC” designa o local administrativo e sua RB951G; os serviços centrais de monitoramento ficam na VPS. Identidade atual observada no prompt: `RB951G`. Identidade proposta para o projeto: `GV-NOC-01`, ainda não aplicada.
 
@@ -57,7 +57,7 @@ A legenda fornecida define X como DISABLED e A como AVAILABLE. Não considerar o
 
 ## Pendências delimitadas
 
-1. Configurar a VPS e disponibilizar o endpoint WireGuard.
+1. Obter acesso à RB951G; hub VPS e endpoint WireGuard já disponíveis, com notebook validado.
 2. Conferir interfaces, endereçamento existente, acesso de recuperação e backup da RB951G antes da mudança.
 3. Aplicar configuração da central NOC conforme [provisionamento](../02-implementation/MIKROTIK_PROVISIONING.md) e [WireGuard](../02-implementation/WIREGUARD.md).
 4. Executar testes VPN-01/02/03 e medir recursos sob carga real.

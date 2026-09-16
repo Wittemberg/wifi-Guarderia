@@ -8,7 +8,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-002 — WireGuard com hub público
 
-**Status:** adotado para especificação. **Contexto:** CGNAT nos dois locais. **Decisão:** peers central NOC/core iniciam túneis até VPS; WireGuard no host. **Alternativas:** conexão IPv6 direta ou CHR. **Consequência:** VPS é ponto único de gerenciamento; Internet local não depende dela. Console e restauração documentados são obrigatórios.
+**Status:** parcialmente implementado em 16/09/2026 (hub e notebook); RBs pendentes. **Contexto:** CGNAT nos dois locais. **Decisão:** peers central NOC/core iniciam túneis até VPS; WireGuard no host. **Alternativas:** conexão IPv6 direta ou CHR. **Consequência:** VPS é ponto único de gerenciamento; Internet local não depende dela. Console e restauração documentados são obrigatórios.
 
 ## ADR-003 — Ubuntu 24.04 e Docker/Portainer
 
@@ -58,6 +58,8 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três serviços de monitoramento, removendo dependência de DNS público/TLS. IPs virtuais recusaram conexão; tarefas responderam. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Diagnóstico da rede virtual permanece pendente.
 
-## ADR-015 — WireGuard em duas etapas de conexão
+## ADR-015 — WireGuard por marcos de acesso
 
-**Data:** 16/09/2026. **Status:** plano documentado, implantação pendente. **Decisão:** após a stack, preparar o hub VPS e conectar primeiro a RB951G da central NOC; integrar a RB750Gr3 somente após validar a primeira conexão. **Consequência:** cada marco exige rotas, tráfego e recuperação comprovados. Restrição de gerência ocorre após novo acesso VPN funcionar. Persistência e restauração continuam requisitos de homologação do NOC. Ver [plano](../02-implementation/WIREGUARD.md).
+**Data:** 16/09/2026. **Status:** parcialmente implementado. **Plano inicial:** hub → RB951G → core. **Ajuste autorizado:** como o usuário não tinha acesso à RB951G, ativar o hub após confirmação de console e antecipar o notebook de recuperação, mantendo a integração da central NOC antes do core. **Resultado:** notebook ↔ VPS com handshake/ping observados e SSH confirmado pelo usuário; configuração persistida e backup privado.
+
+**Consequência:** o próximo marco depende de acesso à RB951G, inventário real de LAN/rotas e backup/recuperação. Não anunciar LANs propostas nem considerar que o notebook dá acesso a RBs ausentes. Restrição de gerência exige revisão dos caminhos públicos e dos painéis pela VPN, com pós-teste específico. Persistência testada e restauração continuam requisitos de F2. Ver [procedimento](../02-implementation/WIREGUARD.md) e [evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md).

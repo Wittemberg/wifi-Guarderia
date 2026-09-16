@@ -1,5 +1,13 @@
 # Histórico de alterações
 
+## 0.2.2 — 2026-09-16
+
+- Instalado e ativado o hub WireGuard no host LXC, com backup protegido e console confirmado.
+- Cadastrado o notebook de recuperação com rota /32 e configuração persistida; handshake e ping observados, SSH pela VPN confirmado pelo usuário.
+- Consolidada a documentação do projeto, removendo estados superados e separando implantação, medição e aceite humano; adicionado registro canônico de validação do notebook.
+- Atualizados requisitos, decisões, IPAM, riscos, inventários, procedimentos, segurança, backups, roadmap e homologação.
+- RB951G permanece inacessível ao usuário; sua integração depende de inventário/backup e antecede o core. Reboot, restauração, gerência pública e rede de campo continuam pendentes.
+
 ## 0.2.1 — 2026-09-16
 
 - Documentada a próxima etapa WireGuard: hub VPS, RB951G primeiro, core depois e endpoint DNS explícito.

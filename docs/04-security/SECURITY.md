@@ -73,3 +73,9 @@ Definir finalidade, responsáveis, acesso e retenção dos dados antes de produ�
 | Perda da configuração | Backup e restauração ensaiados | BAK-01 |
 
 Hash de evidência permite detectar alteração quando comparado com referência confiável; não torna o arquivo imutável por si só.
+
+## Situação observada — acesso VPN em 16/09/2026
+
+Notebook autorizado cadastrado com AllowedIPs 10.250.0.10/32; nova sessão SSH à VPS em 10.250.0.1:5822 confirmada pelo usuário, conforme [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Configuração protegida e backup privado. Não foram alterados firewall, NAT, rota default, autenticação SSH ou publicação de portas no cadastro.
+
+A matriz acima continua política alvo. Acesso positivo à VPS pela VPN não comprova negação de acesso público nem restrição de painéis. Antes de restringir gerência, conferir proxy, portas diretas, DNS/rotas do cliente, IPv4/IPv6, console e retorno; testar acesso autorizado e rejeição externa após a mudança. Chaves, endpoint público do notebook e configurações reais permanecem fora do Git. SEC-03/04 continuam pendentes.

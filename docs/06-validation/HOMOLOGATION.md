@@ -7,14 +7,14 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | DOC-01 | Estrutura, links, Git e publicação | Revisão local concluída | [Verificações](DOCUMENTATION_REVIEW.md); commit/publicação pelo histórico Git |
 | DOC-02 | Referência nocagent e padrões | Análise documental realizada | [Revisão](../08-reference/NOCAGENT_REVIEW.md) |
 | HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB951G recebido do usuário; atualização concluída | [RB951G central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
-| VPS-01 | Inventário e caminho de instalação | Parcial: inventário e instalação inicial concluídos em 16/09/2026 | [Conclusão](VPS_PHASE_COMPLETION.md); console, suporte VPN e versão/hash Orion pendentes |
+| VPS-01 | Inventário e caminho de instalação | Parcial: inventário e instalação inicial concluídos em 16/09/2026 | [Conclusão](VPS_PHASE_COMPLETION.md); console confirmado e suporte WireGuard validado; recursos garantidos e versão/hash Orion pendentes |
 | STACK-01 | Stack, versões, rede e persistência | Parcial: instalação e coleta interna concluídas | 12 serviços 1/1 e três alvos UP; autenticação, persistência, exposição e manifesto de manutenção pendentes; [evidências](VPS_PHASE_COMPLETION.md) |
-| VPN-01 | Hub e CGNAT | Não executado | Aguardar laboratório |
-| VPN-02 | Rotas, retorno e coleta container | Não executado | Aguardar laboratório |
+| VPN-01 | Hub e CGNAT | Parcial: hub/notebook conectados | Handshake, ping e SSH; RBs e ensaios CGNAT pendentes; [registro](NOTEBOOK_VPN_VALIDATION.md) |
+| VPN-02 | Rotas, retorno e coleta container | Parcial: rota e retorno notebook ↔ VPS | LANs, trânsito entre peers e coleta container pendentes; [registro](NOTEBOOK_VPN_VALIDATION.md) |
 | VPN-03 | Falhas/recuperação e independência da central NOC | Não executado | Aguardar laboratório |
 | MON-01 | Coleta real e comparação direta | Não executado | Aguardar equipamentos |
-| MON-02 | Sem dados, credencial e campos não suportados | Não executado | Aguardar stack |
-| MON-03 | Diagnóstico por camada | Não executado | Aguardar stack/rede |
+| MON-02 | Sem dados, credencial e campos não suportados | Não executado | Preparar ensaios de perda de coleta e credenciais |
+| MON-03 | Diagnóstico por camada | Não executado | Preparar ensaios por camada e integrar equipamentos |
 | RF-01 | Rádio dual-band e trânsito em bancada | Não executado | Aguardar rádios |
 | RF-02 | 50/100 m por orientação | Não executado | Aguardar campo |
 | RF-03 | Rotação completa | Não executado | Aguardar campo |
@@ -23,11 +23,11 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | LAN-01 | DHCP/DNS/serviços simultâneos | Não executado | Aguardar laboratório |
 | SEC-01 | Bloqueio entre barcos | Não executado | Dois clientes ou bancada equivalente |
 | SEC-02 | Spoof, VLAN, L2 e IPv6 | Não executado | Aguardar laboratório |
-| SEC-03 | Exposição externa e firewall Docker | Não executado | Aguardar ambiente |
-| SEC-04 | Credenciais, privilégios e TLS | Não executado | Aguardar ambiente |
+| SEC-03 | Exposição externa e firewall Docker | Não executado | Ambiente VPS disponível; ensaio específico pendente |
+| SEC-04 | Credenciais, privilégios e TLS | Não executado | Ambiente VPS disponível; ensaio específico pendente |
 | ENE-01 | Consumo, proteção e autonomia | Não executado | Aguardar kit e inspeção |
-| BAK-01 | Restauração e RPO/RTO | Não executado | Aguardar implantação |
-| OPS-01 | Reboot/redeploy e rollback | Não executado | Aguardar ambiente |
+| BAK-01 | Restauração e RPO/RTO | Não executado | Backups locais existentes; restauração integral e RPO/RTO não ensaiados |
+| OPS-01 | Reboot/redeploy e rollback | Não executado | Ambiente VPS disponível; ensaio específico pendente |
 | OPS-02 | Checklist físico e manutenção | Não executado | Aguardar visita |
 | SECUR-01 | Alarme e responsabilidades | Não executado | Modelos/serviço pendentes |
 | VIDEO-01 | Gravação e consulta remota | Não executado | Modelos pendentes |
@@ -56,6 +56,8 @@ Usar [modelo de evidência](EVIDENCE_TEMPLATES.md). Preencher responsável, data
 
 Coleta interna Prometheus: três alvos UP e sem erro na API, com últimas coletas em 03:36:31–34 UTC, após validação promtool e SIGHUP. Ver [procedimento e limites](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Resultado restrito à coleta dos exporters e do próprio Prometheus; não aprova MON-01/02/03, STACK-01 ou aceite humano.
 
-## Próxima execução planejada — WireGuard
+## Validação WireGuard — 16/09/2026
 
-Ordem documentada em 16/09/2026: preparação e recuperação → VPS/RB951G → core/coleta → restrição administrativa e falhas/reinício. Seguir os [critérios de saída](../02-implementation/WIREGUARD.md). VPN-01/02/03, SEC-03/04 e OPS-01 permanecem pendentes; nenhuma configuração ou homologação foi executada nesta atualização documental.
+Hub e notebook implantados; handshake e ping VPS → notebook observados, nova sessão SSH notebook → VPS confirmada pelo usuário. [Registro canônico](NOTEBOOK_VPN_VALIDATION.md) reúne origem, escopo autorizado, backup, resultados e limites. O teste de parada da interface durante a ativação inicial não homologa reboot nem retorno do cadastro do notebook.
+
+RB951G ainda inacessível ao usuário, reafirmado em 16/09/2026. Próxima integração depende de inventário e recuperação local; core depois. O acesso ao notebook não aprova VPN-03, SEC-03/04, OPS-01 ou BAK-01. Não houve nova implantação durante esta revisão documental.

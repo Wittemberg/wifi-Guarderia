@@ -26,7 +26,7 @@ Foram explicitados: rotas de retorno, SNAT restrito de coleta, política IPv6, s
 
 Atualização documental posterior em 12/09/2026: inventário da RB951G recebido do usuário, atualização RouterOS/RouterBOOT 7.23.5 registrada e denominação central NOC aplicada. A coleta foi realizada pelo usuário; não é homologação remota executada pelo agente. Os totais da tabela acima descrevem a baseline original.
 
-Versões exatas, domínio, segredos, inspeção local, aquisição e resultados de campo dependem da próxima fase. Critérios numéricos de PoC são propostas de aceite. Nenhum script executável de implantação foi gerado sem esses parâmetros. Comandos de inventário nos documentos não foram executados na VPS.
+Na baseline de 12/09, versões exatas, domínio, inspeção local, aquisição e resultados de campo dependiam da próxima fase; inventário/implantação e DNS foram atualizados nos registros de 15–16/09. Critérios numéricos de PoC são propostas de aceite. Nenhum script executável de implantação foi gerado sem esses parâmetros. A afirmação de ausência de execução se refere à baseline de 12/09; consultas na VPS e implantação posteriores têm evidências próprias.
 
 ## Incorporação RouterOS v7 — baseline 0.1.2
 
@@ -39,3 +39,13 @@ Nenhum import/dry-run RouterOS ou teste de failover foi executado. O template ex
 ## Atualização documental — 16/09/2026
 
 Revisados estado atual, roadmap, inventário, DNS, stack, monitoramento, segurança, operação, requisitos, decisões, memória e homologação para concluir a etapa VPS/stack e coleta interna. Ver [registro de conclusão](VPS_PHASE_COMPLETION.md). Links locais e `git diff --check` verificados antes do commit. Resultados de runtime têm escopo próprio no registro; a revisão documental não aprova VPN, restauração ou campo.
+
+## Consolidação documental — hub e notebook, 16/09/2026
+
+Revisados os documentos Markdown do projeto, índices, memória e padrões locais para reconciliar o estado da implantação. Corrigidos registros superados de ausência de peers, SSH pendente, dependência de instalação da VPS e restrição pública presumida. Histórico inicial da VPS e preparação do hub preservados como histórico. Referências RouterOS originais preservadas sem alteração.
+
+Criado o [registro de validação do notebook](NOTEBOOK_VPN_VALIDATION.md), distinguindo observação no servidor, confirmação do usuário e testes não executados. VPN-01/02 parciais; VPN-03, segurança, reboot/restauração e campo continuam pendentes. Acesso à RB951G indisponível, reafirmado pelo usuário. Revisão documental não executa mudanças operacionais.
+
+Antes da publicação: conferir UTF-8, títulos, blocos de código, links locais, IPAM, rastreabilidade dos testes, ausência de segredos no diff e whitespace. Resultado quantitativo da verificação registrado após execução abaixo. Publicação confirmada por comparação de SHA local/remoto no relatório de entrega, sem embutir SHA autorreferente neste arquivo.
+
+Resultado da verificação local desta consolidação: 55 arquivos Markdown em UTF-8, títulos e fechamento de blocos conferidos; 219 links locais resolvidos; 20 linhas de trânsito /30/VLAN/LAN verificadas por cálculo; 30 IDs de testes referenciados pelos requisitos encontrados na matriz. Nenhum erro estrutural ou de whitespace; busca por padrões de chaves privadas, PSKs, tokens GitHub e chaves WireGuard nas adições sem ocorrências. Links externos não foram revalidados nesta revisão de estado.

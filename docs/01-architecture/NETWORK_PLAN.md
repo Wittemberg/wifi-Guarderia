@@ -1,12 +1,12 @@
 # Plano de rede, endereçamento e interfaces
 
-Estado: endereços de VPN/LAN/VLAN abaixo continuam reservados em projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
+Estado em 16/09/2026: VPS 10.250.0.1/32 e notebook 10.250.0.10/32 implantados; endereços das RBs, LANs e VLANs abaixo continuam reservas de projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
 
 ## Redes canônicas
 
 | Rede | Finalidade | Gateway/atribuições |
 |---|---|---|
-| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, central NOC `.2`, core `.3`, notebook de recuperação `.10` reservado |
+| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1` e notebook `.10` ativos; central NOC `.2` e core `.3` reservados |
 | `10.21.0.0/24` | LAN administrativa dedicada atrás da RB951 | RB951 `.1`; PC `.10` reservado |
 | `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver |
 | `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN |
@@ -91,3 +91,9 @@ Se VLAN por estação não funcionar com autenticação e firmware escolhidos, a
 A [proposta recebida](../02-implementation/NOC_DUAL_WAN.md) reserva ether1/ether2 da RB951G para WAN1/WAN2 e ether3–5 para LAN administrativa, sujeita a inventário. Nessa variante, a default única é substituída por defaults recursivas com prioridades distintas. O mapeamento ether2 trunk do core permanece válido.
 
 As redes 192.168.50.0/24 e 10.200.0.0/24 do anexo são exemplos divergentes, não novas reservas. Preservar as redes canônicas acima; IPs das WANs e pool DHCP administrativo dependem de confirmação. Ver [reconciliação](../02-implementation/ROUTEROS_BASELINE_REVIEW.md).
+
+## Subconjunto implantado
+
+Na VPS, wg0 usa 10.250.0.1/32 e somente o peer do notebook, com AllowedIPs 10.250.0.10/32 e rota de host por wg0. Isso não instala a rede /24 inteira nem rotas para as LANs propostas. O notebook informou 10.250.0.10/32; a configuração completa de AllowedIPs do cliente não foi coletada. Seu acesso à VPS foi validado por ping/SSH conforme [registro](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+Não inferir implementação das rotas da tabela a partir desse teste. LAN da central NOC e topologia Docker precisam ser conferidas antes de qualquer expansão.

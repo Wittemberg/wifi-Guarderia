@@ -1,8 +1,8 @@
 # WiFi Guarderia Vitória
 
-**Estado em 16/09/2026:** etapa de instalação da VPS/stack NOC e correção da coleta interna **concluída**. Docker Swarm com 12 serviços ativos e três alvos Prometheus UP. Veja o [registro de conclusão](docs/06-validation/VPS_PHASE_COMPLETION.md). VPN, segurança, persistência e homologação de campo seguem como próximas etapas; configurações de equipamentos ainda não estão homologadas.
+**Estado em 16/09/2026:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard e notebook de recuperação conectados. Handshake e ping observados na VPS; acesso SSH pela VPN confirmado pelo usuário. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
 
-**Estado em 15/09/2026:** especificação documentada, [inventário parcial da VPS](docs/01-architecture/VPS_INVENTORY.md) realizado e [domínios planejados](docs/02-implementation/DOMAINS_AND_DNS.md) registrados; implantação e homologação de campo ainda pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
+**Próximo marco:** integrar a RB951G da central NOC quando o usuário tiver acesso ao equipamento. Acesso e inventário de rede da RB ainda indisponíveis. Core, segurança, persistência testada, restauração e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
 
 ## Comece por aqui
 
@@ -20,14 +20,14 @@
 | Core | MikroTik RB750Gr3 já disponível |
 | Margem | mANTBox ax 15s, prevista para a PoC |
 | Barco | wAP ax: cliente 5 GHz e AP local 2,4 GHz |
-| Administração na central NOC | RB951G-2HnD atualizada: RouterOS e RouterBOOT 7.23.5; pronta para configuração após a VPS |
+| Administração na central NOC | RB951G-2HnD atualizada: RouterOS e RouterBOOT 7.23.5; aguarda acesso/inventário de rede |
 | Central | VPS existente, Ubuntu 24.04, IPv4 público |
-| VPN | WireGuard no host da VPS; proposta de engenharia |
+| VPN | WireGuard no host da VPS e notebook implantados; RBs pendentes |
 | Monitoramento | Zabbix/PostgreSQL, Grafana, Kuma e Prometheus/exporters instalados em Docker Swarm/Portainer |
 
 Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
 
-**Central NOC:** a RB951G-2HnD foi atualizada e está pronta para receber a configuração assim que a VPS estiver configurada. O inventário informado pelo usuário registra RouterOS **7.23.5 (long-term)** e firmware atual/disponível **7.23.5**. A configuração e a homologação da VPN permanecem pendentes. Consulte o [registro técnico da RB951G](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
+**Central NOC:** a RB951G-2HnD foi atualizada; a VPS já está preparada. O usuário ainda não tem acesso à RB para inventário e configuração. O inventário informado pelo usuário registra RouterOS **7.23.5 (long-term)** e firmware atual/disponível **7.23.5**. A configuração e a homologação da VPN permanecem pendentes. Consulte o [registro técnico da RB951G](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
 
 Os anexos RouterOS v7 recebidos foram [revisados](docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md) e incorporados como [proposta de redundância WAN da central NOC](docs/02-implementation/NOC_DUAL_WAN.md). O template original exige adaptação e testes antes de importação; a existência de dois links ainda precisa ser confirmada.
 
@@ -52,6 +52,8 @@ Repositório oficial: [Wittemberg/wifi-Guarderia](https://github.com/Wittemberg/
 
 A licença deste projeto ainda deve ser definida pelo titular. Nenhuma licença de software livre é presumida. O `nocagent` é referência de engenharia; seu código, marca, credenciais e infraestrutura não foram incorporados. Consulte a [proveniência](docs/08-reference/NOCAGENT_REVIEW.md).
 
-## Próxima etapa — WireGuard
+## Próxima etapa — integração da central NOC
 
-Preparar a VPS e conectar primeiro a RB951G da central NOC; depois integrar a RB750Gr3 da guarderia e a coleta pela VPN. Endpoint: `vpn-guarderia.awecloudsolution.com:51820` (UDP). O [plano de execução](docs/02-implementation/WIREGUARD.md) registra pré-requisitos, backup/recuperação, validação e restrições administrativas. Estado: planejado, ainda não executado.
+Notebook 10.250.0.10 ↔ VPS 10.250.0.1 com SSH em TCP 5822 validado. Endpoint usado pelo notebook: `204.157.108.99:51820` (UDP); alias DNS documentado: `vpn-guarderia.awecloudsolution.com:51820`.
+
+Quando houver acesso à RB951G, conferir LAN/rotas, backup e recuperação para integrar seu peer; RB750Gr3 e coleta de campo depois. A restrição dos painéis públicos ainda precisa de revisão e teste próprios. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).

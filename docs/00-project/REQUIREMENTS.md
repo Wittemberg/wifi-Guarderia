@@ -1,6 +1,6 @@
 # Requisitos e rastreabilidade
 
-**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas, homologação integral pendente.
+**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas, VPN-01/02 parciais pelo notebook, homologação integral pendente.
 
 | ID | Requisito verificável | Origem/estado | Prioridade | Evidência de aceite |
 |---|---|---|---|---|
@@ -43,4 +43,4 @@ Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanec
 
 Atualização de 16/09/2026: a coleta complementar Prometheus/cAdvisor/Node Exporter foi incluída na instalação Orion e corrigida para rede interna. Ela contribui para REQ-08/18, mas não substitui MON-01/02/03 nem a coleta RF. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md).
 
-Próxima execução de REQ-05/10/11/19: [WireGuard em etapas](../02-implementation/WIREGUARD.md), com VPS/RB951G antes do core, backup/console, nova sessão administrativa, restrição de acesso e ensaios de recuperação. Planejamento não altera o estado pendente dos testes.
+Evolução de REQ-05/10/11/19: notebook ↔ VPS com handshake/ping observados e SSH confirmado, conforme [evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Configuração salva não aprova reboot/restauração; SSH pela VPN não aprova bloqueio público. Próxima execução: [WireGuard em etapas](../02-implementation/WIREGUARD.md), com VPS/RB951G antes do core, backup/console, nova sessão administrativa, restrição de acesso e ensaios de recuperação. Acesso à RB951G ainda indisponível ao usuário; VPN-03, SEC-03/04, OPS-01 e BAK-01 seguem sem homologação.

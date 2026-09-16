@@ -1,6 +1,6 @@
 # Contexto consolidado
 
-Data: 12/09/2026. Origem principal: conversa [Viabilidade Wifi Guarderia](https://chatgpt.com/c/6aa1e0b2-2ae8-83e9-9db1-c2d15a7da5ba), no projeto ChatGPT “WiFi Guarderia Vitória”. O link depende das permissões da conta. Este resumo preserva requisitos sem republicar a mensagem pessoal de terceiros.
+Baseline: 12/09/2026; estado consolidado atualizado em 16/09/2026. Origem principal: conversa [Viabilidade Wifi Guarderia](https://chatgpt.com/c/6aa1e0b2-2ae8-83e9-9db1-c2d15a7da5ba), no projeto ChatGPT “WiFi Guarderia Vitória”. O link depende das permissões da conta. Este resumo preserva requisitos sem republicar a mensagem pessoal de terceiros.
 
 ## Problema e oportunidade
 
@@ -14,7 +14,7 @@ O responsável técnico deve definir alimentação mínima, manutenção prevent
 - Barcos se deslocam e giram com vento e corrente; enlace não pode depender de alinhamento direcional fixo a bordo.
 - Internet inicial será provavelmente de provedor local, com CGNAT; Starlink saiu da primeira etapa.
 - A central NOC também está atrás de CGNAT.
-- RB951G-2HnD está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.5 e pronta para configuração após a VPS; RB750Gr3 novo está disponível para o core.
+- RB951G-2HnD está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.5 e aguardando acesso do usuário para configuração de rede; RB750Gr3 novo está disponível para o core.
 - VPS já existe e, segundo o usuário, atende ao dimensionamento discutido. Características inventariadas em 15/09 e atualizadas após instalação em 16/09; ver [inventário VPS](../01-architecture/VPS_INVENTORY.md).
 - Preferência por Ubuntu 24.04, Docker/Portainer e instalação via SetupOrion se viável.
 - Monitoramento deve estar preparado antes da PoC para registrar métricas reais desde o início.
@@ -43,7 +43,7 @@ Não adotamos a afirmação anterior de que antena integrada garante 360°: cobe
 
 ## Fora desta entrega
 
-A instalação inicial da VPS/stack e a coleta interna foram concluídas em 16/09/2026. Permanecem fora da etapa concluída: implantação de VPN/rede de campo, compra, contratação de vigilância, instalação elétrica, portal próprio e automação por IA. A documentação define os requisitos dessas evoluções sem afirmar que existem.
+A instalação inicial da VPS/stack e a coleta interna foram concluídas em 16/09/2026. Permanecem fora da etapa concluída: integração das RBs à VPN/rede de campo, compra, contratação de vigilância, instalação elétrica, portal próprio e automação por IA. A documentação define os requisitos dessas evoluções sem afirmar que existem.
 
 ## Anexos RouterOS recebidos em 12/09/2026
 
@@ -52,3 +52,9 @@ O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise M
 ## Etapa concluída em 16/09/2026
 
 Usuário executou Orion e instalou a stack. Foram conferidos Docker Swarm, 12 serviços ativos, domínios e coleta Prometheus corrigida com três alvos UP. Ver [fechamento, evidências e pendências](../06-validation/VPS_PHASE_COMPLETION.md).
+
+## Acesso administrativo concluído e dependência atual
+
+Em 16/09/2026, hub WireGuard ativado após confirmação de console Proxmox/SSH. Notebook de recuperação integrado antes da RB951G por disponibilidade do usuário: handshake e ping observados; nova sessão SSH em 10.250.0.1:5822 confirmada pelo usuário. Ver [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+O usuário reafirmou não ter acesso à RB951G. A integração da central NOC aguarda inventário real de interfaces/LAN/rotas e backup/recuperação; o core vem depois. O notebook não fornece, por si só, acesso à RB951G ainda não integrada. Segurança pública, persistência testada, restauração e campo permanecem pendentes. A solicitação atual abrange consolidação documental, commit e push.

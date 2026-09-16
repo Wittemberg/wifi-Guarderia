@@ -1,6 +1,6 @@
 # WireGuard, rotas e acesso administrativo
 
-Estado em 16/09/2026: próxima etapa planejada após conclusão da instalação da stack. WireGuard ainda não instalado/configurado/homologado. Esta entrega documenta o plano; não executa alterações na VPS ou nas RBs. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
+Estado em 16/09/2026: execução iniciada por autorização do usuário. wireguard-tools instalado; suporte no LXC e configuração criptográfica testados em namespace isolada. Hub wg0 ativo e habilitado no boot, com notebook de recuperação conectado, ping observado e SSH confirmado pelo usuário; RB951G e homologação integral pendentes. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
 
 ## Peers
 
@@ -54,13 +54,13 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 - Conferir rede real da central NOC, rotas e sobreposições com Docker/VPN/LANs antes de aplicar o IPAM proposto.
 - Revalidar resolução de `vpn-guarderia.awecloudsolution.com` fora da VPN. Endpoint proposto: UDP 51820.
 
-### 2. Hub na VPS e primeiro peer na central NOC
+### 2. Hub e notebook concluídos; próxima integração na central NOC
 
-- Instalar/configurar WireGuard no host e preparar interface e chaves exclusivas, guardadas fora do Git. Registrar versões e configuração sanitizada.
-- Preparar regras de entrada/encaminhamento no host e no provedor, liberando UDP 51820 e preservando SSH. O forwarding IPv4 já estava em 1 após Docker; confirmar o estado e as chains Docker, sem redefinir regras indiscriminadamente.
+- Hub já instalado/configurado, com chaves privadas fora do Git e notebook conectado. Preservar interface/chaves existentes e conferir o inventário antes de acrescentar peers.
+- UDP 51820 já alcançado pelo notebook; revisar regras de entrada/encaminhamento necessárias à integração das RBs, preservando SSH. O forwarding IPv4 já estava em 1 após Docker; confirmar o estado e as chains Docker, sem redefinir regras indiscriminadamente.
 - Configurar primeiro a RB951G da central NOC: VPS `10.250.0.1`, RB951G `10.250.0.2`, keepalive proposto 25 s e somente prefixos efetivamente implantados. Não adicionar rota default pela VPN.
 - Validar handshake, tráfego bidirecional, rotas de retorno e acesso administrativo em nova sessão. Se a LAN 10.21.0.0/24 ainda não corresponder à rede real, resolver o endereçamento antes de anunciá-la.
-- Preparar/testar peer de recuperação quando disponível. Reinício da VPS/RB somente em janela controlada, com console e pós-teste; verificar recuperação da VPN e dos serviços já instalados.
+- Peer de recuperação do notebook já cadastrado, com SSH à VPS confirmado; testar acesso ao core quando ele existir. Reinício da VPS/RB somente em janela controlada, com console e pós-teste; verificar recuperação da VPN e dos serviços já instalados.
 
 ### 3. Core da guarderia e coleta pela VPN
 
@@ -99,8 +99,9 @@ Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN,
 
 | Marco | Evidência exigida | Estado |
 |---|---|---|
+| Notebook e VPS conectados | Handshake, ping e nova sessão SSH | Validado no escopo notebook ↔ VPS; ver registro abaixo |
 | VPS e RB951G conectadas | Handshake recente, tráfego bidirecional, rotas e nova sessão administrativa funcionando | Pendente |
-| Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Pendente |
+| Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Parcial: console confirmado e retorno descrito; retorno do notebook/reboot não ensaiados |
 | Core integrado | Central NOC e coletor alcançam alvos autorizados, com retorno e origem de coleta confirmados | Pendente |
 | Gerência restrita | Acesso positivo pela VPN e negativo de origem externa autorizada, incluindo portas diretas | Pendente |
 | Continuidade | Reinício e falhas controladas preservam/recuperam serviços, com tempos medidos | Pendente |
@@ -108,3 +109,32 @@ Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN,
 Se perder acesso, usar console e restaurar somente o conjunto alterado a partir do backup; verificar SSH, rotas, serviços e coleta. Não remover regras ou reiniciar a stack às cegas. Parar a expansão de peers enquanto o marco anterior estiver reprovado.
 
 Persistência do Grafana/Prometheus, diagnóstico dos VIPs Swarm e abrangência das métricas de host continuam pendências da etapa NOC, conforme [fechamento anterior](../06-validation/VPS_PHASE_COMPLETION.md).
+
+## Histórico: execução inicial — 16/09/2026
+
+- Instalado pacote Ubuntu wireguard-tools 1.0.20210914-1ubuntu4, sem atualizar/remover outros pacotes.
+- Criada interface WireGuard temporária em namespace isolada; configuração de chave e porta 51820 aceita pelo kernel. Nenhuma interface WireGuard ficou ativa no host.
+- DNS vpn-guarderia.awecloudsolution.com conferido: CNAME para vps-guarderia e A 204.157.108.99.
+- Backup privado de firewall IPv4/IPv6, rotas, regras e inventário de serviços salvo antes de alterações de rede.
+- Chave da VPS gerada e configuração de hub com 10.250.0.1/32, MTU 1420 e UDP 51820 preparada fora do Git; sem peers enquanto faltar chave pública da RB951G.
+- Usuário confirmou acesso SSH e painel Proxmox; acesso à RB951G e LAN real indisponíveis no momento. Após essa confirmação, o hub foi ativado sem peers; rotas da central NOC e firewall permanecem sem alteração.
+
+A configuração preparada não configura LAN, rota default, NAT ou encaminhamento entre peers. Na expansão de peers, adicionar somente rota/AllowedIPs necessários após conferência. Evidências e segredos estão no diretório privado wireguard-preflight da VPS. Referência de procedimento: [guia oficial WireGuard](https://www.wireguard.com/quickstart/).
+
+## Histórico: hub ativado inicialmente sem peers — 16/09/2026
+
+- Console SSH/Proxmox confirmado pelo usuário; acesso à RB951G e LAN atual ainda indisponíveis.
+- Serviço wg-quick@wg0 ativo e habilitado no boot, endereço 10.250.0.1/32, MTU 1420 e UDP 51820. Configuração em /etc/wireguard/wg0.conf com permissão 600; chave privada fora do Git.
+- Nesse marco inicial, ainda sem peers, handshake ou rotas de LAN. Políticas e regras IPv4/IPv6 e tabela de rotas main comparadas antes/depois e preservadas. INPUT já estava ACCEPT; nenhuma liberação adicional foi necessária no host. Naquele marco, firewall do provedor e alcance UDP externo ainda não estavam comprovados; o alcance a partir do notebook foi confirmado no marco seguinte.
+- Pós-teste: SSH e Docker ativos, 12 serviços Swarm 1/1 e três alvos Prometheus UP/sem erro.
+- Primeira ativação revertida automaticamente porque a comparação incluía dados variáveis do iptables-save; segunda ativação validada comparando regras sem timestamps/contadores. O teste comprovou parada da interface, não recuperação após reboot.
+- Retorno específico: systemctl disable --now wg-quick@wg0 remove a interface e desabilita sua ativação no boot; preservar configuração/chaves privadas para diagnóstico. Não restaurar todo o firewall Docker quando nenhuma regra foi alterada.
+
+Próximo passo quando houver acesso à RB951G: conferir redes/rotas e backup local, gerar chave do peer na própria RB, trocar somente chaves públicas e configurar primeiro o trânsito 10.250.0.1 ↔ 10.250.0.2. Só anunciar LAN depois de confirmar a faixa real. VPN-01/02 estão parciais pelo notebook; VPN-03 continua pendente.
+
+
+## Estado atual e retomada — notebook validado
+
+O notebook de recuperação foi integrado antes da RB951G, por disponibilidade do usuário. Cadastro persistido com AllowedIPs 10.250.0.10/32 e rota /32 na VPS; handshake recente e ping 3/3 observados. Nova sessão SSH em 10.250.0.1:5822 confirmada pelo usuário. Ver [evidências, limites e retorno](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+A RB951G continua sem acesso pelo usuário. Aguardar inventário de interfaces, LAN, rotas, backup e recuperação para configurar seu peer; integrar o core depois. Não há rotas de LAN ou forwarding entre peers homologados. Restrições de painéis/portas públicas e reinícios não foram executados. F2 permanece parcial.

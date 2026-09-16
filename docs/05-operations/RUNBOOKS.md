@@ -51,3 +51,11 @@ Procedimento futuro para a [variante dual-WAN](../02-implementation/NOC_DUAL_WAN
 Na perda total, defaults devem ficar inativas, sem receber `disabled=yes`. Não corrigir ausência de Internet desabilitando rotas, nem limpar globalmente conntrack como reação automática. Conferir se cada sonda usa a WAN prevista; um ping genérico pode sair pelo outro link. Se houver oscilação, preservar horários e contagem das trocas antes de alterar parâmetros sob RB-05.
 
 Após retorno, testar novas conexões, DNS e caminho administrativo até o core, além do handshake. Registrar impacto em sessões anteriores e retomar a coleta. Se a mudança de configuração causar perda de acesso, usar recuperação local e backup conforme RB-05. Aceite pelos testes WAN-01 a WAN-07.
+
+## RB-10 — Acesso administrativo pelo notebook
+
+Caminho validado em 16/09/2026: notebook 10.250.0.10 → hub 10.250.0.1 → SSH TCP 5822. No notebook, `ssh -p 5822 root@10.250.0.1` funcionou conforme confirmação do usuário. A conta root registra o acesso atual, não uma alteração da política de contas nominais. Não há acesso à RB951G/core comprovado por esse teste.
+
+Para diagnóstico, consultar estado/idade do handshake, contadores e rota específica; confirmar que o cliente envia o destino da VPS pelo túnel. A indicação de túnel ativo no aplicativo não substitui handshake/tráfego. Testar ICMP e uma nova sessão SSH separadamente; falha de ping pode exigir verificar firewall do cliente antes de concluir falha do túnel. Não divulgar chaves privadas em saídas de diagnóstico.
+
+Se o hub falhar, o notebook também perde esse caminho; usar console Proxmox ou SSH de recuperação conforme disponibilidade. Não restringir o acesso existente sem revisão e retorno preparados. Cadastro, limites e retorno estão na [validação do notebook](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
