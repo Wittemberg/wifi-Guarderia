@@ -57,3 +57,5 @@ Primeira restauração antes da PoC; repetir trimestralmente e após mudanças d
 A preparação do hub salvou regras IPv4/IPv6, rotas e inventário em armazenamento privado. Antes de cadastrar o notebook, foram copiados novamente wg0.conf, rotas e regras; identificador `wireguard-preflight/notebook-20260916T200122Z`. A configuração ativa foi persistida com modo 600; serviço habilitado no boot.
 
 Essas cópias locais não comprovam cifragem off-site, agendamento diário, backup pós-mudança independente ou restauração. A cópia anterior ao notebook restaura o estado sem esse peer; conferir mudanças posteriores antes de usá-la. BAK-01 e RPO/RTO permanecem sem ensaio. Ver [retorno específico e evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+Auditoria e primeiro ensaio executados em 16/09/2026: backups locais de configuração, SQLite e PostgreSQL produzidos, restauração dos bancos e inicialização/reinício das cópias Grafana/Kuma validados. BAK-01 parcial; backup integral e off-site pendentes. Volumes de produção ainda não corrigidos. [Resultados, plano de migração e limites](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).

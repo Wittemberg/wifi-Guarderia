@@ -59,3 +59,5 @@ Grafana sem montagem em /var/lib/grafana e Prometheus com volume anônimo exigem
 Wireguard-tools instalado; wg0 ativo em 10.250.0.1/32, UDP 51820, serviço habilitado no boot. Notebook 10.250.0.10/32 cadastrado e rota /32 persistida pelo procedimento wg-quick. Handshake e ping 3/3 observados; SSH à VPS pela VPN confirmado pelo usuário. Configuração modo 600 e backup privado. Sem alteração de firewall/NAT/default no cadastro. SSH/Docker ativos e 12 serviços Swarm 1/1 no pós-teste; Prometheus não foi consultado novamente nessa operação.
 
 RBs ainda não integradas; reboot, restauração e restrições públicas pendentes. Ver [registro detalhado](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+Auditoria de persistência em 16/09/2026 confirmou ausência de volume de dados Grafana e volume anônimo Prometheus; ambos ainda sem correção aplicada. Bancos e aplicações restaurados somente em ambiente isolado; [inventário de volumes e resultados](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).

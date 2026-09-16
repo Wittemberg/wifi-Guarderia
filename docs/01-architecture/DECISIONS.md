@@ -63,3 +63,7 @@ Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três ser
 **Data:** 16/09/2026. **Status:** parcialmente implementado. **Plano inicial:** hub → RB951G → core. **Ajuste autorizado:** como o usuário não tinha acesso à RB951G, ativar o hub após confirmação de console e antecipar o notebook de recuperação, mantendo a integração da central NOC antes do core. **Resultado:** notebook ↔ VPS com handshake/ping observados e SSH confirmado pelo usuário; configuração persistida e backup privado.
 
 **Consequência:** o próximo marco depende de acesso à RB951G, inventário real de LAN/rotas e backup/recuperação. Não anunciar LANs propostas nem considerar que o notebook dá acesso a RBs ausentes. Restrição de gerência exige revisão dos caminhos públicos e dos painéis pela VPN, com pós-teste específico. Persistência testada e restauração continuam requisitos de F2. Ver [procedimento](../02-implementation/WIREGUARD.md) e [evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+## ADR-016 — Persistência explícita e restauração isolada
+
+Data: 16/09/2026. Auditoria/backups e ensaios isolados executados; migração de produção proposta. Adotar volumes nomeados para Grafana/Prometheus, preservando dados atuais antes de substituir tarefas. Testar backups com as imagens instaladas, sem rede externa ou volumes produtivos graváveis. Cópias locais são preparação, não substituem off-site. Evitar deploy integral do YAML Orion sem comparar o serviço ativo. [Plano e retorno](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).

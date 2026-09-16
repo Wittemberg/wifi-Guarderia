@@ -64,3 +64,10 @@
 ### Limites desta versão
 
 Nenhum equipamento foi configurado, nenhuma VPS foi alterada e nenhuma medição de campo foi realizada. Versões exatas dos serviços, domínio, segredos, dados do provedor e homologação permanecem registrados como pendências.
+
+## Em andamento — persistência e backups, 2026-09-16
+
+- Auditados volumes; confirmados riscos de persistência Grafana/Prometheus.
+- Criados backups locais privados, restaurados PostgreSQL 15/14 e testadas cópias Grafana/Kuma em isolamento, incluindo reinício.
+- Preparado manifesto de volumes, sem aplicação à produção. BAK-01 parcial; migração, backup integral e off-site pendentes.
+- [Relatório e plano](docs/06-validation/PERSISTENCE_BACKUP_AUDIT.md).

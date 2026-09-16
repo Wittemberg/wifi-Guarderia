@@ -29,3 +29,5 @@ Comprar e instalar por lotes pequenos após resultado do piloto. A aprovação d
 ## Governança
 
 Separar três estados: especificado, implementado e homologado. O estado “operacional” só existe depois de implantação e teste real. Não atribuir percentuais sem conjunto de entregas e pesos definidos.
+
+Etapa independente iniciada em 16/09/2026: auditoria de persistência e backups, com restauração isolada de PostgreSQL/Grafana/Kuma concluída no escopo descrito. Próximo marco da VPS: aplicar a migração de volumes Grafana/Prometheus em janela de manutenção e completar backup integral/off-site. [Plano concreto](../06-validation/PERSISTENCE_BACKUP_AUDIT.md). F2 continua parcial.

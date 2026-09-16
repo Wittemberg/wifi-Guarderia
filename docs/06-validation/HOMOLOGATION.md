@@ -26,7 +26,7 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | SEC-03 | Exposição externa e firewall Docker | Não executado | Ambiente VPS disponível; ensaio específico pendente |
 | SEC-04 | Credenciais, privilégios e TLS | Não executado | Ambiente VPS disponível; ensaio específico pendente |
 | ENE-01 | Consumo, proteção e autonomia | Não executado | Aguardar kit e inspeção |
-| BAK-01 | Restauração e RPO/RTO | Não executado | Backups locais existentes; restauração integral e RPO/RTO não ensaiados |
+| BAK-01 | Restauração e RPO/RTO | Parcial: bancos e cópias Grafana/Kuma restaurados isoladamente | [Auditoria](PERSISTENCE_BACKUP_AUDIT.md); TSDB/Portainer/certificados, off-site e recuperação integral pendentes |
 | OPS-01 | Reboot/redeploy e rollback | Não executado | Ambiente VPS disponível; ensaio específico pendente |
 | OPS-02 | Checklist físico e manutenção | Não executado | Aguardar visita |
 | SECUR-01 | Alarme e responsabilidades | Não executado | Modelos/serviço pendentes |

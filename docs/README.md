@@ -63,6 +63,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 | [Plano PoC](06-validation/POC_PLAN.md) | Bancada, 50/100 m, rotação, carga e critérios |
 | [Conclusão VPS/stack](06-validation/VPS_PHASE_COMPLETION.md) | Etapa concluída, imagens observadas, evidências e pendências |
 | [Homologação](06-validation/HOMOLOGATION.md) | Estado real dos testes e aceites |
+| [Persistência e backups](06-validation/PERSISTENCE_BACKUP_AUDIT.md) | Auditoria, restauração isolada e migração preparada |
 | [VPN do notebook](06-validation/NOTEBOOK_VPN_VALIDATION.md) | Cadastro, handshake, ping, SSH confirmado e limites |
 | [Modelos de evidência](06-validation/EVIDENCE_TEMPLATES.md) | Registros de sessão, medição e mudança |
 | [Revisão documental](06-validation/DOCUMENTATION_REVIEW.md) | Verificações desta primeira entrega |
