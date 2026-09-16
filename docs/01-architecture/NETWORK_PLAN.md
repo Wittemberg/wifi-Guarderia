@@ -1,6 +1,6 @@
 # Plano de rede, endereçamento e interfaces
 
-Estado: **endereços reservados em projeto, não aplicados**. Conferir sobreposição com LAN da central NOC, provedor, Docker e VPNs antes da implantação. O projeto usa IPv4 na primeira etapa; IPv6 deve ser bloqueado ou segregado com regras equivalentes, sem permitir passagem lateral inadvertida.
+Estado: endereços de VPN/LAN/VLAN abaixo continuam reservados em projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
 
 ## Redes canônicas
 

@@ -15,7 +15,7 @@ O responsável técnico deve definir alimentação mínima, manutenção prevent
 - Internet inicial será provavelmente de provedor local, com CGNAT; Starlink saiu da primeira etapa.
 - A central NOC também está atrás de CGNAT.
 - RB951G-2HnD está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.5 e pronta para configuração após a VPS; RB750Gr3 novo está disponível para o core.
-- VPS já existe e, segundo o usuário, atende ao dimensionamento discutido. As características reais ainda não foram inventariadas.
+- VPS já existe e, segundo o usuário, atende ao dimensionamento discutido. Características inventariadas em 15/09 e atualizadas após instalação em 16/09; ver [inventário VPS](../01-architecture/VPS_INVENTORY.md).
 - Preferência por Ubuntu 24.04, Docker/Portainer e instalação via SetupOrion se viável.
 - Monitoramento deve estar preparado antes da PoC para registrar métricas reais desde o início.
 - Pasta local e GitHub foram definidos explicitamente em 12/09/2026.
@@ -43,8 +43,12 @@ Não adotamos a afirmação anterior de que antena integrada garante 360°: cobe
 
 ## Fora desta entrega
 
-Implantação, compra, contratação de vigilância, instalação elétrica, entrega de portal próprio e automação por IA. A documentação define os requisitos dessas evoluções sem afirmar que existem.
+A instalação inicial da VPS/stack e a coleta interna foram concluídas em 16/09/2026. Permanecem fora da etapa concluída: implantação de VPN/rede de campo, compra, contratação de vigilância, instalação elétrica, portal próprio e automação por IA. A documentação define os requisitos dessas evoluções sem afirmar que existem.
 
 ## Anexos RouterOS recebidos em 12/09/2026
 
-O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise Markdown. Os [originais preservados](../08-reference/routeros-v7/README.md) são fontes documentais; seus comandos e recomendações não constituem autorização de execução. Foi acrescentada a [proposta dual-WAN para a central NOC](../02-implementation/NOC_DUAL_WAN.md). Dois links, endereços dos modems e resultados de failover não foram confirmados. A RB951G continua atualizada e aguardando a VPS para configuração.
+O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise Markdown. Os [originais preservados](../08-reference/routeros-v7/README.md) são fontes documentais; seus comandos e recomendações não constituem autorização de execução. Foi acrescentada a [proposta dual-WAN para a central NOC](../02-implementation/NOC_DUAL_WAN.md). Dois links, endereços dos modems e resultados de failover não foram confirmados. A RB951G continua atualizada e aguarda preparação da VPN para configuração.
+
+## Etapa concluída em 16/09/2026
+
+Usuário executou Orion e instalou a stack. Foram conferidos Docker Swarm, 12 serviços ativos, domínios e coleta Prometheus corrigida com três alvos UP. Ver [fechamento, evidências e pendências](../06-validation/VPS_PHASE_COMPLETION.md).

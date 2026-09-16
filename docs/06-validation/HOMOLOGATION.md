@@ -7,8 +7,8 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | DOC-01 | Estrutura, links, Git e publicação | Revisão local concluída | [Verificações](DOCUMENTATION_REVIEW.md); commit/publicação pelo histórico Git |
 | DOC-02 | Referência nocagent e padrões | Análise documental realizada | [Revisão](../08-reference/NOCAGENT_REVIEW.md) |
 | HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB951G recebido do usuário; atualização concluída | [RB951G central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
-| VPS-01 | Inventário e caminho de instalação | Não executado | VPS não acessada |
-| STACK-01 | Stack, versões, rede e persistência | Não executado | Manifesto executável futuro |
+| VPS-01 | Inventário e caminho de instalação | Parcial: inventário e instalação inicial concluídos em 16/09/2026 | [Conclusão](VPS_PHASE_COMPLETION.md); console, suporte VPN e versão/hash Orion pendentes |
+| STACK-01 | Stack, versões, rede e persistência | Parcial: instalação e coleta interna concluídas | 12 serviços 1/1 e três alvos UP; autenticação, persistência, exposição e manifesto de manutenção pendentes; [evidências](VPS_PHASE_COMPLETION.md) |
 | VPN-01 | Hub e CGNAT | Não executado | Aguardar laboratório |
 | VPN-02 | Rotas, retorno e coleta container | Não executado | Aguardar laboratório |
 | VPN-03 | Falhas/recuperação e independência da central NOC | Não executado | Aguardar laboratório |
@@ -51,3 +51,7 @@ SEC-01: barco A não alcança LAN, WAN/gerência ou serviços de B; administraç
 ## Registro de cada execução
 
 Usar [modelo de evidência](EVIDENCE_TEMPLATES.md). Preencher responsável, data, versões, requisito, resultado e localização privada. Aceite humano deve ter autor e data; teste automatizado não o substitui. Restrições devem apontar teste e impacto concretos.
+
+## Verificação complementar — 16/09/2026
+
+Coleta interna Prometheus: três alvos UP e sem erro na API, com últimas coletas em 03:36:31–34 UTC, após validação promtool e SIGHUP. Ver [procedimento e limites](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Resultado restrito à coleta dos exporters e do próprio Prometheus; não aprova MON-01/02/03, STACK-01 ou aceite humano.

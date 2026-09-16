@@ -2,11 +2,11 @@
 
 Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais por dependência, com critérios de saída observáveis.
 
-| Fase | Entrega | Dependência | Critério de saída | Estado inicial |
+| Fase | Entrega | Dependência | Critério de saída | Estado em 16/09/2026 |
 |---|---|---|---|---|
 | F0 | Especificação e Git | Contexto e referência | DOC-01/02 revisados; commit publicado | Documentação preparada |
-| F1 | Inventário VPS, RBs e levantamento local | F0 | HW-01/VPS-01 e pendências impeditivas resolvidas | Parcial: RB951G atualizada e inventariada pelo usuário; demais itens pendentes |
-| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Pendente |
+| F1 | Inventário VPS, RBs e levantamento local | F0 | HW-01/VPS-01 e pendências impeditivas resolvidas | Parcial: inventário VPS realizado e RB951G atualizada; core, console e levantamento local pendentes |
+| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Instalação da stack e coleta interna concluídas; VPN, segurança, persistência e restauração ainda pendentes |
 | F3 | Templates e alertas em bancada | F2 | MON-01/02/03; dados persistem após reboot | Pendente |
 | F4 | Rádio e isolamento em bancada | F3 | RF-01; LAN-01; SEC-01/02/03 | Pendente |
 | F5 | PoC embarcada 50/100 m | F4 e alimentação validada | RF-02/03/04; ENE-01 | Pendente |
@@ -16,7 +16,7 @@ Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais p
 
 ## Próxima execução concreta
 
-Inventariar e preparar a VPS: SO, CPU/RAM, disco, IPs, Docker, modo Compose/Swarm, Portainer, redes, volumes e serviços existentes. A RB951G da central NOC já está atualizada e pronta para configuração assim que a VPS estiver configurada. Conferir ainda RouterOS e modelo da RB750Gr3 e resolver os itens restantes de `OPEN-01` a `OPEN-05` antes de produzir scripts aplicáveis.
+Etapa VPS/stack e coleta interna encerrada conforme [registro de conclusão](../06-validation/VPS_PHASE_COMPLETION.md). Próxima execução: preparar WireGuard e acesso administrativo, revisar exposição e persistência, validar backups, conferir o core e configurar a RB951G. F2 permanece parcialmente concluída porque seus critérios incluem VPN e restauração.
 
 ## Critério para expansão
 

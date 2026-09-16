@@ -50,7 +50,7 @@ Links de auditoria: [árvore do snapshot](https://github.com/Wittemberg/nocagent
 4. O mesmo driver atribui `lastLossPercent` 0 ou 100 conforme uma sondagem TCP. A Guarderia separa porta acessível, RTT TCP e perda ICMP medida em janela com contagem de pacotes.
 5. O driver Zabbix consultado usa padrões de autenticação/login que precisam de revisão por versão. Não será copiado como integração homologada.
 6. O procedimento de backup consultado mistura caminhos temporários do container e do host. A Guarderia exige transferência explícita e teste de restauração.
-7. A stack de referência usa rede/serviços/domínio existentes e tags `latest`; o projeto novo não presume essa infraestrutura. Modo Compose/Swarm e versões serão definidos antes do deploy.
+7. A stack de referência usa rede/serviços/domínio existentes e tags `latest`; o projeto novo não presume essa infraestrutura. Atualização de 16/09/2026: Swarm instalado pelo usuário; imagens/digests registrados no fechamento da etapa VPS. Revisão de versões e manifesto de manutenção pendente.
 8. O plano de InfraOps usa Prometheus para séries próprias. Isso não proíbe o banco PostgreSQL suportado pelo Zabbix armazenar seus dados; são arquiteturas diferentes. Não duplicar armazenamento sem necessidade.
 
 Esses achados são limitados ao snapshot e aos arquivos citados; não constituem auditoria completa da aplicação ou de sua produção.

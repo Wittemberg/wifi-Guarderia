@@ -1,6 +1,6 @@
 # Requisitos e rastreabilidade
 
-**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Todos os testes estão inicialmente pendentes, exceto a revisão documental registrada na homologação.
+**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas, homologação integral pendente.
 
 | ID | Requisito verificável | Origem/estado | Prioridade | Evidência de aceite |
 |---|---|---|---|---|
@@ -40,3 +40,5 @@
 ## Mudança de requisito
 
 Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanece no histórico como substituído; não apagar evidências de uma reprovação.
+
+Atualização de 16/09/2026: a coleta complementar Prometheus/cAdvisor/Node Exporter foi incluída na instalação Orion e corrigida para rede interna. Ela contribui para REQ-08/18, mas não substitui MON-01/02/03 nem a coleta RF. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md).

@@ -1,6 +1,6 @@
 # Especificação da stack de monitoramento
 
-Estado: contrato de implantação, sem manifesto executável nesta versão. Nome proposto: `wifi-guarderia`. Host único. Diretório de estado proposto: `/var/lib/wifi-guarderia`. O domínio ainda não foi definido; não reutilizar domínios do `nocagent`.
+Estado em 16/09/2026: instalação inicial concluída em host único com Docker Swarm, Traefik e 12 serviços. Abaixo permanece o contrato de operação; diferenças e pendências da implantação estão no [registro de conclusão](../06-validation/VPS_PHASE_COMPLETION.md). Domínio: awecloudsolution.com, conforme [DNS](DOMAINS_AND_DNS.md). O diretório /var/lib/wifi-guarderia era proposta; a instalação usa volumes Docker e configuração de monitoramento em /opt/monitor-orion.
 
 ## Serviços e persistência
 
@@ -14,11 +14,11 @@ Estado: contrato de implantação, sem manifesto executável nesta versão. Nome
 | Proxy TLS | Entrada HTTPS | Certificados e configuração protegidos | Preferir acesso privado por VPN |
 | WireGuard | Hub VPN | `/etc/wireguard`, permissões restritas | Host, UDP 51820 |
 
-Não montar o socket Docker em Zabbix/Grafana/Kuma. Portainer tem privilégios de administração e deve ser restrito à rede administrativa. A forma de instalação do Portainer será registrada no inventário; não implantar uma segunda instância por engano.
+Não montar o socket Docker em Zabbix/Grafana/Kuma. Portainer tem privilégios de administração e deve ser restrito à rede administrativa. Portainer e agente já estão instalados no Swarm; não implantar instância duplicada.
 
 ## Versões
 
-Zabbix 7.0 LTS é a linha candidata usada nas referências desta especificação; o patch exato será selecionado na implementação. PostgreSQL deve pertencer à matriz suportada pela versão Zabbix escolhida. Grafana, plugin Zabbix, Kuma, Docker, Portainer e proxy também precisam de versões compatíveis e fixadas. Não usar `latest` como única referência.
+Zabbix 7.0 LTS era a linha candidata da especificação inicial; o usuário instalou a linha 7.4 com PostgreSQL 15 dedicado. Há também PostgreSQL 14 separado. Imagens e digests observados estão no registro de conclusão; compatibilidade completa e política de atualização ainda precisam ser revisadas. PostgreSQL deve pertencer à matriz suportada pela versão Zabbix escolhida. Grafana, plugin Zabbix, Kuma, Docker, Portainer e proxy também precisam de versões compatíveis e fixadas. Não usar `latest` como única referência.
 
 Manifesto de release obrigatório antes do deploy:
 
@@ -35,7 +35,7 @@ Manifesto de release obrigatório antes do deploy:
 
 Rede de dados é privada e não publica porta do banco. Rede de coleta tem saída roteada controlada para a VPN. Somente serviços web entram na rede do proxy. Se houver proxy compartilhado, somente frontends aderem à rede compartilhada; banco e coleta permanecem isolados.
 
-Na baseline Compose, sub-redes propostas constam no [IPAM](../01-architecture/NETWORK_PLAN.md). Se Swarm for escolhido, reserva de IP fixo por task não deve ser presumida: definir SNAT/regras pela rede dedicada de coleta e restringir os serviços que podem aderir a ela. Não reutilizar exemplos Compose sem revisão.
+Na baseline Compose, sub-redes propostas constam no [IPAM](../01-architecture/NETWORK_PLAN.md). Swarm foi instalado; reserva de IP fixo por task não deve ser presumida: definir SNAT/regras pela rede dedicada de coleta e restringir os serviços que podem aderir a ela. Não reutilizar exemplos Compose sem revisão.
 
 ## Configuração sensível e não sensível
 
@@ -64,4 +64,4 @@ Release: snapshot/backup → aplicar versões fixas → verificar banco e servi�
 
 ## Gate de prontidão
 
-Não implantar até preencher modo, versões, domínio, redes reais, backup e origem de segredos. O estado “documentado” não libera os gates de laboratório ou campo.
+A instalação inicial está concluída. Antes de declarar operação homologada ou aplicar novas releases, completar manifesto de manutenção, backup/restauração, revisão de segredos e segurança, persistência e testes de VPN. A conclusão desta etapa não libera os gates de laboratório ou campo.

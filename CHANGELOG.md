@@ -1,5 +1,20 @@
 # Histórico de alterações
 
+## 0.2.0 — 2026-09-16
+
+- Concluída a etapa VPS/stack e coleta interna; atualizados roadmap, inventário, especificações, memória e homologação com pendências explícitas.
+- Registrados os 12 serviços 1/1, imagens/digests e três alvos UP em nova consulta às 03:38 UTC.
+- Corrigida coleta Prometheus para endereços internos das tarefas Swarm, com backup, validação promtool e recarga por SIGHUP.
+- Registrada falha dos IPs virtuais como pendência independente.
+
+
+## Não publicado — 2026-09-15
+
+- Registrados inventário parcial medido da VPS e seus limites: LXC, recursos visíveis, serviços, portas e firewall. Gateway e detalhes operacionais mantidos fora do Git; IP público de destino DNS documentado.
+- Documentados domínio awecloudsolution.com, aliases CNAME propostos e critérios de acesso/DNS/TLS.
+- Atualizados preparação, stack, requisitos, decisão, pendências, índice, memória e VPS-01; sem implantação presumida. Publicação DNS confirmada pelo usuário e resolução A/CNAME medida na VPS; política de dados ajustada para IP público publicado.
+
+
 ## 0.1.2 — 2026-09-12
 
 - Arquivados os dois anexos RouterOS v7 recebidos, preservando bytes e hashes SHA-256.

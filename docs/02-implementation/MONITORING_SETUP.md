@@ -1,6 +1,6 @@
 # Configuração inicial do monitoramento
 
-Estado: roteiro de implantação futura. Dependências: stack, VPN, inventário e conta de leitura. Não há template Zabbix/Grafana importado nesta entrega.
+Estado em 16/09/2026: serviços instalados e coleta complementar Prometheus concluída, conforme [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Este roteiro continua aplicável aos templates, alertas e integração Zabbix/Grafana ainda não homologados; VPN, inventário e conta de leitura permanecem dependências para equipamentos.
 
 ## Ordem de configuração
 

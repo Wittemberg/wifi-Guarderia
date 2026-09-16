@@ -35,3 +35,7 @@ Leitura dos dois anexos e revisão estática concluídas. A conferência da vers
 Verificados 50 arquivos Markdown, 147 links locais, UTF-8, títulos e fechamento de blocos de código, sem erros. Requisitos REQ-23/24 associados a DOC-03, ROS-01 e WAN-01 a WAN-07 na homologação. O IPAM existente foi preservado e as diferenças do template foram explicitadas. A exceção de versionamento aplica-se apenas ao template recebido; exports reais permanecem excluídos.
 
 Nenhum import/dry-run RouterOS ou teste de failover foi executado. O template exige adaptação antes da validação em laboratório.
+
+## Atualização documental — 16/09/2026
+
+Revisados estado atual, roadmap, inventário, DNS, stack, monitoramento, segurança, operação, requisitos, decisões, memória e homologação para concluir a etapa VPS/stack e coleta interna. Ver [registro de conclusão](VPS_PHASE_COMPLETION.md). Links locais e `git diff --check` verificados antes do commit. Resultados de runtime têm escopo próprio no registro; a revisão documental não aprova VPN, restauração ou campo.

@@ -1,6 +1,6 @@
 # Backup e restauração
 
-Estado: política e runbook propostos; nenhuma cópia foi criada ou restaurada nesta entrega. Responsável: administrador. Referências: [segurança](../04-security/SECURITY.md) e [stack](../02-implementation/STACK_SPEC.md).
+Estado: política de backup integral e restauração ainda não homologada. Na correção Prometheus foram criadas cópias protegidas da configuração, conforme [procedimento de retorno](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md); elas não substituem backup dos bancos/volumes. Responsável: administrador.
 
 ## Objetivos de recuperação
 

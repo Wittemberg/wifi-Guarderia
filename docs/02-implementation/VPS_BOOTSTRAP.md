@@ -1,6 +1,6 @@
 # Preparação da VPS
 
-Estado: procedimento planejado, não executado. Responsável: operador técnico do projeto. Dependências: `OPEN-01` a `OPEN-05`, console do provedor e backup de qualquer serviço existente.
+Estado em 16/09/2026: inventário e instalação inicial pelo Orion concluídos; Docker Swarm e serviços conferidos. Ver [conclusão](../06-validation/VPS_PHASE_COMPLETION.md). As etapas abaixo são referência para manutenção e itens ainda pendentes, não instrução para reinstalar a stack existente.
 
 ## Inventário somente leitura
 

@@ -1,6 +1,6 @@
 # Segurança, acesso e proteção dos dados
 
-Estado: requisitos para implementação e teste. A primeira entrega não altera firewall nem cria usuários em sistemas remotos.
+Estado: política de segurança ainda em validação. Stack instalada e coleta interna concluída em 16/09/2026; revisão de portas públicas, restrição administrativa e isolamento permanecem pendentes conforme [fechamento](../06-validation/VPS_PHASE_COMPLETION.md).
 
 ## Princípios
 
@@ -52,8 +52,8 @@ Certificados privados exigem CA confiável instalada no coletor; certificados p�
 
 | Classe | Exemplos | Local |
 |---|---|---|
-| Pública/sanitizada | Especificação, template sem dados reais | Git |
-| Operacional restrita | MAC, serial, IP real, croqui detalhado, fotos de instalação | Storage privado |
+| Pública/sanitizada | Especificação, template sanitizado, domínio e IP público de destino do DNS publicado | Git |
+| Operacional restrita | MAC, serial, endereçamento interno, gateway e IP operacional não publicado, croqui detalhado, fotos de instalação | Storage privado |
 | Segredo | Senhas, chaves, tokens, dumps com credenciais | Cofre/backup cifrado |
 | Dados de pessoas/imagens | Contatos, vídeo e identificação de proprietário | Sistema autorizado, acesso por finalidade |
 

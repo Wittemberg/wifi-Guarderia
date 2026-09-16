@@ -12,7 +12,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-003 — Ubuntu 24.04 e Docker/Portainer
 
-**Status:** preferência confirmada; modo de orquestração pendente. **Decisão:** Compose em host único é a baseline proposta. Se a instalação existente/Orion usar Swarm, registrar a opção e gerar manifesto específico antes do deploy. **Consequência:** não misturar semântica de secrets, labels e dependências entre modos.
+**Status:** implementado em 16/09/2026. **Decisão:** Docker Swarm instalado pelo usuário via Orion, substituindo a proposta inicial Compose. Serviços e digests registrados no fechamento da etapa; manifesto de manutenção e testes de persistência pendentes. **Consequência:** não misturar semântica de secrets, labels e dependências entre modos.
 
 ## ADR-004 — Coleta antes do rádio em campo
 
@@ -49,3 +49,11 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 ## ADR-012 — Avaliar redundância WAN da central NOC
 
 **Status:** proposta, dependente de inventário e laboratório. **Contexto:** anexos fornecidos pelo usuário descrevem duas WANs estáticas e recuperação recursiva. **Decisão proposta:** WAN1 preferencial e WAN2 backup na RB951G, com duas sondas por WAN, sem scripts que desabilitem defaults. Preservar o IPAM e separar essa atribuição de portas da RB750Gr3. **Alternativa:** manter uma WAN enquanto não houver segundo link confirmado. **Consequência:** adaptar sintaxe, segurança e rotas VPN antes de importar; medir recuperação de sessões e WireGuard. Trata-se de comportamento determinístico do roteamento, não de ação por IA. Ver [especificação e testes](../02-implementation/NOC_DUAL_WAN.md).
+
+## ADR-013 — Domínio e aliases da Guarderia
+
+**Data:** 15/09/2026. **Status:** domínio awecloudsolution.com e preferência por CNAME confirmados; nomes publicados pelo usuário e resolução A/CNAME conferida na VPS (TTL 300 s). **Decisão:** um A para vps-guarderia e aliases por serviço com sufixo guarderia, conforme [plano DNS](../02-implementation/DOMAINS_AND_DNS.md). **Consequência:** centralizar mudança de IP, manter administração restrita pela VPN e validar DNS, proxy e TLS separadamente.
+
+## ADR-014 — Coleta Prometheus pela rede interna
+
+Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três serviços de monitoramento, removendo dependência de DNS público/TLS. IPs virtuais recusaram conexão; tarefas responderam. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Diagnóstico da rede virtual permanece pendente.

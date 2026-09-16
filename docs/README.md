@@ -1,6 +1,6 @@
 # Índice da documentação técnica
 
-Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implantado. A distinção entre decisões, propostas e evidências é mantida em cada domínio.
+Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evidências e pendências](06-validation/VPS_PHASE_COMPLETION.md). Instalação observada e homologação completa são estados distintos.
 
 ## 00 — Projeto
 
@@ -19,6 +19,7 @@ Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implanta
 | [Plano de rede](01-architecture/NETWORK_PLAN.md) | IPAM para 20 barcos, VLANs, portas, rotas e NAT |
 | [Decisões](01-architecture/DECISIONS.md) | ADRs, alternativas e consequências |
 | [Hardware e RF](01-architecture/HARDWARE_AND_RF.md) | Modelos, perfil RF, levantamento e materiais |
+| [Inventário da VPS](01-architecture/VPS_INVENTORY.md) | Recursos e serviços observados em 15/09/2026, limitações e pendências |
 | [Inventário da RB951G central NOC](01-architecture/NOC_ROUTER_INVENTORY.md) | Atualização 7.23.5 e recursos informados pelo usuário |
 | [Energia e instalação](01-architecture/POWER_AND_INSTALLATION.md) | PoE, DC, autonomia e ambiente marítimo |
 
@@ -26,6 +27,7 @@ Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implanta
 
 | Documento | Conteúdo |
 |---|---|
+| [Domínios e DNS](02-implementation/DOMAINS_AND_DNS.md) | Aliases planejados, acesso e validação pendente |
 | [Preparação VPS](02-implementation/VPS_BOOTSTRAP.md) | Inventário, Ubuntu/Orion e sequência de implantação |
 | [Stack](02-implementation/STACK_SPEC.md) | Serviços, persistência, redes, secrets e versões |
 | [WireGuard](02-implementation/WIREGUARD.md) | Peers, AllowedIPs, rotas, SNAT e recuperação |
@@ -59,6 +61,7 @@ Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implanta
 | Documento | Conteúdo |
 |---|---|
 | [Plano PoC](06-validation/POC_PLAN.md) | Bancada, 50/100 m, rotação, carga e critérios |
+| [Conclusão VPS/stack](06-validation/VPS_PHASE_COMPLETION.md) | Etapa concluída, imagens observadas, evidências e pendências |
 | [Homologação](06-validation/HOMOLOGATION.md) | Estado real dos testes e aceites |
 | [Modelos de evidência](06-validation/EVIDENCE_TEMPLATES.md) | Registros de sessão, medição e mudança |
 | [Revisão documental](06-validation/DOCUMENTATION_REVIEW.md) | Verificações desta primeira entrega |
@@ -83,3 +86,5 @@ Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implanta
 ## Orientações do repositório
 
 [README](../README.md), [AGENTS](../AGENTS.md), [.agents](../.agents/README.md), [baseline corporativa](../witteberg-development-standards/README.md), [contribuição](../CONTRIBUTING.md) e [changelog](../CHANGELOG.md).
+
+[Coleta interna do Prometheus](03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md): correção dos alvos após instalação Orion.

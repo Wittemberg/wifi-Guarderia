@@ -1,6 +1,6 @@
 # Arquitetura da solução
 
-Estado: proposta de engenharia para implementação e homologação. Premissas confirmadas estão no [contexto](../00-project/CONTEXT.md); valores canônicos no [plano de rede](NETWORK_PLAN.md).
+Estado em 16/09/2026: stack NOC instalada na VPS e coleta interna concluída; rede de campo, WireGuard e homologação continuam propostas. Ver [registro da fase](../06-validation/VPS_PHASE_COMPLETION.md), [contexto](../00-project/CONTEXT.md) e [plano de rede](NETWORK_PLAN.md).
 
 ## Topologia
 

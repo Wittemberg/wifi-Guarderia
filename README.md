@@ -1,8 +1,8 @@
 # WiFi Guarderia Vitória
 
-Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a aproximadamente 50–100 metros da margem, com infraestrutura compartilhada e operação por mensalidade.
+**Estado em 16/09/2026:** etapa de instalação da VPS/stack NOC e correção da coleta interna **concluída**. Docker Swarm com 12 serviços ativos e três alvos Prometheus UP. Veja o [registro de conclusão](docs/06-validation/VPS_PHASE_COMPLETION.md). VPN, segurança, persistência e homologação de campo seguem como próximas etapas; configurações de equipamentos ainda não estão homologadas.
 
-**Estado em 12/09/2026:** especificação inicial documentada; infraestrutura, medições e homologação de campo ainda pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
+**Estado em 15/09/2026:** especificação documentada, [inventário parcial da VPS](docs/01-architecture/VPS_INVENTORY.md) realizado e [domínios planejados](docs/02-implementation/DOMAINS_AND_DNS.md) registrados; implantação e homologação de campo ainda pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
 
 ## Comece por aqui
 
@@ -23,7 +23,7 @@ Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a a
 | Administração na central NOC | RB951G-2HnD atualizada: RouterOS e RouterBOOT 7.23.5; pronta para configuração após a VPS |
 | Central | VPS existente, Ubuntu 24.04, IPv4 público |
 | VPN | WireGuard no host da VPS; proposta de engenharia |
-| Monitoramento | Zabbix + PostgreSQL + Grafana + Uptime Kuma em Docker/Portainer |
+| Monitoramento | Zabbix/PostgreSQL, Grafana, Kuma e Prometheus/exporters instalados em Docker Swarm/Portainer |
 
 Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
 

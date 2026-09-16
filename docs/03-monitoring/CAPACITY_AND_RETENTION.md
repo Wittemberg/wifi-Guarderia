@@ -1,6 +1,6 @@
 # Capacidade, retenção e desempenho
 
-Estado: orçamento de capacidade paramétrico. Não há benchmark nem consumo de disco observado.
+Estado: orçamento de capacidade paramétrico, sem benchmark de carga. Inventário da sessão registrou 95 GB livres após instalação; Docker reconhece 9 CPUs/8 GiB. Isso não valida retenção ou capacidade para 20 barcos. Ver [inventário](../01-architecture/VPS_INVENTORY.md).
 
 ## Inventário de escala
 

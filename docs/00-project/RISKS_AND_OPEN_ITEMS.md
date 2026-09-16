@@ -4,9 +4,9 @@
 
 | ID | Informação/decisão | Quem resolve | Bloqueia |
 |---|---|---|---|
-| OPEN-01 | IP público, CPU/RAM/disco, arquitetura e acesso de console da VPS | Responsável técnico | Instalação |
-| OPEN-02 | Serviços existentes, Compose/Swarm, proxy, portas e redes ocupadas | Responsável técnico | Instalação sem conflito |
-| OPEN-03 | Domínio/DNS e método de certificados internos/públicos | Responsável técnico | TLS e exposição controlada |
+| OPEN-01 | Parcial: IP, CPU visível, disco e arquitetura inventariados; Docker reconhece 9 CPUs/8 GiB e está em execução; confirmar recursos garantidos, console e suporte WireGuard | Responsável técnico | Instalação |
+| OPEN-02 | Parcial: serviços e portas inventariados; Docker Swarm e Traefik instalados; revisar exposição, segregação de redes, rpcbind e falha dos VIPs | Responsável técnico | Instalação sem conflito |
+| OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; concluir DNS/TLS dos novos nomes e acesso via VPN | Responsável técnico | TLS e exposição controlada |
 | OPEN-04 | Parcialmente resolvida: RB951G central NOC em RouterOS/RouterBOOT 7.23.5; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB951G aguarda configuração da VPS |
 | OPEN-05 | Redes existentes da central NOC, provedor e VPNs; sobreposições | Responsável técnico | IPAM e rotas |
 | OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
@@ -14,7 +14,7 @@
 | OPEN-08 | Banco de baterias, química, cargas, autonomia desejada e energia solar | Proprietário + instalador | Kit embarcado |
 | OPEN-09 | Modelos de central, sensores, sirenes, sinalizador e câmeras | Responsável técnico | Custo e compatibilidade |
 | OPEN-10 | Upload/download real, franquia e condições do provedor | Responsável técnico + provedor | Capacidade/comercialização |
-| OPEN-11 | Versões fixas Docker/Portainer/Zabbix/PG/Grafana/Kuma/plugin | Responsável técnico | Stack executável |
+| OPEN-11 | Imagens/digests da instalação registrados; substituir tags mutáveis e validar compatibilidade/plugin no manifesto de manutenção | Responsável técnico | Stack executável |
 | OPEN-12 | VLAN por estação, credenciais por barco, coleta AX e portas reais | Laboratório | Isolamento e métricas |
 | OPEN-13 | Destinatários/canais/plantão e tempos de atendimento | Operação + cliente | Alertas de produção |
 | OPEN-14 | Destino off-site, retenção aprovada, chaves e verba de backup | Responsável técnico | Recuperação |

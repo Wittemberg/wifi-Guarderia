@@ -1,6 +1,6 @@
 # Runbooks operacionais
 
-Estado: procedimentos planejados. Cada execução registra responsável, horário UTC, equipamento, diagnóstico, autorização existente, mudança, resultado e evidência. Credenciais ficam no cofre, nunca no registro público.
+Estado: procedimentos de operação, com correção Prometheus já executada e registrada no [runbook específico](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md). Cada execução registra horário, diagnóstico, autorização, mudança e evidência; credenciais ficam fora do registro público.
 
 ## RB-01 — Barco sem comunicação
 
