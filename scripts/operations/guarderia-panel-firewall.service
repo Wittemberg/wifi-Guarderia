@@ -1,0 +1,16 @@
+[Unit]
+Description=Restricao das portas diretas dos paineis Guarderia na interface publica
+Wants=network-pre.target
+After=network-pre.target
+Before=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /root/guarderia-ops/guarderia_panel_firewall.py apply
+ExecStop=/usr/bin/python3 /root/guarderia-ops/guarderia_panel_firewall.py remove
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

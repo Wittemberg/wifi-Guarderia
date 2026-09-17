@@ -1,5 +1,7 @@
 # Conclusão da etapa VPS e coleta interna
 
+Registro histórico: observações e pendências abaixo correspondem à etapa original. Migração, S3, restrições de acesso, reboot e alertas foram posteriormente executados; consultar o [estado consolidado vigente](../00-project/IMPLEMENTATION_STATUS.md) antes de tratar uma pendência deste registro como atual.
+
 **Estado: concluída em 16/09/2026.** Escopo: inventário da VPS, instalação inicial Orion/Docker/Swarm e serviços NOC, registro dos domínios e correção da coleta complementar Prometheus. A conclusão foi solicitada pelo usuário após a correção. Não equivale a homologação integral de F2, da segurança ou da PoC.
 
 ## Entregas e evidências

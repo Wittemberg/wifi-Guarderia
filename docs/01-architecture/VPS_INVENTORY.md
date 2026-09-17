@@ -1,5 +1,7 @@
 # Inventário da VPS
 
+Os levantamentos e revisões abaixo preservam datas e resultados históricos. Para o estado vigente de implementação e pendências reais, consultar o [resumo consolidado](../00-project/IMPLEMENTATION_STATUS.md).
+
 Coleta: 15/09/2026, America/Sao_Paulo (16/09/2026 UTC). Origem: consultas somente leitura executadas diretamente na VPS nesta sessão. Inventário inicial histórico, anterior à implantação; atualizações posteriores estão ao final. O resumo abaixo transcreve resultados observados, não é um benchmark.
 
 | Item | Resultado medido/observado |
@@ -42,7 +44,7 @@ O IP público está documentado por ser destino do DNS publicado. Gateway e deta
 - Suporte Docker/WireGuard no LXC comprovado no escopo implantado; validar capacidade e abrangência das métricas de host.
 - Investigar rpcbind e a montagem em falha; definir necessidade antes de alterar serviços.
 - Revisar exposição com preservação do SSH pela VPN e teste externo posterior.
-- Fixar manifesto de manutenção, revisar persistência e ensaiar backup/restauração/reboot.
+- Manifestos Grafana/Prometheus e seus volumes já reconciliados; backup/restauração isolada S3 testados. Completar compatibilidade geral, recuperação integral e reboot.
 
 VPS-01 permanece parcial. Capacidade para 20 barcos depende de carga, coleta e retenção medidas. Consulte [preparação](../02-implementation/VPS_BOOTSTRAP.md) e [homologação](../06-validation/HOMOLOGATION.md).
 
@@ -58,6 +60,6 @@ Grafana sem montagem em /var/lib/grafana e Prometheus com volume anônimo exigem
 
 Wireguard-tools instalado; wg0 ativo em 10.250.0.1/32, UDP 51820, serviço habilitado no boot. Notebook 10.250.0.10/32 cadastrado e rota /32 persistida pelo procedimento wg-quick. Handshake e ping 3/3 observados; SSH à VPS pela VPN confirmado pelo usuário. Configuração modo 600 e backup privado. Sem alteração de firewall/NAT/default no cadastro. SSH/Docker ativos e 12 serviços Swarm 1/1 no pós-teste; Prometheus não foi consultado novamente nessa operação.
 
-RBs ainda não integradas; reboot, restauração e restrições públicas pendentes. Ver [registro detalhado](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+Naquele marco inicial, RBs não integradas e reboot/restauração/restrições ainda pendentes. Depois foram validados reboot, restrições TCP IPv4 e restauração isolada; RBs e recuperação integral continuam pendentes. Ver [registro detalhado](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
 
-Auditoria de persistência em 16/09/2026 confirmou ausência de volume de dados Grafana e volume anônimo Prometheus; ambos ainda sem correção aplicada. Bancos e aplicações restaurados somente em ambiente isolado; [inventário de volumes e resultados](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+A auditoria inicial de persistência encontrou Grafana sem volume de dados e Prometheus com volume anônimo. Esse estado histórico foi corrigido: volumes guarderia_grafana_data e guarderia_prometheus_data implantados, tarefas recriadas e manifestos reconciliados. Backup diário S3 e restauração isolada validados. Expiração externa em sete dias configurada pelo usuário, com cabeçalhos observados no backup/recibo. [Estado atual e limites](../06-validation/BACKUP_AUTOMATION.md).

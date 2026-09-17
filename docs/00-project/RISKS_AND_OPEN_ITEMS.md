@@ -5,8 +5,8 @@
 | ID | Informação/decisão | Quem resolve | Bloqueia |
 |---|---|---|---|
 | OPEN-01 | Parcial: IP, CPU visível, disco e arquitetura inventariados; Docker reconhece 9 CPUs/8 GiB e está em execução; console confirmado e WireGuard validado com notebook; confirmar recursos garantidos | Responsável técnico | Dimensionamento e recuperação integral |
-| OPEN-02 | Parcial: serviços e portas inventariados; Docker Swarm e Traefik instalados; revisar exposição, segregação de redes, rpcbind e falha dos VIPs | Responsável técnico | Instalação sem conflito |
-| OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; SSH por IP VPN confirmado; concluir DNS/TLS dos novos nomes e painéis via VPN | Responsável técnico | TLS e exposição controlada |
+| OPEN-02 | Parcial: serviços e portas inventariados; Docker Swarm e Traefik instalados; restrições TCP IPv4/reboot validados; faltam UDP/IPv6 externo, segregação interna, falha rpc_pipefs e diagnóstico dos VIPs | Responsável técnico | Instalação sem conflito |
+| OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; SSH por IP VPN confirmado; sete nomes HTTPS, restrições e logins pela VPN validados após reboot; renovação ACME e revisão integral pendentes | Responsável técnico | TLS e exposição controlada |
 | OPEN-04 | Parcialmente resolvida: RB951G central NOC em RouterOS/RouterBOOT 7.23.5; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB951G aguarda acesso do usuário e inventário de rede |
 | OPEN-05 | Acesso à RB951G ainda indisponível; inventariar redes existentes da central NOC, provedor e VPNs para conferir sobreposições | Responsável técnico | IPAM e rotas |
 | OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
@@ -16,8 +16,8 @@
 | OPEN-10 | Upload/download real, franquia e condições do provedor | Responsável técnico + provedor | Capacidade/comercialização |
 | OPEN-11 | Imagens/digests da instalação registrados; substituir tags mutáveis e validar compatibilidade/plugin no manifesto de manutenção | Responsável técnico | Stack executável |
 | OPEN-12 | VLAN por estação, credenciais por barco, coleta AX e portas reais | Laboratório | Isolamento e métricas |
-| OPEN-13 | Destinatários/canais/plantão e tempos de atendimento | Operação + cliente | Alertas de produção |
-| OPEN-14 | Destino off-site, retenção aprovada, chaves e verba de backup | Responsável técnico | Recuperação |
+| OPEN-13 | Parcial: alertas de backup SES/Telegram ativos, destinatário definido e recebimento confirmado. Plantão, tempos de atendimento e alertas de equipamentos pendentes | Operação + cliente | Alertas de produção |
+| OPEN-14 | Parcial: S3 diário/restauração isolada validados; chave externa confirmada pelo usuário; expiração de sete dias configurada pelo usuário e observada em dois objetos. Falta exclusão efetiva, revisão completa do lifecycle, teste da chave externa e recuperação integral | Responsável técnico | Homologação integral BAK-01 e RPO/RTO |
 | OPEN-15 | Custos, contrato, tributos, vigilância e licença do projeto | Titular + especialistas | Oferta comercial |
 | OPEN-16 | Confirmar duas WANs da central NOC, modems, portas, IPs/gateways e modo estático/DHCP/PPPoE | Responsável técnico | Variante dual-WAN executável |
 | OPEN-17 | Adaptar variáveis/escopos, parâmetros, ACLs e rotas do template RouterOS recebido | Responsável técnico + laboratório | ROS-01 e WAN-01 a WAN-07 |
@@ -44,6 +44,10 @@
 
 A arquitetura é uma proposta fundamentada. Não há garantia de cobertura, autonomia, número de setores ou rentabilidade até execução dos testes correspondentes.
 
-## Dependência atual — 16/09/2026
+## Dependência e limites atuais — 17/09/2026
 
-Hub/notebook conectados e SSH confirmado; OPEN-05 impede preparar a configuração real da RB951G. Não há chave/peer da RB, LAN conferida ou core integrado. Revisões de exposição, persistência e backup da VPS podem ser preparadas independentemente. Console confirmado e backups locais não resolvem OPEN-14 nem homologam restauração. Ver [roadmap](ROADMAP.md) e [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+RB951G ainda sem acesso/inventário para integração; OPEN-05 permanece impeditivo. Na VPS, volumes, restauração isolada S3, restrições TCP IPv4, reboot e alertas externos já têm aceite no escopo registrado. Próximo passo independente é preparar recuperação integral em ambiente separado. [Estado](IMPLEMENTATION_STATUS.md).
+
+S3 tem janela de sete dias e versionamento observado desabilitado; a retenção longa é local e não sobrevive à perda da VPS. Exclusão futura e escopo completo do lifecycle ainda não conferidos. Alertas SES/Telegram estão ativos, mas dependem da AWS e não substituem teste de recuperação ou acompanhamento operacional.
+
+Exceção de NAT local do Prometheus não identifica individualmente o Grafana. UDP externo, IPv6 externo, revogação/privilégios, renovação ACME e segurança de campo seguem pendentes. A unidade run-rpc_pipefs.mount já apresentava falha antes do reboot; não atribuí-la às mudanças sem investigação.

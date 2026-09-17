@@ -1,6 +1,6 @@
 # Segurança, acesso e proteção dos dados
 
-Estado: política de segurança ainda em validação. Stack instalada e coleta interna concluída em 16/09/2026; revisão de portas públicas, restrição administrativa e isolamento permanecem pendentes conforme [fechamento](../06-validation/VPS_PHASE_COMPLETION.md).
+Estado em 17/09/2026: restrições dos painéis e infraestrutura implantadas, testadas por TCP IPv4 e mantidas após reboot; acesso e logins pela VPN confirmados. Segurança integral, UDP/IPv6 externo, privilégios e isolamento de campo seguem em validação. [Estado consolidado](../00-project/IMPLEMENTATION_STATUS.md).
 
 ## Princípios
 
@@ -11,7 +11,7 @@ Menor privilégio, autenticação individual, isolamento de barcos, segredos for
 | Origem | Destino | Serviço | Regra |
 |---|---|---|---|
 | Internet | VPS | UDP 51820 | VPN pública autenticada |
-| Administração autorizada | VPS | SSH/HTTPS | Preferir VPN; bootstrap com restrição temporária documentada |
+| Administração autorizada | VPS | SSH/HTTPS | Na VPS implantada, novas conexões SSH e consoles pelos caminhos autorizados da VPN; ver política efetiva abaixo |
 | Coletor autorizado | Equipamentos cadastrados | ICMP, UDP 161 SNMPv3, HTTPS/API TLS conforme necessidade | Somente pela VPN e alvos ativos |
 | PC administrativo 10.21.0.10 / peer de recuperação | Gestão core/AP/wAP | SSH/WinBox/HTTPS estritamente necessários | Fonte, destino e serviço explícitos |
 | Zabbix web/server | PostgreSQL | TCP 5432 | Rede interna de dados |
@@ -74,8 +74,10 @@ Definir finalidade, responsáveis, acesso e retenção dos dados antes de produ�
 
 Hash de evidência permite detectar alteração quando comparado com referência confiável; não torna o arquivo imutável por si só.
 
-## Situação observada — acesso VPN em 16/09/2026
+## Política efetiva da VPS
 
-Notebook autorizado cadastrado com AllowedIPs 10.250.0.10/32; nova sessão SSH à VPS em 10.250.0.1:5822 confirmada pelo usuário, conforme [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Configuração protegida e backup privado. Não foram alterados firewall, NAT, rota default, autenticação SSH ou publicação de portas no cadastro.
+Sete routers Traefik com IPAllowList; quatro portas diretas de painéis e portas de infraestrutura filtradas em cadeia própria. Novas conexões SSH públicas bloqueadas, sessões anteriores preservadas durante a transição. Testes públicos TCP IPv4 e logins VPN repetidos após reboot e aprovados. A exceção do gateway NAT Docker é limitada ao Prometheus e não identifica contêineres individualmente. [Painéis](../06-validation/VPS_ACCESS_VALIDATION.md), [infraestrutura](../06-validation/VPS_HOST_ACCESS_VALIDATION.md) e [reboot](../06-validation/VPS_REBOOT_VALIDATION.md).
 
-A matriz acima continua política alvo. Acesso positivo à VPS pela VPN não comprova negação de acesso público nem restrição de painéis. Antes de restringir gerência, conferir proxy, portas diretas, DNS/rotas do cliente, IPv4/IPv6, console e retorno; testar acesso autorizado e rejeição externa após a mudança. Chaves, endpoint público do notebook e configurações reais permanecem fora do Git. SEC-03/04 continuam pendentes.
+HTTP 80 foi preservado para ACME HTTP-01; sete certificados/domínios HTTPS validados, mas renovação induzida ainda não ensaiada. WireGuard UDP 51820 preservado. Regras IPv6 presentes; sem IPv6 global observado, não há homologação externa dessa família. A matriz de campo acima continua política alvo onde os equipamentos não foram integrados.
+
+Alertas SES/Telegram ativos, com token em SSM SecureString e arquivo privado protegido; IAM administrativo de implantação separado da role operacional da Lambda. Confirmação de recebimento não homologa todos os privilégios ou recuperação de segredos. [Alertas](../06-validation/BACKUP_ALERTS.md).

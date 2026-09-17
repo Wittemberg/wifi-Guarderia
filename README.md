@@ -1,8 +1,10 @@
 # WiFi Guarderia Vitória
 
-**Estado em 16/09/2026:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard e notebook de recuperação conectados. Handshake e ping observados na VPS; acesso SSH pela VPN confirmado pelo usuário. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+[Estado completo das implementações e pendências reais](docs/00-project/IMPLEMENTATION_STATUS.md). Publicação e versões rastreadas pelo histórico Git.
 
-**Próximo marco:** integrar a RB951G da central NOC quando o usuário tiver acesso ao equipamento. Acesso e inventário de rede da RB ainda indisponíveis. Core, segurança, persistência testada, restauração e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
+**Estado consolidado em 17/09/2026:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard e notebook de recuperação conectados. Handshake e ping observados na VPS; acesso SSH pela VPN confirmado pelo usuário. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+**Próximo passo viável na VPS:** acompanhar os backups e planejar os ensaios restantes de recuperação integral; reboot, acesso VPN e restrições públicas TCP IPv4 já validados, conforme a [validação de acesso](docs/06-validation/VPS_ACCESS_VALIDATION.md). A integração da RB951G é o próximo marco de equipamento quando houver acesso. Acesso e inventário de rede da RB ainda indisponíveis. Volumes Grafana/Prometheus migrados e restauração isolada a partir do S3 ensaiada; recuperação integral, core, segurança e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
 
 ## Comece por aqui
 
@@ -52,8 +54,14 @@ Repositório oficial: [Wittemberg/wifi-Guarderia](https://github.com/Wittemberg/
 
 A licença deste projeto ainda deve ser definida pelo titular. Nenhuma licença de software livre é presumida. O `nocagent` é referência de engenharia; seu código, marca, credenciais e infraestrutura não foram incorporados. Consulte a [proveniência](docs/08-reference/NOCAGENT_REVIEW.md).
 
-## Próxima etapa — integração da central NOC
+## Acesso administrativo validado e integração futura da central NOC
 
 Notebook 10.250.0.10 ↔ VPS 10.250.0.1 com SSH em TCP 5822 validado. Endpoint usado pelo notebook: `204.157.108.99:51820` (UDP); alias DNS documentado: `vpn-guarderia.awecloudsolution.com:51820`.
 
-Quando houver acesso à RB951G, conferir LAN/rotas, backup e recuperação para integrar seu peer; RB750Gr3 e coleta de campo depois. A restrição dos painéis públicos ainda precisa de revisão e teste próprios. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).
+Quando houver acesso à RB951G, conferir LAN/rotas, backup e recuperação para integrar seu peer; RB750Gr3 e coleta de campo depois. Os sete painéis receberam restrições por origem e quatro portas diretas receberam filtro; teste externo IPv4 aprovado conforme saída enviada pelo usuário; logins pós-mudança nos quatro consoles confirmados pelo usuário. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).
+
+## Backup e persistência — atualização de 16/09/2026
+
+Volumes de Grafana/Prometheus migrados e manifestos reconciliados. Backup local criptografado e restauração isolada validados; automação diária instalada. Envio diário ao AWS S3 ativado após download/hash e restauração isolada validados. O usuário configurou expiração S3 em sete dias; a previsão de expiração foi observada no backup e no recibo. A política local mantém 7 diários/4 semanais/3 mensais. Exclusão efetiva e recuperação integral ainda não homologadas. [Resultados e limites](docs/06-validation/BACKUP_AUTOMATION.md).
+
+Alertas externos de backup por SES e Telegram implantados e ativos; incidentes sintéticos e recuperação recebidos nos dois canais. [Operação e limites](docs/06-validation/BACKUP_ALERTS.md).

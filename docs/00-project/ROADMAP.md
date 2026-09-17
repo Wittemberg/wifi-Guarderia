@@ -2,11 +2,11 @@
 
 Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais por dependência, com critérios de saída observáveis.
 
-| Fase | Entrega | Dependência | Critério de saída | Estado em 16/09/2026 |
+| Fase | Entrega | Dependência | Critério de saída | Estado em 17/09/2026 |
 |---|---|---|---|---|
 | F0 | Especificação e Git | Contexto e referência | DOC-01/02 revisados; commit publicado | Documentação preparada |
 | F1 | Inventário VPS, RBs e levantamento local | F0 | HW-01/VPS-01 e pendências impeditivas resolvidas | Parcial: inventário VPS realizado e RB951G atualizada; console Proxmox confirmado; acesso/inventário de rede da RB951G, core e levantamento local pendentes |
-| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Stack/coleta interna e VPN notebook ↔ VPS validadas no escopo registrado; integração das RBs, segurança, persistência testada e restauração pendentes |
+| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Stack/coleta interna e VPN notebook ↔ VPS validadas no escopo registrado; volumes e restauração isolada S3 validados; reboot, restrições TCP IPv4 e alertas de backup validados; integração das RBs e homologação integral pendentes |
 | F3 | Templates e alertas em bancada | F2 | MON-01/02/03; dados persistem após reboot | Pendente |
 | F4 | Rádio e isolamento em bancada | F3 | RF-01; LAN-01; SEC-01/02/03 | Pendente |
 | F5 | PoC embarcada 50/100 m | F4 e alimentação validada | RF-02/03/04; ENE-01 | Pendente |
@@ -16,18 +16,18 @@ Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais p
 
 ## Próxima execução concreta
 
-Etapa VPS/stack e coleta interna encerrada conforme [registro de conclusão](../06-validation/VPS_PHASE_COMPLETION.md). Hub e notebook conectados, com SSH confirmado conforme [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Suporte LXC e console já conferidos; não repetir instalação.
+Preparar recuperação integral da VPS em ambiente separado, usando a chave externa: definir destino, sequência e critérios antes de restaurar. Backup isolado não equivale à reconstrução completa. Não repetir reboot ou testes de acesso já aprovados sem nova mudança/falha. [Estado consolidado](IMPLEMENTATION_STATUS.md).
 
-O usuário segue sem acesso à RB951G. Quando disponível, conferir interfaces, endereços, rotas e WANs; preparar backup/recuperação e configurar o trânsito VPS ↔ RB951G. Confirmar LAN real antes de anunciá-la; integrar RB750Gr3 depois. Seguir o [procedimento WireGuard](../02-implementation/WIREGUARD.md).
+A integração da RB951G depende de acesso e inventário de interfaces/LAN/rotas/WANs, backup e recuperação local. RB750Gr3 depois. Não anunciar redes não conferidas. [WireGuard](../02-implementation/WIREGUARD.md).
 
-Enquanto aguarda acesso, podem ser planejadas/revisadas as pendências independentes da VPS: exposição pública e painéis via VPN, persistência de Grafana/Prometheus, backup/restauração, VIPs Swarm e abrangência do Node Exporter. Nenhuma delas foi executada nesta atualização. Mudanças operacionais exigem escopo, backup, recuperação e pós-teste. F2 segue parcial.
+## Entregas operacionais concluídas no escopo testado
+
+Stack/coleta interna, volumes Grafana/Prometheus, backup diário e restauração isolada S3, notebook VPN, restrições públicas TCP IPv4, reboot controlado e alertas SES/Telegram têm evidências próprias. A automação de alertas de backup não homologa templates e alertas de equipamentos da fase F3. [Validações](../06-validation/HOMOLOGATION.md).
 
 ## Critério para expansão
 
-Comprar e instalar por lotes pequenos após resultado do piloto. A aprovação de um barco não homologa capacidade de vinte estações. Testar concorrência e ocupação do rádio, incluindo acesso simultâneo às câmeras e falha de WAN.
+Comprar e instalar por lotes pequenos após resultado do piloto. A aprovação de um barco não homologa capacidade de vinte estações. Testar concorrência, ocupação do rádio, câmeras e falha de WAN.
 
 ## Governança
 
-Separar três estados: especificado, implementado e homologado. O estado “operacional” só existe depois de implantação e teste real. Não atribuir percentuais sem conjunto de entregas e pesos definidos.
-
-Etapa independente iniciada em 16/09/2026: auditoria de persistência e backups, com restauração isolada de PostgreSQL/Grafana/Kuma concluída no escopo descrito. Próximo marco da VPS: aplicar a migração de volumes Grafana/Prometheus em janela de manutenção e completar backup integral/off-site. [Plano concreto](../06-validation/PERSISTENCE_BACKUP_AUDIT.md). F2 continua parcial.
+Separar especificado, implementado, medido e aceite humano. Não atribuir percentuais sem conjunto de entregas e pesos definidos. Recursos/isolamento de campo e recuperação integral continuam pendentes; F2 não está inteiramente homologada. Mudança operacional requer escopo, backup, recuperação e pós-teste.

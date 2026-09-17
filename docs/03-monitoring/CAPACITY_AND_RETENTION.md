@@ -41,3 +41,8 @@ Meta inicial de operação: RAM sem pressão sustentada, CPU média abaixo de 70
 Somar upload de alarmes, consultas, retransmissões e tráfego de clientes; aplicar margem de engenharia proposta de 30% sobre a demanda medida. Taxa física WiFi é capacidade de enlace negociada e não entrega garantida a cada barco. Clientes lentos consomem tempo de rádio e afetam os demais.
 
 Testar carga progressiva, começando em 1 e 2 estações, depois lote piloto e 20 estações reais ou emulação claramente identificada. Simulação de carga valida recursos de processamento, mas não reproduz vinte enlaces reais sobre água. Aprovar quantidade de setores por RF-04 e CAP-01.
+
+
+## Retenção de backup não é retenção de métricas
+
+A tabela de histórico/trends acima continua uma proposta de capacidade da telemetria. A política de cópias implantada é distinta: local 7 diários/4 semanais/3 mensais; S3 com expiração da versão atual em sete dias, configurada pelo usuário e observada em backup/recibo. Não alterar history/trends ou TSDB para refletir o prazo do arquivo de backup. Uma cópia pode conter histórico maior que sua janela de permanência no S3. Crescimento e custo seguem sujeitos a medição. [Procedimento e evidências](../05-operations/BACKUP_RESTORE.md).

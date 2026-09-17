@@ -1,5 +1,7 @@
 # Índice da documentação técnica
 
+Entrada para acompanhamento: [estado consolidado das implementações](00-project/IMPLEMENTATION_STATUS.md).
+
 Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evidências e pendências](06-validation/VPS_PHASE_COMPLETION.md). Hub WireGuard e notebook também implantados, com SSH confirmado; [validação e limites](06-validation/NOTEBOOK_VPN_VALIDATION.md). RB951G aguarda acesso pelo usuário. Instalação observada e homologação completa são estados distintos.
 
 ## 00 — Projeto
@@ -90,3 +92,12 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 [README](../README.md), [AGENTS](../AGENTS.md), [.agents](../.agents/README.md), [baseline corporativa](../witteberg-development-standards/README.md), [contribuição](../CONTRIBUTING.md) e [changelog](../CHANGELOG.md).
 
 [Coleta interna do Prometheus](03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md): correção dos alvos após instalação Orion.
+
+- [Backup automático e restauração isolada](06-validation/BACKUP_AUTOMATION.md)
+
+- [Plano executado: acesso administrativo da VPS pela VPN](04-security/VPS_ACCESS_PLAN.md)
+
+- [Validação das restrições dos painéis](06-validation/VPS_ACCESS_VALIDATION.md): regras implantadas, testes locais, pendências externas e retorno.
+- [Restrição de infraestrutura e SSH](06-validation/VPS_HOST_ACCESS_VALIDATION.md): restrições aplicadas e testes TCP IPv4/VPN aprovados; limites e retorno documentados.
+- [Ensaio de reboot da VPS](06-validation/VPS_REBOOT_VALIDATION.md): pré-testes, verificador automático e recuperação.
+- [Alertas externos de backup](06-validation/BACKUP_ALERTS.md): preparação, permissões e critérios de ativação.

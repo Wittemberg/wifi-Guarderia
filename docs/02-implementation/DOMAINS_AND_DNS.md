@@ -21,10 +21,10 @@ Os nomes da coluna Nome são relativos à zona `awecloudsolution.com`.
 
 - Endpoint DNS documentado: `vpn-guarderia.awecloudsolution.com:51820`, UDP. A resolução deve funcionar antes do túnel; o caminho DNS deve permitir alcançar diretamente o endpoint UDP.
 - Interfaces web usam HTTPS e encaminhamento por hostname no proxy TLS; CNAME não contém porta, protocolo ou caminho.
-- Zabbix, Grafana e Portainer devem ser restritos à administração pela VPN; essa restrição ainda não foi implementada/homologada. DNS público não substitui firewall nem autoriza exposição pública.
+- Zabbix, Grafana e Portainer devem ser restritos à administração pela VPN; essa restrição foi implantada e validada no escopo TCP IPv4/VPN, inclusive após reboot. DNS público não substitui firewall nem autoriza exposição pública.
 - Uptime Kuma começa com acesso administrativo restrito. Publicação de página de status exige definição de conteúdo e acesso; não implica publicar sua administração.
 - Todos os aliases propostos resolvem para o IP público. A implementação deve validar acesso dos administradores pela VPN a esse destino ou adotar resolução interna para o proxy privado e documentar a alteração.
-- Certificados precisam cobrir cada hostname web. Método de emissão/renovação pendente; não abrir administração apenas para emitir certificados.
+- Certificados precisam cobrir cada hostname web. ACME HTTP-01 observado no Traefik, com porta 80 preservada; renovação induzida ainda pendente; não abrir administração apenas para emitir certificados.
 
 ## Validação futura
 
@@ -44,7 +44,7 @@ A resolução pelo resolvedor da VPS foi conferida com `dig +noall +answer <host
 | `cadvisor-guarderia.awecloudsolution.com` | cAdvisor |
 | `prometheus-guarderia.awecloudsolution.com` | Prometheus |
 
-Usuário informou acesso pelo navegador. Consultas na VPS apresentaram DNS/TLS inconsistentes durante a propagação; conclusão uniforme pelos resolvedores da VPS ainda pendente. HTTPS de Zabbix, Grafana, Kuma e Portainer foi validado nesta sessão. A coleta dos três novos serviços foi concluída via DNS interno tasks.monitor_*; não depende dos domínios públicos. Ver [fechamento](../06-validation/VPS_PHASE_COMPLETION.md).
+Usuário informou acesso pelo navegador. Consultas na VPS apresentaram DNS/TLS inconsistentes durante a propagação; essa observação pertence à propagação inicial. Posteriormente, sete nomes tiveram TLS validado pelo IP VPN, com hosts gerenciado no Windows, e responderam 403 pelo IP público; isso não é uma nova auditoria uniforme de todos os resolvedores públicos. HTTPS de Zabbix, Grafana, Kuma e Portainer foi validado nesta sessão. A coleta dos três novos serviços foi concluída via DNS interno tasks.monitor_*; não depende dos domínios públicos. Ver [fechamento](../06-validation/VPS_PHASE_COMPLETION.md).
 
 ## Endpoint usado no teste do notebook
 

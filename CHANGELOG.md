@@ -1,5 +1,35 @@
 # Histórico de alterações
 
+## Revisão de consistência documental — 2026-09-17
+
+- Corrigidos resumos que ainda marcavam restrições, reboot ou alertas como pendentes; consolidados memória, roadmap, requisitos, riscos, homologação e procedimentos.
+- Criado estado único de acompanhamento, mantendo registros históricos identificados e pendências reais separadas. Conjunto revisado para publicação autorizada, sem nova implantação nesta revisão.
+
+
+## Alertas de backup implantados — 2026-09-17
+
+- Implantados monitor externo, heartbeat e canais SES/Telegram; dez testes locais e ensaios integrados aprovados.
+- Permissões corrigidas e automação ativada após testes. Usuário confirmou alertas e recuperação nos dois canais; primeira avaliação automática saudável observada.
+
+
+## Reboot validado — 2026-09-16
+
+- Preparados inventário anterior, verificador automático e plano de recuperação para reboot autorizado da VPS; pré-testes e retorno local aprovados após novo boot, com SSH VPN confirmado; testes externos TCP IPv4 e scripts VPN pós-reboot aprovados; logins nos quatro consoles confirmados pelo usuário; aceite funcional concluído.
+
+
+## Restrições de infraestrutura — 2026-09-16
+
+- Auditado Swarm de um nó, dependências RPC/NFS e cadastro Zabbix.
+- Aplicados filtros públicos de infraestrutura e novas sessões SSH, com preservação de sessões existentes; nova sessão VPN e console confirmados e reversão automática cancelada. Aceite externo TCP IPv4 e acesso VPN aprovados conforme saída do notebook; UDP, IPv6 externo e reboot pendentes.
+
+
+## Restrições dos painéis — 2026-09-16
+
+- Aplicadas restrições por origem aos sete routers e filtro persistente nas quatro portas diretas de monitoramento; manifestos locais e Portainer reconciliados.
+- Preservados os contêineres, doze serviços e três alvos UP; exceção de NAT local limitada ao Prometheus para manter o datasource Grafana.
+- Incluídos procedimentos Windows, retorno operacional e unidade do filtro no backup; teste externo IPv4 e HTTPS pela VPN aprovados conforme saída do notebook; logins pós-mudança nos quatro consoles confirmados pelo usuário.
+
+
 ## 0.2.2 — 2026-09-16
 
 - Instalado e ativado o hub WireGuard no host LXC, com backup protegido e console confirmado.
@@ -71,3 +101,25 @@ Nenhum equipamento foi configurado, nenhuma VPS foi alterada e nenhuma medição
 - Criados backups locais privados, restaurados PostgreSQL 15/14 e testadas cópias Grafana/Kuma em isolamento, incluindo reinício.
 - Preparado manifesto de volumes, sem aplicação à produção. BAK-01 parcial; migração, backup integral e off-site pendentes.
 - [Relatório e plano](docs/06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+
+## 16/09/2026 — Persistência e backup automático
+
+- Registrada migração dos volumes Grafana/Prometheus e reconciliação do manifesto Portainer.
+- Implementados backup local AES-256, hashes, retenção, status de falha e agendamento diário.
+- Testadas restauração isolada de quatro aplicações e PostgreSQL 14/15, validação de sete certificados e rejeição de arquivo corrompido.
+- Preparado envio S3 ao destino informado; permissões AWS, custódia externa da chave e homologação de recuperação integral pendentes.
+
+## 16/09/2026 — Cópia externa S3 ativada
+
+- Permissões AWS corrigidas pelo usuário; arquivo enviado e baixado com SHA-256 correspondente.
+- Restauração isolada de aplicações/bancos e validação de certificados a partir do S3 concluídas.
+- Envio diário habilitado após os testes; cópia externa da chave confirmada pelo usuário.
+- Retenção/versionamento S3, teste da chave externa e recuperação integral seguem pendentes.
+
+
+## 16/09/2026 — Retenção S3 e consolidação documental
+
+- Registrada expiração da versão atual em sete dias configurada pelo usuário; HeadObject confirma previsão de expiração no backup e recibo. Leitura integral do lifecycle negada; exclusão futura ainda não ensaiada.
+- Separadas retenção local 7 diários/4 semanais/3 mensais, janela externa de sete dias e retenção de métricas.
+- Corrigidos estados superados nos resumos, contexto, inventário, riscos, requisitos, decisões e homologação; preservados os registros históricos da implantação e auditoria.
+- Preparado plano de auditoria de exposição e validação dos painéis pela VPN como próximo passo independente da RB951G. Nenhum firewall/proxy foi alterado nesta revisão.

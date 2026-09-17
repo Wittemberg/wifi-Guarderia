@@ -1,5 +1,7 @@
 # Validação do acesso notebook ↔ VPS
 
+Registro histórico: observações e pendências abaixo correspondem à etapa original. Migração, S3, restrições de acesso, reboot e alertas foram posteriormente executados; consultar o [estado consolidado vigente](../00-project/IMPLEMENTATION_STATUS.md) antes de tratar uma pendência deste registro como atual.
+
 Data: 16/09/2026. Escopo concluído: cadastro do notebook no hub WireGuard e acesso SSH pela VPN. Não equivale à homologação da central NOC, do core ou da fase F2 inteira.
 
 ## Origem e autorização

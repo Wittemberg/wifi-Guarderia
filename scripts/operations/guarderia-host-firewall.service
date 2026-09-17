@@ -1,0 +1,14 @@
+[Unit]
+Description=Guarderia public infrastructure port restrictions
+After=network-pre.target
+Wants=network-pre.target
+Before=docker.service
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /root/guarderia-ops/guarderia_host_firewall.py apply
+ExecStop=/usr/bin/python3 /root/guarderia-ops/guarderia_host_firewall.py remove
+TimeoutStartSec=30
+TimeoutStopSec=30
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,7 @@
 # Preparação da VPS
 
+Evolução consolidada em 17/09/2026: volumes/S3, restrições TCP IPv4, reboot e alertas externos concluídos no escopo testado. [Estado vigente e limites](../00-project/IMPLEMENTATION_STATUS.md). As etapas de equipamentos ainda não executadas permanecem propostas.
+
 Estado em 16/09/2026: inventário e instalação inicial pelo Orion concluídos; Docker Swarm e serviços conferidos. Ver [conclusão](../06-validation/VPS_PHASE_COMPLETION.md). As etapas abaixo são referência para manutenção e itens ainda pendentes, não instrução para reinstalar a stack existente.
 
 ## Inventário somente leitura
@@ -61,4 +63,4 @@ VPS-01: OS e inventário aprovados. STACK-01: dependências saudáveis, login au
 
 ## Ponto de retomada após WireGuard
 
-Hub e notebook já implantados, com handshake/ping e SSH validados no [escopo registrado](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Console Proxmox confirmado e suporte WireGuard no LXC testado. As etapas de bootstrap anteriores são referência; não reinstalar ou recriar chaves existentes. RB951G aguarda acesso do usuário. Revisão de exposição, persistência e restauração continua pendente.
+Hub e notebook já implantados, com handshake/ping e SSH validados no [escopo registrado](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Console Proxmox confirmado e suporte WireGuard no LXC testado. As etapas de bootstrap anteriores são referência; não reinstalar ou recriar chaves existentes. RB951G aguarda acesso do usuário. Volumes Grafana/Prometheus e restauração isolada S3 foram posteriormente validados, conforme [backup](../06-validation/BACKUP_AUTOMATION.md). Exposição e recuperação integral seguem pendentes; iniciar pelo [plano de acesso da VPS](../04-security/VPS_ACCESS_PLAN.md).

@@ -1,5 +1,7 @@
 # Coleta interna do Prometheus
 
+Evolução consolidada em 17/09/2026: volumes/S3, restrições TCP IPv4, reboot e alertas externos concluídos no escopo testado. [Estado vigente e limites](../00-project/IMPLEMENTATION_STATUS.md). As etapas de equipamentos ainda não executadas permanecem propostas.
+
 Data: 16/09/2026. Correção autorizada pelo usuário após instalação da stack pelo Setup Orion. Escopo: alvos do Prometheus, validação e recarga, sem mudança de firewall, rede Swarm ou domínios públicos.
 
 ## Configuração aplicada
@@ -26,7 +28,7 @@ Os três serviços têm uma réplica nesta implantação. Antes de escalar, adot
 
 ## Limites
 
-Coleta UP não valida a abrangência das métricas do host pelo Node Exporter, persistência do Grafana/Prometheus, restrições externas, VPN ou telemetria RF. Esses pontos permanecem pendentes.
+Coleta UP não valida a abrangência das métricas do host pelo Node Exporter, persistência do Grafana/Prometheus, restrições externas, VPN ou telemetria RF. O resultado de coleta não deve ser usado como evidência desses pontos. Posteriormente, a persistência de Grafana/Prometheus e a restauração isolada S3 receberam [validação própria](../06-validation/BACKUP_AUTOMATION.md); abrangência do host e campo seguem pendentes; restrições TCP IPv4 foram posteriormente validadas em ensaio separado, conforme o estado consolidado.
 
 ## Resultado medido
 

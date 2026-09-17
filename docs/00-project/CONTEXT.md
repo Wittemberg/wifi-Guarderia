@@ -57,4 +57,9 @@ Usuário executou Orion e instalou a stack. Foram conferidos Docker Swarm, 12 se
 
 Em 16/09/2026, hub WireGuard ativado após confirmação de console Proxmox/SSH. Notebook de recuperação integrado antes da RB951G por disponibilidade do usuário: handshake e ping observados; nova sessão SSH em 10.250.0.1:5822 confirmada pelo usuário. Ver [validação](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
 
-O usuário reafirmou não ter acesso à RB951G. A integração da central NOC aguarda inventário real de interfaces/LAN/rotas e backup/recuperação; o core vem depois. O notebook não fornece, por si só, acesso à RB951G ainda não integrada. Segurança pública, persistência testada, restauração e campo permanecem pendentes. A solicitação atual abrange consolidação documental, commit e push.
+O usuário reafirmou não ter acesso à RB951G. A integração da central NOC aguarda inventário real de interfaces/LAN/rotas e backup/recuperação; o core vem depois. O notebook não fornece, por si só, acesso à RB951G ainda não integrada. Volumes Grafana/Prometheus foram posteriormente migrados e o backup diário S3/restauração isolada foram validados. Restrições públicas TCP IPv4, reboot e alertas foram posteriormente validados. Recuperação integral, segurança além do escopo testado e campo permanecem pendentes. A revisão atual consolida esses resultados e a retenção informada pelo usuário; publicação no Git não é presumida.
+
+
+## Backup externo e próximo passo
+
+Destino S3 informado pelo usuário, envio diário verificado e cópia da chave fora da VPS confirmada. Retenção externa de sete dias configurada pelo usuário, com previsão de expiração observada em backup/recibo; retenção local 7 diários/4 semanais/3 mensais. [Resultados e limites](../06-validation/BACKUP_AUTOMATION.md). Restrições, reboot e alertas externos já implantados e validados no escopo registrado. Próximo passo independente da RB: preparar recuperação integral em ambiente separado. [Estado consolidado](IMPLEMENTATION_STATUS.md).

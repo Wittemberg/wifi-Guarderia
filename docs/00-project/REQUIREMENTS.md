@@ -41,8 +41,8 @@
 
 Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanece no histórico como substituído; não apagar evidências de uma reprovação.
 
-Atualização de 16/09/2026: a coleta complementar Prometheus/cAdvisor/Node Exporter foi incluída na instalação Orion e corrigida para rede interna. Ela contribui para REQ-08/18, mas não substitui MON-01/02/03 nem a coleta RF. Ver [procedimento](../03-monitoring/PROMETHEUS_INTERNAL_COLLECTION.md).
+## Evidência operacional consolidada — 17/09/2026
 
-Evolução de REQ-05/10/11/19: notebook ↔ VPS com handshake/ping observados e SSH confirmado, conforme [evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Configuração salva não aprova reboot/restauração; SSH pela VPN não aprova bloqueio público. Próxima execução: [WireGuard em etapas](../02-implementation/WIREGUARD.md), com VPS/RB951G antes do core, backup/console, nova sessão administrativa, restrição de acesso e ensaios de recuperação. Acesso à RB951G ainda indisponível ao usuário; VPN-03, SEC-03/04, OPS-01 e BAK-01 seguem sem homologação.
+REQ-05/06/08/10/11/18/19 têm avanços medidos: stack e coleta interna, VPN notebook, volumes nomeados, backup S3/restauração isolada, restrições públicas TCP IPv4, reboot controlado e alertas SES/Telegram. [Mapa de implementações](IMPLEMENTATION_STATUS.md) e [homologação](../06-validation/HOMOLOGATION.md).
 
-REQ-11/19: em 16/09/2026, restauração isolada de PostgreSQL e cópias Grafana/Kuma ensaiada; BAK-01 parcial. Persistência em produção, backup integral, off-site e recuperação completa continuam em validação. [Evidências](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+REQ-11/19 permanecem parciais pela recuperação integral e teste da chave externa, não por falta de reboot. REQ-05/10 não homologam RBs, UDP/IPv6 externo, revogação ou isolamento de campo. Alertas de backup ativos não equivalem a templates/coleta de equipamentos. Retenção local 7/4/3 e S3 sete dias são políticas distintas; exclusão efetiva, RPO/RTO e cobertura integral do lifecycle ainda em validação.

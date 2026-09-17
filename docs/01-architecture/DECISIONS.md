@@ -12,7 +12,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-003 — Ubuntu 24.04 e Docker/Portainer
 
-**Status:** implementado em 16/09/2026. **Decisão:** Docker Swarm instalado pelo usuário via Orion, substituindo a proposta inicial Compose. Serviços e digests registrados no fechamento da etapa; manifesto de manutenção e testes de persistência pendentes. **Consequência:** não misturar semântica de secrets, labels e dependências entre modos.
+**Status:** implementado em 16/09/2026. **Decisão:** Docker Swarm instalado pelo usuário via Orion, substituindo a proposta inicial Compose. Serviços e digests registrados no fechamento da etapa; manifestos Grafana/Prometheus reconciliados e recriação de suas tarefas validada; compatibilidade geral e recuperação integral seguem pendentes. **Consequência:** não misturar semântica de secrets, labels e dependências entre modos.
 
 ## ADR-004 — Coleta antes do rádio em campo
 
@@ -66,4 +66,27 @@ Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três ser
 
 ## ADR-016 — Persistência explícita e restauração isolada
 
-Data: 16/09/2026. Auditoria/backups e ensaios isolados executados; migração de produção proposta. Adotar volumes nomeados para Grafana/Prometheus, preservando dados atuais antes de substituir tarefas. Testar backups com as imagens instaladas, sem rede externa ou volumes produtivos graváveis. Cópias locais são preparação, não substituem off-site. Evitar deploy integral do YAML Orion sem comparar o serviço ativo. [Plano e retorno](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+Data: 16/09/2026. Auditoria/backups, migração de produção e ensaios isolados executados; estado atualizado em BACKUP_AUTOMATION. Adotar volumes nomeados para Grafana/Prometheus, preservando dados atuais antes de substituir tarefas. Testar backups com as imagens instaladas, sem rede externa ou volumes produtivos graváveis. Cópias locais são preparação, não substituem off-site. Evitar deploy integral do YAML Orion sem comparar o serviço ativo. [Plano e retorno](../06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+
+## ADR-017 — Backup local criptografado com cópia S3 separada
+
+Data: 16/09/2026. Implementado localmente: capturas consistentes por serviço, dumps PostgreSQL, criptografia GPG/AES-256, validação por descriptografia/hash e timer diário. Cópia S3 autorizada no escopo de backup; bucket/região informados pelo usuário e permissões do perfil validadas; envio diário ativado após teste de restauração a partir do S3. Segregar arquivo criptografado da chave de recuperação e não declarar off-site antes de upload/download verificado. Retenção local 7 diários/4 semanais/3 mensais por união de períodos; retenção S3 de sete dias configurada pelo usuário e expiração prevista observada em dois objetos; custódia externa da chave confirmada pelo usuário e teste dessa cópia externa pendente. Falhas registradas localmente não equivalem a notificação externa. [Implementação e limites](../06-validation/BACKUP_AUTOMATION.md).
+
+
+## ADR-018 — Retenção local e externa com janelas diferentes
+
+Data: 16/09/2026, horário de São Paulo. **Confirmado pelo usuário:** expiração da versão atual no S3 em sete dias. **Observado:** HeadObject indicou expiração no backup e no recibo; consulta completa do lifecycle negada e bucket sem versionamento habilitado. **Decisão registrada:** manter a política local implantada 7 diários/4 semanais/3 mensais e a janela externa informada pelo usuário, sem presumir cópias semanais/mensais longas fora da VPS. **Consequência:** perda do host limita a recuperação aos backups ainda existentes no S3; acompanhar falhas/idade e validar a exclusão futura. A configuração de lifecycle não foi aplicada pelo assistente. [Evidência canônica](../06-validation/BACKUP_AUTOMATION.md).
+
+## ADR-019 — Priorizar gerência da VPS pela VPN antes de nova dependência de campo
+
+Status: implantado e validado no escopo TCP IPv4/VPN, com evolução após reboot; teste externo IPv4 e HTTPS pós-mudança aprovados conforme saída do notebook; logins pós-mudança nos quatro consoles confirmados pelo usuário. [Resultados e limites](../06-validation/VPS_ACCESS_VALIDATION.md). A justificativa e a sequência originalmente propostas seguem abaixo. A RB951G ainda depende de acesso do usuário; notebook/VPS e backup externo já permitem preparar a revisão de exposição. Iniciar por auditoria somente leitura e acesso web/TLS pela VPN, depois preparar restrições por serviço com retorno e pós-teste. SSH pela VPN não comprova proteção dos painéis. [Plano concreto](../04-security/VPS_ACCESS_PLAN.md).
+
+Execução posterior: restrições públicas de SSH, Swarm, rpcbind e Zabbix 10051 mantidas após confirmação de nova sessão VPN e console; reversão automática cancelada; ensaio externo TCP IPv4 aprovado conforme saída do notebook, com SSH e HTTPS preservados pela VPN. [Inventário, política e retorno](../06-validation/VPS_HOST_ACCESS_VALIDATION.md). Não considerar o aceite anterior dos painéis como aceite desta mudança.
+
+Ensaio de reboot executado: novo boot confirmado e pós-testes locais aprovados; SSH VPN confirmado pelo usuário. Testes externos TCP IPv4 e scripts VPN após reboot aprovados conforme saídas do notebook; logins nos quatro consoles confirmados pelo usuário; aceite funcional do reboot concluído no escopo testado. [Plano e recuperação](../06-validation/VPS_REBOOT_VALIDATION.md).
+
+## ADR-020 — Monitor externo de backup por SES e Telegram
+
+Data: 17/09/2026. Implementado e ativo por autorização do usuário. Heartbeat da VPS no S3 e Lambda/EventBridge a cada cinco minutos; ausência de sinal por 15 minutos, falhas e verificação S3 com 26 horas geram avisos, com recuperação por canal. Estado de testes separado do real. Bot vinculado privadamente, token em SSM SecureString, role de execução delimitada e sem chave AWS da VPS na Lambda. Dez testes locais e ensaios integrados aprovados; recebimento e recuperação confirmados pelo usuário. [Implementação, retorno e limites](../06-validation/BACKUP_ALERTS.md).
+
+Consequências: não depende da VPS para avaliar ausência de heartbeat, mas depende da AWS e não identifica automaticamente a causa da ausência. Não substitui monitor independente da AWS, acompanhamento de custos ou recuperação integral. A política administrativa usada na implantação permaneceu na identidade do perfil; revisão de privilégios é trabalho separado.

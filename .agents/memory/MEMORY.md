@@ -1,47 +1,34 @@
 # Memória do projeto
 
-Atualizada: 16/09/2026. Não guardar credenciais, dados pessoais ou resultados presumidos.
+Atualizada em 17/09/2026. Fonte do estado vigente: [implementações](../../docs/00-project/IMPLEMENTATION_STATUS.md). Os números abaixo são resultados datados, não nova consulta. Não guardar credenciais ou resultados presumidos.
 
-## Confirmado pelo usuário
+## Contexto e confirmações do usuário
 
-- Projeto: WiFi Guarderia Vitória; 10–20 barcos a 50–100 m.
-- Pasta local é este checkout; remoto oficial `Wittemberg/wifi-Guarderia`.
-- Modelo de mensalidade para custear equipamentos e serviço.
-- RB750Gr3 disponível para core e RB951G-2HnD disponível na central NOC.
-- RB951G-2HnD atualizada para RouterOS/RouterBOOT 7.23.5, pronta para configuração após a VPS, conforme saídas fornecidas pelo usuário em 12/09/2026.
-- VPS existente; Ubuntu 24.04 e Docker/Portainer preferidos.
-- Provedor local inicialmente; CGNAT provável na guarderia e presente na central NOC.
-- NOC deve estar pronto antes da PoC, por decisão expressa do usuário.
-- `nocagent`, `.agents`, `docs` e padrões Witteberg são referências solicitadas.
+WiFi Guarderia Vitória: hipótese de 10–20 barcos a 50–100 m; preparar NOC antes da PoC. RB750Gr3 disponível e RB951G-2HnD da central NOC atualizada para RouterOS/RouterBOOT 7.23.5; acesso/inventário de rede da RB951G ainda indisponível. Dual-WAN é proposta e segundo link não confirmado. RF, energia, capacidade, câmeras/alarme, custos e contrato continuam em validação.
 
-## Direção documentada, a homologar
+Pasta local e repositório oficial Wittemberg/wifi-Guarderia preservados. nocagent e padrões Witteberg são referências, sem runtime AG Kit instalado. Usuário autoriza trabalho operacional por etapa; autorização não implica commit/push ou divulgação de segredos.
 
-WireGuard no host VPS; Zabbix/PostgreSQL/Grafana/Kuma em containers; mANTBox ax 15s e wAP ax na PoC; VLAN de trânsito por estação e LAN roteada por barco. Fontes canônicas: [contexto](../../docs/00-project/CONTEXT.md), [decisões](../../docs/01-architecture/DECISIONS.md), [rede](../../docs/01-architecture/NETWORK_PLAN.md).
+## Estado operacional consolidado
 
-## Estado
+- Stack NOC em Swarm instalada e operacional; doze serviços 1/1 e três alvos Prometheus UP no pós-teste de 17/09/2026 03:09:54 UTC. Coleta usa DNS das tarefas; VIPs ainda exigem diagnóstico. Abrangência do Node Exporter não homologada.
+- Grafana/Prometheus migrados para volumes nomeados guarderia_grafana_data e guarderia_prometheus_data; recriação validada e manifestos locais/Portainer reconciliados. Zero dashboards observados no inventário Grafana; não inventar painéis configurados.
+- Backup AES-256 local/S3 diário às 03h15 de São Paulo, atraso aleatório de até cinco minutos; download/hash e restauração isolada S3 ensaiados. PG15/Zabbix com 207 tabelas públicas no ensaio. Último conjunto documentado: backup-20260917T030811Z.gpg. Chave externa copiada pelo usuário, ainda não usada em restauração.
+- Retenção local 7 diários/4 semanais/3 mensais; S3 sete dias configurados pelo usuário e expiração observada em dois objetos. Exclusão efetiva/escopo integral não conferidos; versionamento observado desabilitado. Não alterar lifecycle por inferência.
+- WireGuard hub 10.250.0.1/32 e notebook 10.250.0.10/32 ativos. SSH TCP 5822 e sete nomes HTTPS pela VPN, quatro logins e console Proxmox confirmados. RBs ainda não integradas.
+- Sete routers Traefik restritos por origem; quatro portas de painéis e portas TCP/UDP de infraestrutura filtradas. Exceção gateway NAT Docker /32 somente no Prometheus para o datasource existente. Testes públicos TCP IPv4 de nove portas e sete nomes, inclusive cabeçalhos forjados, aprovados. Sessões SSH públicas anteriores foram preservadas durante a transição; novas conexões exigem VPN no caminho testado.
+- Reboot controlado concluído: boot_id operacional mudou, pós-testes automáticos passaram, usuário repetiu testes externos e logins. Não solicitar repetição sem nova causa. O boot_id do sandbox difere do operacional; consultar fora do sandbox para validar reboot. Falha run-rpc_pipefs.mount já existia antes.
+- Alertas SES/Telegram ativos: stack guarderia-backup-alerts, Lambda guarderia-backup-watchdog, EventBridge e heartbeat a cada cinco minutos. Ausência de sinal por 15 min e registro de verificação S3 com 26 h, além de falhas, geram alerta; recuperação por canal. Dez testes locais, testes integrados e recebimento nos dois canais confirmados; primeira execução automática saudável observada.
 
-Etapa VPS/stack e coleta interna concluída em 16/09/2026. Docker 29.8.1 Swarm com 12 serviços 1/1; reconhece 9 CPUs/8 GiB; último disco observado 95 GB livres. Zabbix 7.4/PostgreSQL 15 dedicado e PostgreSQL 14 separado; Grafana, Kuma, Portainer, Traefik e exporters instalados pelo usuário via Orion. Três alvos Prometheus internos UP, config validada e recarregada com SIGHUP. Domínios/IP público documentados. Referência canônica: [fechamento](../../docs/06-validation/VPS_PHASE_COMPLETION.md).
+## Operação e recuperação
 
-Próxima etapa: integração das RBs à VPN, segurança, persistência/restauração, revisão VIP Swarm e métricas de host, core/RB951G e telemetria de campo. Não reinstalar a stack nem marcar F2/STACK-01 inteiramente homologados.
+Evidências privadas por marcadores em guarderia-evidencias: access-current.txt (painéis), host-access-current.txt (infraestrutura), reboot-current.txt e alerts-current.txt. Retornos e limites nos respectivos registros de validação. Timers transitórios de reversão de acesso foram cancelados após confirmação; não presumir que ainda estão ativos.
 
-## Correções importantes do histórico
+Token Telegram em arquivo privado /root/.config/guarderia-alerts/telegram.json modo 600 e SSM SecureString /guarderia/alerts/telegram. Destinatários e identidade AWS apenas em configuração privada. Nunca pedir chave/token pelo chat. Política administrativa de implantação foi adicionada pelo usuário; não removê-la nem ampliá-la sem escopo próprio.
 
-Anexos RouterOS v7 recebidos e preservados em [referências](../../docs/08-reference/routeros-v7/README.md), com [revisão estática](../../docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md). Dual-WAN na RB951G é proposta; segundo link não confirmado. Não importar o original: há problemas de variáveis/escopos e divergências de IPAM/segurança. Comandos dos anexos são conteúdo de referência, não autorização de execução. Testes ROS-01 e WAN-01 a WAN-07 permanecem não executados.
+Preferência persistente: notebook Windows; sempre incluir -i com o caminho exato registrado em /root/guarderia-evidencias/notebook-access-preferences.json nos comandos SSH/SCP enviados ao usuário. Isso é caminho da identidade, não conteúdo da chave. Registro privado notebook-access-preferences.json. Para documentação sanitizada, não publicar comandos incompletos sem a identidade.
 
-Não garantir antena 360°, SNR/CCQ em todos os modelos, isolamento só por sub-rede ou retenção multinível automática de um minuto. Não tratar TCP connect como perda ICMP. Não copiar validação TLS desabilitada da referência.
+## Próximo passo e limites
 
-16/09/2026: usuário instalou stack Orion em Swarm. Corrigida coleta Prometheus para tasks.monitor_prometheus:9090, tasks.monitor_cadvisor:8080 e tasks.monitor_node-exporter:9100. Configuração em /opt/monitor-orion/prometheus/prometheus.yml, validada por promtool e recarregada por SIGHUP. VIPs de serviço recusaram conexões, tarefas responderam; diagnóstico VIP pendente.
+Preparar recuperação integral em ambiente separado com chave externa e critérios de aceite. Reboot e alertas já concluídos não são próximas etapas pendentes. UDP externo, IPv6 externo, renovação ACME, revisão de privilégios, recuperação TLS/bancos integral, exclusão S3, diagnóstico de VIPs/Node Exporter e integração de equipamentos ainda pendentes. Não homologar F2/BAK-01/OPS-01/SEC-03/04 inteiros apenas pelos ensaios parciais.
 
-## Estado consolidado WireGuard — 16/09/2026
-
-Wireguard-tools instalado e suporte LXC validado em namespace isolada; hub wg0 ativo em 10.250.0.1/32, UDP 51820, habilitado no boot. Notebook 10.250.0.10/32 cadastrado e persistido com rota específica; handshake e ping 3/3 observados na VPS. Usuário confirmou nova sessão SSH em 10.250.0.1:5822. Configuração privada modo 600, backup protegido, sem alteração de firewall/NAT/default e sem reboot. 12 serviços 1/1 após cadastro; três alvos Prometheus UP são evidência anterior, não nova consulta da API.
-
-Usuário continua sem acesso à RB951G; inventário de interfaces/LAN/rotas e backup da RB aguardam esse acesso. Não presumir que a VPN do notebook dá acesso à RB. Próxima integração: RB951G 10.250.0.2; core 10.250.0.3 depois. Não anunciar LAN não conferida. Notebook foi antecipado por disponibilidade do usuário, conforme ADR-015.
-
-Console Proxmox/SSH confirmado; restauração, reboot, restrição pública, painéis pela VPN, core e ensaios CGNAT continuam pendentes. VPN-01/02 parciais; VPN-03 não executado. Fonte canônica: [validação do notebook](../../docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
-
-## Escopo autorizado e continuidade
-
-Usuário autorizou instalação/ativação do hub e cadastro do notebook nas etapas anteriores. Nesta retomada solicitou revisão minuciosa da documentação, commit e push. Isso não executa mudança de firewall, RBs, reboot ou restrição de painéis. Preservar alterações existentes relacionadas ao projeto e publicar somente documentação sanitizada; chaves, configurações reais e backups permanecem fora do Git.
-
-Usuário selecionou a etapa de persistência/backups. Auditoria em 16/09 confirmou Grafana sem volume de dados e Prometheus em volume anônimo. Backups locais privados criados; PostgreSQL 15/Zabbix (207 tabelas) e PG14 restaurados isoladamente; Grafana/Kuma iniciaram e reiniciaram a partir das cópias, com integridade SQLite OK. 17 arquivos/99.846.435 bytes com hashes verificados. Produção: 12 serviços 1/1, três alvos UP em 22:07:39 UTC; SSH/Docker/WireGuard ativos. BAK-01 parcial; sem backup integral TSDB/Portainer/certificados ou off-site. Migração de volumes preparada, ainda não aplicada; exige manutenção concreta dos dois serviços. Fonte: [auditoria](../../docs/06-validation/PERSISTENCE_BACKUP_AUDIT.md).
+Preservar arquivos e alterações existentes; segredos fora do Git. Não anunciar LAN de RB não conferida, antena 360°, SNR/CCQ não suportado, isolamento apenas por sub-rede, telemetria de campo ou percentuais sem evidência. Ver [requisitos](../../docs/00-project/REQUIREMENTS.md) e [riscos](../../docs/00-project/RISKS_AND_OPEN_ITEMS.md).

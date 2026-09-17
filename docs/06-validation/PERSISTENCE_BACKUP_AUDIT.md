@@ -1,5 +1,9 @@
 # Auditoria de persistência e primeiro ensaio de restauração
 
+Registro histórico: observações e pendências abaixo correspondem à etapa original. Migração, S3, restrições de acesso, reboot e alertas foram posteriormente executados; consultar o [estado consolidado vigente](../00-project/IMPLEMENTATION_STATUS.md) antes de tratar uma pendência deste registro como atual.
+
+**Atualização posterior:** migração e automação local executadas; veja [resultados atuais](BACKUP_AUTOMATION.md). As seções abaixo preservam o estado da auditoria inicial, anterior à migração.
+
 Data: 16/09/2026. Escopo autorizado pelo usuário: iniciar revisão de persistência, preparar backups e testar restauração sem depender da RB951G. Auditoria, backups locais e ensaios isolados executados; migração dos volumes de produção ainda não aplicada.
 
 ## Inventário observado

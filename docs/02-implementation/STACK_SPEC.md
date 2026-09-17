@@ -64,4 +64,9 @@ Release: snapshot/backup → aplicar versões fixas → verificar banco e servi�
 
 ## Gate de prontidão
 
-A instalação inicial está concluída. Antes de declarar operação homologada ou aplicar novas releases, completar manifesto de manutenção, backup/restauração, revisão de segredos e segurança, persistência e testes de VPN das RBs/coleta. O acesso notebook ↔ VPS já tem [validação própria](../06-validation/NOTEBOOK_VPN_VALIDATION.md). A conclusão desta etapa não libera os gates de laboratório ou campo.
+A instalação inicial está concluída. Antes de declarar operação homologada ou aplicar novas releases, completar a revisão geral de versões/compatibilidade, recuperação integral, segredos e segurança e testes de VPN das RBs/coleta. Volumes Grafana/Prometheus, seus manifestos e restauração isolada S3 já foram validados no complemento abaixo. O acesso notebook ↔ VPS já tem [validação própria](../06-validation/NOTEBOOK_VPN_VALIDATION.md). A conclusão desta etapa não libera os gates de laboratório ou campo.
+
+
+## Estado operacional complementar
+
+Grafana e Prometheus usam volumes nomeados, com recriação validada e manifestos local/Portainer reconciliados. A rotina diária criptografa e verifica os backups, envia ao S3 e confere download; restauração isolada de aplicações/bancos a partir do S3 aprovada. Retenção local 7/4/3 por períodos, expiração S3 de sete dias configurada pelo usuário com evidência em dois objetos. Ver [automação](../06-validation/BACKUP_AUTOMATION.md). O gate acima ainda exige recuperação integral e segurança; não repetir implantação ou migração já concluídas. Restrições de acesso, reboot e alertas também foram concluídos no escopo registrado; próxima etapa é preparar recuperação integral. [Estado atual](../00-project/IMPLEMENTATION_STATUS.md).

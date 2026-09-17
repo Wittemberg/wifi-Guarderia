@@ -1,5 +1,7 @@
 # WireGuard, rotas e acesso administrativo
 
+Evolução consolidada em 17/09/2026: volumes/S3, restrições TCP IPv4, reboot e alertas externos concluídos no escopo testado. [Estado vigente e limites](../00-project/IMPLEMENTATION_STATUS.md). As etapas de equipamentos ainda não executadas permanecem propostas.
+
 Estado em 16/09/2026: execução iniciada por autorização do usuário. wireguard-tools instalado; suporte no LXC e configuração criptográfica testados em namespace isolada. Hub wg0 ativo e habilitado no boot, com notebook de recuperação conectado, ping observado e SSH confirmado pelo usuário; RB951G e homologação integral pendentes. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
 
 ## Peers
@@ -95,20 +97,20 @@ O [template recebido](ROUTEROS_BASELINE_REVIEW.md) usa 10.200.0.0/24 e aceita so
 
 Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN, handshake e tráfego real central NOC→VPS→core, com verificação de retorno. Medir recuperação e efeito em sessões existentes; keepalive de 25 s não estabelece SLA de recuperação.
 
-## Critérios de saída desta próxima etapa
+## Critérios de saída e estado atual
 
 | Marco | Evidência exigida | Estado |
 |---|---|---|
 | Notebook e VPS conectados | Handshake, ping e nova sessão SSH | Validado no escopo notebook ↔ VPS; ver registro abaixo |
 | VPS e RB951G conectadas | Handshake recente, tráfego bidirecional, rotas e nova sessão administrativa funcionando | Pendente |
-| Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Parcial: console confirmado e retorno descrito; retorno do notebook/reboot não ensaiados |
+| Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Parcial: console e retorno após reboot da VPS validados; rollback integral e equipamentos de campo pendentes |
 | Core integrado | Central NOC e coletor alcançam alvos autorizados, com retorno e origem de coleta confirmados | Pendente |
-| Gerência restrita | Acesso positivo pela VPN e negativo de origem externa autorizada, incluindo portas diretas | Pendente |
-| Continuidade | Reinício e falhas controladas preservam/recuperam serviços, com tempos medidos | Pendente |
+| Gerência restrita | Acesso positivo pela VPN e negativo de origem externa autorizada, incluindo portas diretas | VPS validada por TCP IPv4, inclusive após reboot; equipamentos e UDP/IPv6 externo pendentes |
+| Continuidade | Reinício e falhas controladas preservam/recuperam serviços, com tempos medidos | Reboot da VPS validado; cenários de falha das RBs e recuperação integral pendentes |
 
 Se perder acesso, usar console e restaurar somente o conjunto alterado a partir do backup; verificar SSH, rotas, serviços e coleta. Não remover regras ou reiniciar a stack às cegas. Parar a expansão de peers enquanto o marco anterior estiver reprovado.
 
-Persistência do Grafana/Prometheus, diagnóstico dos VIPs Swarm e abrangência das métricas de host continuam pendências da etapa NOC, conforme [fechamento anterior](../06-validation/VPS_PHASE_COMPLETION.md).
+Persistência Grafana/Prometheus e reboot foram validados; diagnóstico dos VIPs Swarm e abrangência das métricas de host continuam pendentes. [Estado vigente](../00-project/IMPLEMENTATION_STATUS.md).
 
 ## Histórico: execução inicial — 16/09/2026
 

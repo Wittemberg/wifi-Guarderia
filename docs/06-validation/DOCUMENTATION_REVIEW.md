@@ -1,5 +1,7 @@
 # Revisão da baseline documental
 
+Os levantamentos e revisões abaixo preservam datas e resultados históricos. Para o estado vigente de implementação e pendências reais, consultar o [resumo consolidado](../00-project/IMPLEMENTATION_STATUS.md).
+
 Data: 12/09/2026. Escopo: arquivos Markdown e configuração Git desta primeira entrega. Esta revisão não executa testes de equipamentos, VPS ou serviços.
 
 ## Verificações executadas na baseline 0.1.0
@@ -49,3 +51,25 @@ Criado o [registro de validação do notebook](NOTEBOOK_VPN_VALIDATION.md), dist
 Antes da publicação: conferir UTF-8, títulos, blocos de código, links locais, IPAM, rastreabilidade dos testes, ausência de segredos no diff e whitespace. Resultado quantitativo da verificação registrado após execução abaixo. Publicação confirmada por comparação de SHA local/remoto no relatório de entrega, sem embutir SHA autorreferente neste arquivo.
 
 Resultado da verificação local desta consolidação: 55 arquivos Markdown em UTF-8, títulos e fechamento de blocos conferidos; 219 links locais resolvidos; 20 linhas de trânsito /30/VLAN/LAN verificadas por cálculo; 30 IDs de testes referenciados pelos requisitos encontrados na matriz. Nenhum erro estrutural ou de whitespace; busca por padrões de chaves privadas, PSKs, tokens GitHub e chaves WireGuard nas adições sem ocorrências. Links externos não foram revalidados nesta revisão de estado.
+
+
+## Revisão minuciosa após retenção S3 — 16/09/2026
+
+Revisados README, contexto, memória, roadmap, riscos, requisitos, decisões, inventário, especificação da stack, bootstrap, retenção de métricas, operação/backup, runbooks, segurança e homologação. Resumos atuais foram atualizados sem apagar os resultados históricos da instalação e auditoria inicial.
+
+Separados três níveis de evidência: usuário informou configuração de expiração da versão atual em sete dias; HeadObject mostrou expiração no backup e recibo; exclusão efetiva e configuração completa do lifecycle não foram verificadas. GetBucketLifecycleConfiguration foi negado e nenhuma permissão ou política foi alterada nesta revisão. Evidência privada retention-audit.json; [registro canônico](BACKUP_AUTOMATION.md).
+
+Retenção local 7/4/3 e S3 de sete dias estão documentadas como janelas diferentes; histórico/trends de métricas não foram alterados. Cópia externa da chave é confirmação do usuário; não equivale a teste dessa cópia. Recuperação integral, RPO/RTO e segurança não foram marcados como homologados.
+
+Preparado o [plano de acesso da VPS](../04-security/VPS_ACCESS_PLAN.md), com inventário somente leitura, testes de painéis pela VPN, matriz de acesso, retorno e critérios SEC-03/04. Não houve implantação desse plano. Referências técnicas consultadas: documentação oficial AWS S3, Docker e Traefik.
+
+Verificação desta revisão: UTF-8, fechamento de blocos, títulos, caminhos/âncoras locais, referências de requisitos/testes e diff Git. Resultados quantitativos ficam no registro privado da revisão. Arquivos operacionais, credenciais e cópias criptografadas permanecem fora do repositório; commit/publicação novos não são presumidos.
+
+
+## Consolidação do estado de implementações — 17/09/2026
+
+A revisão encontrou resultados corretos nos registros de execução, mas resumos contraditórios ainda tratavam reboot, restrições e alertas como pendentes. Foram corrigidos memória, roadmap, requisitos, riscos, homologação, segurança, DNS, WireGuard, inventário e procedimentos; removida a acumulação de atualizações intermediárias dos resumos atuais. Registros de instalação/auditoria iniciais ficaram explicitamente históricos.
+
+Criado o [estado consolidado](../00-project/IMPLEMENTATION_STATUS.md), com cada entrega ligada à evidência, limites e próximo passo. Reboot, nove portas TCP IPv4, sete domínios, logins VPN, backup S3 e alertas SES/Telegram estão concluídos no escopo registrado. Recuperação integral, chave externa, UDP/IPv6 externo e equipamentos de campo permanecem pendentes. Esta revisão não executou novos testes operacionais. A publicação do conjunto foi autorizada posteriormente pelo usuário e é rastreada no histórico Git.
+
+Validação final desta consolidação: 63 documentos Markdown, 309 links locais, uma âncora local e 30 identificadores de testes rastreados, sem erros; git diff --check aprovado. Registro privado documentation-implementation-review.json. Os totais de revisões anteriores permanecem históricos.
