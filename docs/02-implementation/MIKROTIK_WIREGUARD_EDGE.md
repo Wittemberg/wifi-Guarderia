@@ -98,9 +98,11 @@ wg set wg0 peer CK79CNjGAECiyl9bW8gfPMFEtDTNmVf+FbA1nTxpgDo= \
 
 **AllowedIPs críticos:**
 - `10.250.0.2/32`: aceita tráfego do próprio MikroTik
-- `192.168.15.0/24`: aceita tráfego mascarado da LAN local
+- `192.168.15.0/24`: associa a LAN NOC ao peer do MikroTik e permite que `wg-quick` instale a rota Linux de retorno pela `wg0`; o tráfego LAN → VPS chega normalmente mascarado como `10.250.0.2`
 
-A configuração é persistida em `/etc/wireguard/wg0.conf` via `wg-quick save wg0`.
+A configuração está persistida em `/etc/wireguard/wg0.conf`. O serviço `wg-quick@wg0` está habilitado e instala a rota `192.168.15.0/24 dev wg0` durante a subida. Não adicionar `PostUp`/`PreDown` para a mesma rota, pois isso duplica a rota derivada de `AllowedIPs`.
+
+Ao alterar um peer ativo com `wg set`, lembrar que o comando atualiza o WireGuard, mas não cria rotas na tabela Linux. Para uma alteração sem reinício, instalar e validar a rota separadamente; para persistência, atualizar o arquivo e testar a subida por console fora de banda.
 
 ### Firewall e forwarding
 
@@ -174,6 +176,10 @@ ping 10.250.0.1
 
 ✅ Ping responde através do túnel.
 
+**Da VPS para a LAN NOC:**
+
+O primeiro teste para o NVR `192.168.15.110` falhou porque a VPS ainda encaminhava esse prefixo pela interface pública. Após instalar e persistir a rota pela `wg0`, o teste retornou 3/3 respostas, 0% de perda e RTT médio de 25,262 ms. A rota foi novamente observada após reinicialização. Consulte a [validação do alcance reverso](../06-validation/NOC_EDGE_VPN_VALIDATION.md).
+
 ### 3. SSH via VPN
 
 **Do notebook na LAN local:**
@@ -225,7 +231,8 @@ https://portainer-guarderia.awecloudsolution.com/
 | Peer do notebook | ⚠️ Standby | Mantido para uso externo |
 | Peer do core (RB750Gr3) | ❌ Pendente | Aguarda configuração |
 | Forwarding VPS entre peers | ❌ Pendente | Necessário para NOC → core |
-| Rotas de retorno no core | ❌ Pendente | Core precisa saber rotear 10.21.0.0/24 e 192.168.15.0/24 |
+| Rota VPS → LAN NOC | ✅ Implementado | `192.168.15.0/24 dev wg0`; NVR 192.168.15.110 respondeu após reboot |
+| Rotas de retorno no core | ❌ Pendente | Core futuro precisa conhecer as redes administrativas autorizadas |
 | Coleta Zabbix via VPN | ❌ Pendente | SNAT e alvos autorizados |
 | Testes de failover WAN | ❌ Pendente | Dual-WAN NOC ainda não configurado |
 
@@ -234,7 +241,7 @@ https://portainer-guarderia.awecloudsolution.com/
 ### Princípios aplicados
 
 1. **Allowlist por IP de origem:** Traefik restringe acesso aos painéis apenas a IPs VPN autorizados
-2. **NAT unidirecional:** LAN local acessa VPN, mas a VPN não inicia conexões para a LAN (sem forwarding reverso configurado)
+2. **Roteamento reverso controlado:** a VPS possui rota para `192.168.15.0/24` via peer do MikroTik; o NVR respondeu a ICMP originado na VPS. Portanto, não presumir isolamento unidirecional — restringir acessos VPS → LAN por firewall conforme a política desejada
 3. **Persistência de peers:** peer do notebook permanece configurado mas inativo; não é deletado
 4. **Chaves privadas:** nunca expostas em logs, repositório ou transmissão não criptografada
 
@@ -322,6 +329,9 @@ wg show wg0 peers
 # Rotas instaladas
 ip route show | grep wg0
 
+# Conferir decisão de rota para a LAN NOC
+ip route get 192.168.15.110
+
 # Forwarding habilitado
 sysctl net.ipv4.ip_forward
 
@@ -371,6 +381,10 @@ ip route get 10.250.0.1
 12. ✅ Atualizado middleware Traefik do Portainer incluindo 10.250.0.2 e 192.168.15.0/24
 13. ✅ Validado acesso ao Portainer da LAN local
 14. ✅ Backup das configurações MikroTik e VPS
+15. ⚠️ Detectada ausência inicial da rota Linux VPS → 192.168.15.0/24 após alteração dinâmica do peer
+16. ✅ Instalada e persistida a rota pela `wg0`; NVR 192.168.15.110 respondeu 3/3, sem perda
+17. ⚠️ Reinício da interface pelo próprio túnel interrompeu a administração; recuperação realizada pelo console do provedor
+18. ✅ Serviço `wg-quick@wg0` habilitado/ativo e rota confirmada após reinicialização; SSH público permaneceu bloqueado
 
 **Responsável:** Wittemberg  
 **Validado por:** Usuário (testes de ping, SSH e painel)  

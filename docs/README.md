@@ -2,7 +2,7 @@
 
 Entrada para acompanhamento: [estado consolidado das implementações](00-project/IMPLEMENTATION_STATUS.md).
 
-Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evidências e pendências](06-validation/VPS_PHASE_COMPLETION.md). Hub WireGuard e notebook também implantados, com SSH confirmado; [validação e limites](06-validation/NOTEBOOK_VPN_VALIDATION.md). Inventário da RB750r2 recebido em 21/09/2026; gateway ativo, integração VPN pendente. Instalação observada e homologação completa são estados distintos.
+Atualização de 22/09/2026: etapa VPS/stack e coleta interna concluída; hub WireGuard, notebook e RB750r2 da central NOC implantados. LAN NOC → VPS/painéis e VPS → NVR da LAN foram validados; a rota reversa permaneceu após reinicialização. Veja a [VPN de borda](02-implementation/MIKROTIK_WIREGUARD_EDGE.md) e sua [validação](06-validation/NOC_EDGE_VPN_VALIDATION.md). Instalação observada e homologação completa são estados distintos.
 
 ## 00 — Projeto
 
@@ -33,6 +33,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 | [Preparação VPS](02-implementation/VPS_BOOTSTRAP.md) | Inventário, Ubuntu/Orion e sequência de implantação |
 | [Stack](02-implementation/STACK_SPEC.md) | Serviços, persistência, redes, secrets e versões |
 | [WireGuard](02-implementation/WIREGUARD.md) | Peers, AllowedIPs, rotas, SNAT e recuperação |
+| [VPN de borda na RB750r2](02-implementation/MIKROTIK_WIREGUARD_EDGE.md) | Configuração NOC, rotas, NAT, painéis, diagnóstico e rollback |
 | [Provisionamento MikroTik](02-implementation/MIKROTIK_PROVISIONING.md) | Roteiro por equipamento e futuras configurações |
 | [Configuração do monitoramento](02-implementation/MONITORING_SETUP.md) | Sequência de templates, coleta, dashboards e alertas |
 | [Revisão RouterOS recebido](02-implementation/ROUTEROS_BASELINE_REVIEW.md) | Achados, divergências e condições para adaptar o template |
@@ -67,6 +68,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 | [Homologação](06-validation/HOMOLOGATION.md) | Estado real dos testes e aceites |
 | [Persistência e backups](06-validation/PERSISTENCE_BACKUP_AUDIT.md) | Auditoria, restauração isolada e migração preparada |
 | [VPN do notebook](06-validation/NOTEBOOK_VPN_VALIDATION.md) | Cadastro, handshake, ping, SSH confirmado e limites |
+| [VPN de borda e rota reversa NOC](06-validation/NOC_EDGE_VPN_VALIDATION.md) | Falha inicial de rota, correção persistente, recuperação por console e ping VPS → NVR |
 | [Modelos de evidência](06-validation/EVIDENCE_TEMPLATES.md) | Registros de sessão, medição e mudança |
 | [Revisão documental](06-validation/DOCUMENTATION_REVIEW.md) | Verificações desta primeira entrega |
 

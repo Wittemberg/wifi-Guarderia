@@ -1,6 +1,6 @@
 # Requisitos e rastreabilidade
 
-**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas, VPN-01/02 parciais pelo notebook, homologação integral pendente.
+**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas; VPN-01/02 parciais com notebook e RB750r2 NOC, incluindo rota reversa até um NVR; homologação integral pendente.
 
 | ID | Requisito verificável | Origem/estado | Prioridade | Evidência de aceite |
 |---|---|---|---|---|
@@ -45,5 +45,7 @@ Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanec
 ## Evidência operacional consolidada — 17/09/2026
 
 REQ-05/06/08/10/11/18/19 têm avanços medidos: stack e coleta interna, VPN notebook, volumes nomeados, backup S3/restauração isolada, restrições públicas TCP IPv4, reboot controlado e alertas SES/Telegram. [Mapa de implementações](IMPLEMENTATION_STATUS.md) e [homologação](../06-validation/HOMOLOGATION.md).
+
+Atualização de 22/09/2026: REQ-05 e REQ-25 avançaram com a RB750r2 operando como gateway VPN de borda. LAN NOC → VPS/painéis e VPS → NVR `192.168.15.110` foram testados; o teste reverso exigiu corrigir a rota Linux da VPS para `192.168.15.0/24` via `wg0`. [Validação](../06-validation/NOC_EDGE_VPN_VALIDATION.md).
 
 REQ-11/19 permanecem parciais pela recuperação integral e teste da chave externa, não por falta de reboot. REQ-05/10 não homologam RBs, UDP/IPv6 externo, revogação ou isolamento de campo. Alertas de backup ativos não equivalem a templates/coleta de equipamentos. Retenção local 7/4/3 e S3 sete dias são políticas distintas; exclusão efetiva, RPO/RTO e cobertura integral do lifecycle ainda em validação.

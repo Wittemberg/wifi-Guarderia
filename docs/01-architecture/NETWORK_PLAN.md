@@ -99,7 +99,7 @@ Na VPS, wg0 usa 10.250.0.1/32 com dois peers ativos:
 - **RB750r2 (10.250.0.2/32):** gateway VPN de borda para LAN 192.168.15.0/24; AllowedIPs incluem 10.250.0.2/32 e 192.168.15.0/24; acesso validado a painéis e SSH
 - **Notebook (10.250.0.10/32):** AllowedIPs 10.250.0.10/32; peer em standby para uso externo
 
-Não inferir implementação das rotas da tabela a partir desses testes. LAN 192.168.15.0/24 é a rede operacional real da central NOC; 10.21.0.0/24 permanece reserva futura. LANs da guarderia e topologia Docker precisam ser conferidas antes de qualquer expansão. Ver [VPN de borda](MIKROTIK_WIREGUARD_EDGE.md) e [validação notebook](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+Não inferir implementação das rotas da tabela a partir desses testes. LAN 192.168.15.0/24 é a rede operacional real da central NOC; 10.21.0.0/24 permanece reserva futura. LANs da guarderia e topologia Docker precisam ser conferidas antes de qualquer expansão. Ver [VPN de borda](../02-implementation/MIKROTIK_WIREGUARD_EDGE.md) e [validação notebook](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
 
 ## Estado observado da central NOC — 21/09/2026
 

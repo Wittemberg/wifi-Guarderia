@@ -7,8 +7,8 @@
 | OPEN-01 | Parcial: IP, CPU visível, disco e arquitetura inventariados; Docker reconhece 9 CPUs/8 GiB e está em execução; console confirmado e WireGuard validado com notebook; confirmar recursos garantidos | Responsável técnico | Dimensionamento e recuperação integral |
 | OPEN-02 | Parcial: serviços e portas inventariados; Docker Swarm e Traefik instalados; restrições TCP IPv4/reboot validados; faltam UDP/IPv6 externo, segregação interna, falha rpc_pipefs e diagnóstico dos VIPs | Responsável técnico | Instalação sem conflito |
 | OPEN-03 | Parcial: awecloudsolution.com e A/CNAMEs publicados, resolução conferida na VPS; HTTPS inicial validado para Zabbix/Grafana/Kuma/Portainer; SSH por IP VPN confirmado; sete nomes HTTPS, restrições e logins pela VPN validados após reboot; renovação ACME e revisão integral pendentes | Responsável técnico | TLS e exposição controlada |
-| OPEN-04 | Parcialmente resolvida: RB750r2 central NOC em RouterOS/RouterBOOT 7.23.7; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB750r2 inventariada; VPN e carga pendentes |
-| OPEN-05 | Inventário de rede recebido; definir segregação administrativa, backup e integração; exemplo WAN1 do template conflita com a LAN ativa | Responsável técnico | IPAM e rotas |
+| OPEN-04 | Parcialmente resolvida: RB750r2 central NOC em RouterOS/RouterBOOT 7.23.7 e integrada ao WireGuard; inventário/integração da RB750Gr3 ainda pendentes | Responsável técnico | Provisionamento do core; carga pendente |
+| OPEN-05 | VPN de borda e rota para a LAN ativa validadas; definir ACL VPS → LAN, segregação administrativa e expansão ao core. Exemplo WAN1 do template conflita com a LAN ativa | Responsável técnico | Segurança, IPAM e rotas futuras |
 | OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
 | OPEN-07 | Mapa da área, altura, obstáculos, maré, energia na margem | Visita técnica | RF e montagem |
 | OPEN-08 | Banco de baterias, química, cargas, autonomia desejada e energia solar | Proprietário + instalador | Kit embarcado |
@@ -31,6 +31,7 @@
 | Alimentação inadequada/descarga | Perda de serviço e dano | Projeto DC e medição, proteção independente | ENE-01 |
 | PoE incompatível | Dano a rádio | Conferência tensão, padrão e polaridade | HW-01 |
 | Todo gerenciamento passa pela VPS | Perda de observação/administração | Console, backups e operação local autônoma | BAK-01/VPN-03 |
+| Reiniciar WireGuard pelo próprio túnel | Perda imediata da sessão e ausência de SSH público | Console do provedor aberto antes da mudança; evitar `PostUp` redundante; validar serviço/rota após subida | VPN-03/OPS-01 |
 | Um core, um AP e uma WAN | Falha comum a todos | Assumir SPOFs na PoC; estoque e evolução | COM-01 |
 | Ausência de dado aparece normal | Diagnóstico incorreto | Estado sem dados, idade e erro explícitos | MON-02 |
 | LANs separadas sem ACL real | Acesso entre clientes | Isolamento L2/L3, anti-spoof e teste | SEC-01/02 |
@@ -46,7 +47,7 @@ A arquitetura é uma proposta fundamentada. Não há garantia de cobertura, auto
 
 ## Dependência e limites atuais — 17/09/2026
 
-RB750r2 inventariada e em uso como gateway; OPEN-05 requer desenho incremental e acesso de recuperação. Na VPS, volumes, restauração isolada S3, restrições TCP IPv4, reboot e alertas externos já têm aceite no escopo registrado. Próximo passo independente é preparar recuperação integral em ambiente separado. [Estado](IMPLEMENTATION_STATUS.md).
+RB750r2 integrada como gateway VPN de borda; rota VPS → LAN NOC e recuperação por console foram validadas. OPEN-05 agora cobre ACLs e expansão segura ao core, não a ausência da VPN NOC. Na VPS, volumes, restauração isolada S3, restrições TCP IPv4, reboot e alertas externos já têm aceite no escopo registrado. [Estado](IMPLEMENTATION_STATUS.md).
 
 S3 tem janela de sete dias e versionamento observado desabilitado; a retenção longa é local e não sobrevive à perda da VPS. Exclusão futura e escopo completo do lifecycle ainda não conferidos. Alertas SES/Telegram estão ativos, mas dependem da AWS e não substituem teste de recuperação ou acompanhamento operacional.
 
