@@ -1,19 +1,18 @@
 # Plano de rede, endereçamento e interfaces
 
-Estado em 22/09/2026: VPS 10.250.0.1/32, RB750r2 10.250.0.2/32 e notebook 10.250.0.10/32 implantados. RB750r2 opera como gateway VPN de borda para LAN 192.168.15.0/24, com NAT masquerade e acesso validado a painéis/SSH. Notebook em standby para uso externo. Core (.3) e LANs/VLANs do campo abaixo continuam reservas de projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
+Estado em 16/09/2026: VPS 10.250.0.1/32, notebook 10.250.0.10/32 e RB750r2 10.250.0.2/32 estão em uso na VPN; LANs, VLANs, rotas de LAN e o endereço do core abaixo continuam reservas de projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
 
 ## Redes canônicas
 
-| Rede | Finalidade | Gateway/atribuições | Estado |
-|---|---|---|---|
-| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, RB750r2 `.2` e notebook `.10` ativos; core `.3` reservado | ✅ Parcial |
-| `192.168.15.0/24` | LAN operacional da central NOC | RB750r2 gateway; dispositivos da rede local | ✅ Implementado |
-| `10.21.0.0/24` | LAN administrativa dedicada futura atrás da RB750r2 | RB750r2 `.1`; PC `.10` reservado | ❌ Proposta |
-| `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver | ❌ Proposta |
-| `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN | ❌ Proposta |
-| `10.20.240.0/24` | Pool dividido em /30 de trânsito RF | Um /30 e uma VLAN por estação | ❌ Proposta |
-| `172.30.20.0/24` | Rede Docker de coleta proposta | Zabbix server `.10`; IPs devem ser reservados no manifesto | ❌ Proposta |
-| `172.30.21.0/24` | Rede Docker de dados proposta | PostgreSQL acessível somente aos serviços autorizados | ❌ Proposta |
+| Rede | Finalidade | Gateway/atribuições |
+|---|---|---|
+| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, RB750r2 `.2` e notebook `.10` ativos; core `.3` reservado |
+| `10.21.0.0/24` | LAN administrativa dedicada atrás da RB750r2 | RB750r2 `.1`; PC `.10` reservado |
+| `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver |
+| `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN |
+| `10.20.240.0/24` | Pool dividido em /30 de trânsito RF | Um /30 e uma VLAN por estação |
+| `172.30.20.0/24` | Rede Docker de coleta proposta | Zabbix server `.10`; IPs devem ser reservados no manifesto |
+| `172.30.21.0/24` | Rede Docker de dados proposta | PostgreSQL acessível somente aos serviços autorizados |
 
 O restante de `10.20.0.0/16` não está atribuído. Usar somente prefixos realmente ativos nas ACLs e AllowedIPs; um resumo /16, se adotado em rotas futuras, deve ter descarte para sub-redes não atribuídas.
 
@@ -95,14 +94,12 @@ As redes 192.168.50.0/24 e 10.200.0.0/24 do anexo são exemplos divergentes, nã
 
 ## Subconjunto implantado
 
-Na VPS, wg0 usa 10.250.0.1/32 com dois peers ativos:
-- **RB750r2 (10.250.0.2/32):** gateway VPN de borda para LAN 192.168.15.0/24; AllowedIPs incluem 10.250.0.2/32 e 192.168.15.0/24; acesso validado a painéis e SSH
-- **Notebook (10.250.0.10/32):** AllowedIPs 10.250.0.10/32; peer em standby para uso externo
+Na VPS, wg0 usa 10.250.0.1/32 e somente o peer do notebook, com AllowedIPs 10.250.0.10/32 e rota de host por wg0. Isso não instala a rede /24 inteira nem rotas para as LANs propostas. O notebook informou 10.250.0.10/32; a configuração completa de AllowedIPs do cliente não foi coletada. Seu acesso à VPS foi validado por ping/SSH conforme [registro](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
 
-Não inferir implementação das rotas da tabela a partir desses testes. LAN 192.168.15.0/24 é a rede operacional real da central NOC; 10.21.0.0/24 permanece reserva futura. LANs da guarderia e topologia Docker precisam ser conferidas antes de qualquer expansão. Ver [VPN de borda](../02-implementation/MIKROTIK_WIREGUARD_EDGE.md) e [validação notebook](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+Não inferir implementação das rotas da tabela a partir desse teste. LAN da central NOC e topologia Docker precisam ser conferidas antes de qualquer expansão.
 
 ## Estado observado da central NOC — 21/09/2026
 
-A RB750r2 já opera com WAN1 estática e LAN privada 192.168.15.0/24 em bridge ether3/ether4/ether5-lan. **WireGuard implementado em 22/09/2026 como gateway VPN de borda**, permitindo acesso de toda a LAN aos serviços da VPS. ether2-LINK2 está reservada, sem link running/endereço. O [inventário atual](NOC_ROUTER_INVENTORY.md) registra a configuração; endereços operacionais completos permanecem nas evidências privadas.
+A RB750r2 já opera com WAN1 estática e LAN privada em bridge ether3/ether4/ether5-lan. ether2-LINK2 está reservada, sem link running/endereço. O [inventário atual](NOC_ROUTER_INVENTORY.md) registra a configuração e os testes; endereços operacionais completos permanecem nas evidências privadas.
 
-10.21.0.0/24 é reserva futura de administração dedicada, não a LAN atualmente instalada. Definir porta/VLAN e acesso do PC antes de criar essa rede; não reendereçar a LAN ativa por aplicação do plano. O exemplo WAN1 do template arquivado sobrepõe a LAN atual: não reutilizá-lo. Defaults recursivas e 10.250.0.2 no WireGuard estão implementados; integração do core continua proposta.
+10.21.0.0/24 é reserva futura de administração, não a LAN atualmente instalada. Definir porta/VLAN e acesso do PC antes de criar essa rede; não reendereçar a LAN ativa por aplicação do plano. O exemplo WAN1 do template arquivado sobrepõe a LAN atual: não reutilizá-lo. Defaults recursivas e 10.250.0.2 no WireGuard continuam propostas.

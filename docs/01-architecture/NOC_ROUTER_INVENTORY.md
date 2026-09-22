@@ -4,7 +4,7 @@ Coleta fornecida pelo usuário em 21/09/2026: dez arquivos `noc-01` a `noc-10` e
 
 ## Estado atual
 
-**RB750r2 (hEX lite), revisão r3, RouterOS e RouterBOOT 7.23.7**, em uso como gateway da central NOC. Em 21/09/2026, o usuário confirmou que está navegando na Internet através dela e que o gateway está plenamente operacional. Aceite funcional de navegação confirmado pelo usuário. Reset e configuração básica informados pelo usuário. WAN1 estática, LAN com DHCP/DNS e NAT presentes nas coletas. WAN2 reservada, sem link running ou endereço atribuído. Nenhuma interface WireGuard consta nas saídas; integração com a VPS permanece pendente.
+**RB750r2 (hEX lite), revisão r3, RouterOS e RouterBOOT 7.23.7**, em uso como gateway da central NOC. Em 21/09/2026, o usuário confirmou que está navegando na Internet através dela e que o gateway está plenamente operacional. Aceite funcional de navegação confirmado pelo usuário. Reset e configuração básica informados pelo usuário. WAN1 estática, LAN com DHCP/DNS e NAT presentes nas coletas. WAN2 reservada, sem link running ou endereço atribuído. As saídas arquivadas de 21/09/2026 não continham interface WireGuard. Em 22/09/2026, o usuário confirmou que a VPN WireGuard da RB750r2 está funcional; configuração efetiva, rotas de LAN, ACLs, failover e recuperação não foram fornecidos para revisão.
 
 O campo `model` da RouterBOARD é a identificação adotada. Identidade de sistema não informada no export; `GV-NOC-01` permanece proposta.
 

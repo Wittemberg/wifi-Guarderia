@@ -1,6 +1,6 @@
 # Registro de homologação
 
-Baseline de critérios: 12/09/2026; estado consolidado atualizado em 22/09/2026. Estados independentes: especificação, implementação, teste e aceite humano. Nenhuma caixa é marcada por presunção.
+Baseline de critérios: 12/09/2026; estado consolidado em 17/09/2026. Estados independentes: especificação, implementação, teste e aceite humano. Nenhuma caixa é marcada por presunção.
 
 | Teste | Cobertura | Estado real nesta entrega | Evidência/resultado |
 |---|---|---|---|
@@ -9,9 +9,9 @@ Baseline de critérios: 12/09/2026; estado consolidado atualizado em 22/09/2026.
 | HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB750r2 recebido do usuário; atualização concluída | [RB750r2 central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
 | VPS-01 | Inventário e caminho de instalação | Parcial: inventário e instalação inicial concluídos em 16/09/2026 | [Conclusão](VPS_PHASE_COMPLETION.md); console confirmado e suporte WireGuard validado; recursos garantidos e versão/hash Orion pendentes |
 | STACK-01 | Stack, versões, rede e persistência | Parcial: instalação e coleta interna concluídas | 12 serviços 1/1 e três alvos UP; volumes Grafana/Prometheus e manifestos reconciliados; logins e restrições TCP IPv4 confirmados após reboot; compatibilidade integral e recuperação completa pendentes. [Estado](../00-project/IMPLEMENTATION_STATUS.md) |
-| VPN-01 | Hub e CGNAT | Parcial: hub, notebook e RB750r2 NOC conectados | Handshake, LAN → VPS, SSH e painel validados; RB750Gr3/core e ensaios de troca WAN pendentes. [NOC](NOC_EDGE_VPN_VALIDATION.md), [notebook](NOTEBOOK_VPN_VALIDATION.md) |
-| VPN-02 | Rotas, retorno e coleta container | Parcial: notebook ↔ VPS e VPS ↔ LAN NOC validados | Rota `192.168.15.0/24 dev wg0` persistida; NVR `192.168.15.110` respondeu 3/3. Trânsito com core e coleta container pendentes. [Registro](NOC_EDGE_VPN_VALIDATION.md) |
-| VPN-03 | Falhas/recuperação e independência da central NOC | Parcial | Reinício de `wg0` interrompeu SSH pelo túnel; recuperação pelo console do provedor e persistência após reboot validadas. Falhas WAN e recuperação do core pendentes. [Registro](NOC_EDGE_VPN_VALIDATION.md) |
+| VPN-01 | Hub e CGNAT | Parcial: hub/notebook e RB750r2 conectados | Notebook: handshake, ping e SSH. RB750r2: funcionalidade da VPN confirmada pelo usuário em 22/09/2026; core e ensaios CGNAT/failover pendentes. [WireGuard](../02-implementation/WIREGUARD.md) |
+| VPN-02 | Rotas, retorno e coleta container | Parcial: rota e retorno notebook ↔ VPS; VPN RB750r2 funcional confirmada pelo usuário | Rotas de LAN, trânsito entre peers, serviços administrativos da RB e coleta container pendentes; [WireGuard](../02-implementation/WIREGUARD.md) |
+| VPN-03 | Falhas/recuperação e independência da central NOC | Não executado | Aguardar laboratório |
 | MON-01 | Coleta real e comparação direta | Não executado | Aguardar equipamentos |
 | MON-02 | Sem dados, credencial e campos não suportados | Não executado | Preparar ensaios de perda de coleta e credenciais |
 | MON-03 | Diagnóstico por camada | Não executado | Preparar ensaios por camada e integrar equipamentos |
@@ -66,4 +66,4 @@ Doze serviços 1/1 e três alvos UP no último pós-teste completo registrado, 1
 
 ## Atualização HW-01 — 21/09/2026
 
-Inventário de recursos e rede da RB750r2 r3 recebido, RouterOS/RouterBOOT 7.23.7. Gateway em uso confirmado pelo usuário. VPN de borda e rota reversa da VPS até um NVR da LAN foram validadas em 22/09/2026; carga, firewall externo completo da RB, segundo link e demais equipamentos/protocolos continuam sem homologação.
+Inventário de recursos e rede da RB750r2 r3 recebido, RouterOS/RouterBOOT 7.23.7. Gateway em uso confirmado pelo usuário; sem homologação de carga, firewall externo da RB ou segundo link. A funcionalidade da VPN WireGuard foi posteriormente confirmada pelo usuário em 22/09/2026; rotas de LAN, serviços, failover e recuperação não foram homologados. Evidências da VPS permanecem válidas nos respectivos escopos registrados.

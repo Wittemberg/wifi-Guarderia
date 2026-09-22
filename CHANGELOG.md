@@ -1,20 +1,8 @@
 # Histórico de alterações
 
-## VPN de borda no MikroTik RB750r2 — 2026-09-22
+## VPN funcional da RB750r2 confirmada pelo usuário — 2026-09-22
 
-- Implementado WireGuard na RB750r2 (hEX lite) da central NOC como gateway VPN de borda para toda a LAN local (192.168.15.0/24).
-- Peer MikroTik (10.250.0.2) configurado com interface wg-VPS, NAT masquerade, rota estática e firewall forward para permitir acesso da LAN aos serviços VPS.
-- Peer do MikroTik adicionado na VPS com AllowedIPs incluindo 10.250.0.2/32 e 192.168.15.0/24.
-- Atualizado middleware IP allowlist do Traefik (Portainer) para aceitar tráfego de 10.250.0.2 e 192.168.15.0/24.
-- Validados: handshake WireGuard bidirecional, ping da LAN para VPS, SSH da LAN para VPS porta 5822, acesso aos painéis web da LAN.
-- Peer do notebook (10.250.0.10) mantido em standby para uso quando fora da rede local.
-- Backups das configurações MikroTik e VPS arquivados em /root/guarderia-backups/.
-- Documentação: novo arquivo MIKROTIK_WIREGUARD_EDGE.md e atualizações em README, ARCHITECTURE, NETWORK_PLAN e WIREGUARD.
-- Próximo passo: integrar core da guarderia (RB750Gr3, peer 10.250.0.3) e habilitar forwarding entre peers na VPS.
-- Corrigida ausência da rota Linux da VPS para `192.168.15.0/24`: o primeiro ping ao NVR saiu pela interface pública e falhou; após rota via `wg0`, o NVR `192.168.15.110` respondeu 3/3, sem perda.
-- Confirmada persistência após reinicialização com `wg-quick@wg0` habilitado/ativo e rota derivada de `AllowedIPs`, sem `PostUp`/`PreDown` redundante.
-- Registrada a perda temporária da sessão ao reiniciar a interface pelo próprio túnel, a recuperação pelo console do provedor e a manutenção do SSH público bloqueado.
-- Adicionado registro específico em `docs/06-validation/NOC_EDGE_VPN_VALIDATION.md` e corrigidos estado, homologação, riscos, requisitos e índice documental.
+- Usuário confirmou a funcionalidade da VPN WireGuard da RB750r2 com a VPS. Atualizados estado, IPAM, procedimento, riscos, homologação e memória; não foram inferidas rotas de LAN, ACLs, failover, recuperação ou métricas.
 
 ## Aceite funcional do gateway — 2026-09-21
 

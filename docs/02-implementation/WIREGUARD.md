@@ -2,7 +2,7 @@
 
 Evolução consolidada em 17/09/2026: volumes/S3, restrições TCP IPv4, reboot e alertas externos concluídos no escopo testado. [Estado vigente e limites](../00-project/IMPLEMENTATION_STATUS.md). As etapas de equipamentos ainda não executadas permanecem propostas.
 
-Estado em 16/09/2026: execução iniciada por autorização do usuário. wireguard-tools instalado; suporte no LXC e configuração criptográfica testados em namespace isolada. Hub wg0 ativo e habilitado no boot, com notebook de recuperação conectado, ping observado e SSH confirmado pelo usuário; RB750r2 e homologação integral pendentes. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
+Estado em 16/09/2026: execução iniciada por autorização do usuário. wireguard-tools instalado; suporte no LXC e configuração criptográfica testados em namespace isolada. Hub wg0 ativo e habilitado no boot, com notebook de recuperação conectado, ping observado e SSH confirmado pelo usuário; Em 22/09/2026, o usuário confirmou a VPN da RB750r2 funcional; homologação integral, LANs, core, failover e recuperação permanecem pendentes. Endereçamento proposto: [IPAM](../01-architecture/NETWORK_PLAN.md).
 
 ## Peers
 
@@ -58,12 +58,12 @@ Endpoint DNS exige resolução antes de o túnel subir; evitar dependência circ
 - Conferir rede real da central NOC, rotas e sobreposições com Docker/VPN/LANs antes de aplicar o IPAM proposto.
 - Revalidar resolução de `vpn-guarderia.awecloudsolution.com` fora da VPN. Endpoint proposto: UDP 51820.
 
-### 2. Hub e notebook concluídos; próxima integração na central NOC
+### 2. Hub, notebook e VPN da central NOC concluídos; expansão controlada
 
 - Hub já instalado/configurado, com chaves privadas fora do Git e notebook conectado. Preservar interface/chaves existentes e conferir o inventário antes de acrescentar peers.
 - UDP 51820 já alcançado pelo notebook; revisar regras de entrada/encaminhamento necessárias à integração das RBs, preservando SSH. O forwarding IPv4 já estava em 1 após Docker; confirmar o estado e as chains Docker, sem redefinir regras indiscriminadamente.
-- Configurar primeiro a RB750r2 da central NOC: VPS `10.250.0.1`, RB750r2 `10.250.0.2`, keepalive proposto 25 s e somente prefixos efetivamente implantados. Não adicionar rota default pela VPN.
-- Validar handshake, tráfego bidirecional, rotas de retorno e acesso administrativo em nova sessão. Se a LAN 10.21.0.0/24 ainda não corresponder à rede real, resolver o endereçamento antes de anunciá-la.
+- A VPN da RB750r2 (`10.250.0.2`) foi confirmada funcional pelo usuário em 22/09/2026. Preservar a configuração em uso; não alterar peer, rota default ou firewall por inferência.
+- Antes de expandir para qualquer LAN, registrar a configuração efetiva, backup/recuperação, rotas de retorno, ACLs e um pós-teste. A LAN 10.21.0.0/24 continua reserva e não deve ser anunciada automaticamente.
 - Peer de recuperação do notebook já cadastrado, com SSH à VPS confirmado; testar acesso ao core quando ele existir. Reinício da VPS/RB somente em janela controlada, com console e pós-teste; verificar recuperação da VPN e dos serviços já instalados.
 
 ### 3. Core da guarderia e coleta pela VPN
@@ -104,7 +104,7 @@ Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN,
 | Marco | Evidência exigida | Estado |
 |---|---|---|
 | Notebook e VPS conectados | Handshake, ping e nova sessão SSH | Validado no escopo notebook ↔ VPS; ver registro abaixo |
-| VPS e RB750r2 conectadas | Handshake recente, tráfego bidirecional, rotas e nova sessão administrativa funcionando | Pendente |
+| VPS e RB750r2 conectadas | VPN funcional entre os peers; tráfego administrativo e rotas de LAN exigem evidência própria | Funcionalidade confirmada pelo usuário em 22/09/2026; demais critérios pendentes |
 | Recuperação | Console confirmado e retorno ao estado anterior descrito/testado no escopo da mudança | Parcial: console e retorno após reboot da VPS validados; rollback integral e equipamentos de campo pendentes |
 | Core integrado | Central NOC e coletor alcançam alvos autorizados, com retorno e origem de coleta confirmados | Pendente |
 | Gerência restrita | Acesso positivo pela VPN e negativo de origem externa autorizada, incluindo portas diretas | VPS validada por TCP IPv4, inclusive após reboot; equipamentos e UDP/IPv6 externo pendentes |
@@ -164,4 +164,4 @@ A RB750r2 da central NOC foi integrada como **gateway VPN de borda**, substituin
 
 ## Estado da central NOC em 21/09/2026
 
-Inventário completo de recursos e rede recebido: RB750r2 r3, RouterOS/RouterBOOT 7.23.7, gateway básico em uso. As indisponibilidades de acesso descritas nos registros datados de 16/09 não representam o estado desta coleta. WireGuard da RB permanece ausente. Usar o hub existente e preservar o peer do notebook; confirmar backup, recuperação local e ACLs antes de adicionar o novo peer. LAN administrativa dedicada continua proposta; não anunciar a LAN operacional automaticamente. Ver [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md).
+Inventário completo de recursos e rede recebido: RB750r2 r3, RouterOS/RouterBOOT 7.23.7, gateway básico em uso. As indisponibilidades de acesso descritas nos registros datados de 16/09 não representam o estado desta coleta. A VPN WireGuard da RB foi confirmada funcional pelo usuário em 22/09/2026. Usar o hub existente e preservar o peer do notebook; confirmar backup, recuperação local e ACLs antes de adicionar o novo peer. LAN administrativa dedicada continua proposta; não anunciar a LAN operacional automaticamente. Ver [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md).

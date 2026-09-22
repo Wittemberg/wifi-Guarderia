@@ -6,7 +6,7 @@ Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais p
 |---|---|---|---|---|
 | F0 | Especificação e Git | Contexto e referência | DOC-01/02 revisados; commit publicado | Documentação preparada |
 | F1 | Inventário VPS, RBs e levantamento local | F0 | HW-01/VPS-01 e pendências impeditivas resolvidas | Parcial: inventário VPS realizado e RB750r2 atualizada; console Proxmox confirmado; rede da RB750r2 inventariada em 21/09; core e levantamento local pendentes |
-| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Stack/coleta interna e VPN notebook ↔ VPS validadas no escopo registrado; volumes e restauração isolada S3 validados; reboot, restrições TCP IPv4 e alertas de backup validados; integração das RBs e homologação integral pendentes |
+| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Stack/coleta interna e VPN notebook ↔ VPS validadas; VPN RB750r2 ↔ VPS funcional confirmada pelo usuário em 22/09/2026; volumes e restauração isolada S3 validados; reboot, restrições TCP IPv4 e alertas de backup validados; integração das RBs e homologação integral pendentes |
 | F3 | Templates e alertas em bancada | F2 | MON-01/02/03; dados persistem após reboot | Pendente |
 | F4 | Rádio e isolamento em bancada | F3 | RF-01; LAN-01; SEC-01/02/03 | Pendente |
 | F5 | PoC embarcada 50/100 m | F4 e alimentação validada | RF-02/03/04; ENE-01 | Pendente |
@@ -18,7 +18,7 @@ Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais p
 
 Preparar recuperação integral da VPS em ambiente separado, usando a chave externa: definir destino, sequência e critérios antes de restaurar. Backup isolado não equivale à reconstrução completa. Não repetir reboot ou testes de acesso já aprovados sem nova mudança/falha. [Estado consolidado](IMPLEMENTATION_STATUS.md).
 
-A integração da RB750r2 parte do inventário recebido em 21/09/2026; confirmar backup e recuperação local e preservar LAN/DHCP/NAT em uso. RB750Gr3 depois. Não anunciar redes não conferidas. [WireGuard](../02-implementation/WIREGUARD.md).
+A VPN da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026; preservar LAN/DHCP/NAT em uso e confirmar backup e recuperação local antes de expansão. RB750Gr3 depois. Não anunciar redes não conferidas. [WireGuard](../02-implementation/WIREGUARD.md).
 
 ## Entregas operacionais concluídas no escopo testado
 

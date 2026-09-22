@@ -9,7 +9,7 @@ Estado: especificação para aquisição e homologação; conferir SKU e revisã
 | mANTBox ax 15s, `L22UGS-5HaxD2HaxD-15S` | RouterOS v7, 256 MB RAM, 128 MB NAND; 5 GHz 15 dBi; 1 GbE e SFP com 2,5 G; IP55 | Base candidata |
 | wAP ax, `wAPG-5HaxD2HaxD` | RouterOS v7, 256 MB RAM, 128 MB NAND; dual-band 2×2; 5 GHz 7 dBi; 2 GbE; IP54 | Cliente candidato |
 | RB750Gr3 | 5 portas GbE, 256 MB RAM | Core já disponível; inventário pendente |
-| RB750r2 (hEX lite) | 5 portas 10/100, 64 MB RAM; CPU 850 MHz; flash 16 MiB | Central NOC atualizada para RouterOS/RouterBOOT 7.23.7; gateway em uso; VPN pendente |
+| RB750r2 (hEX lite) | 5 portas 10/100, 64 MB RAM; CPU 850 MHz; flash 16 MiB | Central NOC atualizada para RouterOS/RouterBOOT 7.23.7; gateway em uso; VPN WireGuard funcional confirmada pelo usuário em 22/09/2026 |
 
 Fontes: [mANTBox](https://mikrotik.com/product/mantbox_ax_15s), [wAP ax](https://mikrotik.com/product/wap_ax), [hEX RB750Gr3](https://mikrotik.com/product/RB750Gr3), [RB750r2](https://mikrotik.com/product/RB750r2). As especificações de alimentação estão no [projeto DC](POWER_AND_INSTALLATION.md).
 
