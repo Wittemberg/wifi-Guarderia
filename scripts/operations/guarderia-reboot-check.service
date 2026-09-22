@@ -1,0 +1,7 @@
+[Unit]
+Description=Guarderia post-reboot verification evidence
+After=docker.service wg-quick@wg0.service guarderia-host-firewall.service guarderia-panel-firewall.service
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /root/guarderia-ops/reboot_postcheck.py
+TimeoutStartSec=10min

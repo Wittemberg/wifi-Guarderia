@@ -1,6 +1,6 @@
 # Requisitos e rastreabilidade
 
-**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Estados de execução e amostras recebidas estão na homologação; configuração observada não equivale a aceite completo.
+**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Consultar a homologação para o estado atual: revisões documentais realizadas, HW-01, VPS-01 e STACK-01 parciais; instalação da stack e coleta interna concluídas, VPN-01/02 parciais pelo notebook, homologação integral pendente.
 
 | ID | Requisito verificável | Origem/estado | Prioridade | Evidência de aceite |
 |---|---|---|---|---|
@@ -41,3 +41,9 @@
 ## Mudança de requisito
 
 Registrar motivo, impacto, decisão e teste afetado. Requisito removido permanece no histórico como substituído; não apagar evidências de uma reprovação.
+
+## Evidência operacional consolidada — 17/09/2026
+
+REQ-05/06/08/10/11/18/19 têm avanços medidos: stack e coleta interna, VPN notebook, volumes nomeados, backup S3/restauração isolada, restrições públicas TCP IPv4, reboot controlado e alertas SES/Telegram. [Mapa de implementações](IMPLEMENTATION_STATUS.md) e [homologação](../06-validation/HOMOLOGATION.md).
+
+REQ-11/19 permanecem parciais pela recuperação integral e teste da chave externa, não por falta de reboot. REQ-05/10 não homologam RBs, UDP/IPv6 externo, revogação ou isolamento de campo. Alertas de backup ativos não equivalem a templates/coleta de equipamentos. Retenção local 7/4/3 e S3 sete dias são políticas distintas; exclusão efetiva, RPO/RTO e cobertura integral do lifecycle ainda em validação.

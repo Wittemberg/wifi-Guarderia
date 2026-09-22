@@ -1,0 +1,8 @@
+[Unit]
+Description=Verify Guarderia stack after boot
+[Timer]
+OnBootSec=45s
+AccuracySec=5s
+Unit=guarderia-reboot-check.service
+[Install]
+WantedBy=timers.target

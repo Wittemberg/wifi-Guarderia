@@ -1,6 +1,6 @@
 # Segurança, acesso e proteção dos dados
 
-Estado: requisitos para implementação e teste. A primeira entrega não altera firewall nem cria usuários em sistemas remotos.
+Estado em 17/09/2026: restrições dos painéis e infraestrutura implantadas, testadas por TCP IPv4 e mantidas após reboot; acesso e logins pela VPN confirmados. Segurança integral, UDP/IPv6 externo, privilégios e isolamento de campo seguem em validação. [Estado consolidado](../00-project/IMPLEMENTATION_STATUS.md).
 
 ## Princípios
 
@@ -11,7 +11,7 @@ Menor privilégio, autenticação individual, isolamento de barcos, segredos for
 | Origem | Destino | Serviço | Regra |
 |---|---|---|---|
 | Internet | VPS | UDP 51820 | VPN pública autenticada |
-| Administração autorizada | VPS | SSH/HTTPS | Preferir VPN; bootstrap com restrição temporária documentada |
+| Administração autorizada | VPS | SSH/HTTPS | Na VPS implantada, novas conexões SSH e consoles pelos caminhos autorizados da VPN; ver política efetiva abaixo |
 | Coletor autorizado | Equipamentos cadastrados | ICMP, UDP 161 SNMPv3, HTTPS/API TLS conforme necessidade | Somente pela VPN e alvos ativos |
 | PC administrativo 10.21.0.10 / peer de recuperação | Gestão core/AP/wAP | SSH/WinBox/HTTPS estritamente necessários | Fonte, destino e serviço explícitos |
 | Zabbix web/server | PostgreSQL | TCP 5432 | Rede interna de dados |
@@ -52,8 +52,8 @@ Certificados privados exigem CA confiável instalada no coletor; certificados p�
 
 | Classe | Exemplos | Local |
 |---|---|---|
-| Pública/sanitizada | Especificação, template sem dados reais | Git |
-| Operacional restrita | MAC, serial, IP real, croqui detalhado, fotos de instalação | Storage privado |
+| Pública/sanitizada | Especificação, template sanitizado, domínio e IP público de destino do DNS publicado | Git |
+| Operacional restrita | MAC, serial, endereçamento interno, gateway e IP operacional não publicado, croqui detalhado, fotos de instalação | Storage privado |
 | Segredo | Senhas, chaves, tokens, dumps com credenciais | Cofre/backup cifrado |
 | Dados de pessoas/imagens | Contatos, vídeo e identificação de proprietário | Sistema autorizado, acesso por finalidade |
 
@@ -73,6 +73,14 @@ Definir finalidade, responsáveis, acesso e retenção dos dados antes de produ�
 | Perda da configuração | Backup e restauração ensaiados | BAK-01 |
 
 Hash de evidência permite detectar alteração quando comparado com referência confiável; não torna o arquivo imutável por si só.
+
+## Política efetiva da VPS
+
+Sete routers Traefik com IPAllowList; quatro portas diretas de painéis e portas de infraestrutura filtradas em cadeia própria. Novas conexões SSH públicas bloqueadas, sessões anteriores preservadas durante a transição. Testes públicos TCP IPv4 e logins VPN repetidos após reboot e aprovados. A exceção do gateway NAT Docker é limitada ao Prometheus e não identifica contêineres individualmente. [Painéis](../06-validation/VPS_ACCESS_VALIDATION.md), [infraestrutura](../06-validation/VPS_HOST_ACCESS_VALIDATION.md) e [reboot](../06-validation/VPS_REBOOT_VALIDATION.md).
+
+HTTP 80 foi preservado para ACME HTTP-01; sete certificados/domínios HTTPS validados, mas renovação induzida ainda não ensaiada. WireGuard UDP 51820 preservado. Regras IPv6 presentes; sem IPv6 global observado, não há homologação externa dessa família. A matriz de campo acima continua política alvo onde os equipamentos não foram integrados.
+
+Alertas SES/Telegram ativos, com token em SSM SecureString e arquivo privado protegido; IAM administrativo de implantação separado da role operacional da Lambda. Confirmação de recebimento não homologa todos os privilégios ou recuperação de segredos. [Alertas](../06-validation/BACKUP_ALERTS.md).
 
 ## Revisão da coleta atual da central NOC — 21/09/2026
 

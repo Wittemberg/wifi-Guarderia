@@ -1,6 +1,6 @@
 # Contrato de coleta e qualidade das métricas
 
-Estado: especificação, sem templates importados ou resultados reais. Zabbix é a fonte principal; Grafana consulta essa fonte. O Kuma fornece síntese de disponibilidade e não substitui coleta RF.
+Estado em 16/09/2026: coleta interna Prometheus/cAdvisor/Node Exporter validada com três alvos UP. O contrato de telemetria RF e a integração Zabbix/Grafana abaixo ainda dependem de validação. Kuma não substitui coleta RF. Ver [conclusão da etapa](../06-validation/VPS_PHASE_COMPLETION.md).
 
 ## Dimensões obrigatórias
 

@@ -80,7 +80,7 @@ Há resposta ICMP aos três destinos nas amostras. O terceiro arquivo mostra som
 ## Próximas verificações
 
 1. Preservar backup privado e acesso local ao gateway em uso; não resetar/importar globalmente.
-2. Inventariar/preparar VPS e endpoint WireGuard.
+2. Usar o hub VPS já documentado como ativo, preservando seu peer do notebook; preparar somente o novo peer da RB.
 3. Definir implantação da LAN administrativa dedicada 10.21.0.0/24 sem substituir a LAN atual; escolher porta/VLAN e PC autorizado.
 4. Revisar serviços, fontes, IPv6, MAC/descoberta e credenciais; testar SEC-03/04.
 5. Confirmar WAN2 e seu endereçamento: o exemplo WAN1 do template coincide com a rede LAN atual, portanto não deve ser aplicado.

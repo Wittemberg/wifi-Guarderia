@@ -48,7 +48,7 @@ Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN
 
 ## Central NOC — RB750r2
 
-Atualização concluída pelo usuário: RouterOS 7.23.7 (long-term), RouterBOOT atual/disponível 7.23.7. A RB750r2 já opera como gateway; a configuração adicional da VPN depende da VPS. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
+Atualização concluída pelo usuário: RouterOS 7.23.7 (long-term), RouterBOOT atual/disponível 7.23.7. A VPS e o notebook já estão conectados; a RB750r2 tem inventário de rede recebido em 21/09/2026; confirmar backup e recuperação local antes da integração. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
 
 Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB750r2 em requisito da operação da guarderia.
 

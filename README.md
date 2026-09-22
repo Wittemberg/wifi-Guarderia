@@ -1,8 +1,10 @@
 # WiFi Guarderia Vitória
 
-Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a aproximadamente 50–100 metros da margem, com infraestrutura compartilhada e operação por mensalidade.
+[Estado completo das implementações e pendências reais](docs/00-project/IMPLEMENTATION_STATUS.md). Publicação e versões rastreadas pelo histórico Git.
 
-**Estado em 21/09/2026:** gateway da central NOC em uso, com configuração básica e coletas analisadas; VPS, VPN, monitoramento e homologação de campo pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
+**Estado consolidado em 21/09/2026:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard e notebook de recuperação conectados. Handshake e ping observados na VPS; acesso SSH pela VPN confirmado pelo usuário. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+**Próximo passo viável na VPS:** acompanhar os backups e planejar os ensaios restantes de recuperação integral; reboot, acesso VPN e restrições públicas TCP IPv4 já validados, conforme a [validação de acesso](docs/06-validation/VPS_ACCESS_VALIDATION.md). A integração da RB750r2 é o próximo marco de equipamento. Inventário de rede recebido em 21/09/2026; gateway básico em uso, VPN pendente. Volumes Grafana/Prometheus migrados e restauração isolada a partir do S3 ensaiada; recuperação integral, core, segurança e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
 
 ## Comece por aqui
 
@@ -20,10 +22,10 @@ Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a a
 | Core | MikroTik RB750Gr3 já disponível |
 | Margem | mANTBox ax 15s, prevista para a PoC |
 | Barco | wAP ax: cliente 5 GHz e AP local 2,4 GHz |
-| Administração na central NOC | RB750r2 (hEX lite) atualizada: RouterOS e RouterBOOT 7.23.7; gateway em uso; VPN pendente |
+| Administração na central NOC | RB750r2 (hEX lite) atualizada: RouterOS e RouterBOOT 7.23.7; gateway em uso; inventário recebido; VPN pendente |
 | Central | VPS existente, Ubuntu 24.04, IPv4 público |
-| VPN | WireGuard no host da VPS; proposta de engenharia |
-| Monitoramento | Zabbix + PostgreSQL + Grafana + Uptime Kuma em Docker/Portainer |
+| VPN | WireGuard no host da VPS e notebook implantados; RBs pendentes |
+| Monitoramento | Zabbix/PostgreSQL, Grafana, Kuma e Prometheus/exporters instalados em Docker Swarm/Portainer |
 
 Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
 
@@ -51,3 +53,15 @@ Repositório oficial: [Wittemberg/wifi-Guarderia](https://github.com/Wittemberg/
 ## Licenciamento
 
 A licença deste projeto ainda deve ser definida pelo titular. Nenhuma licença de software livre é presumida. O `nocagent` é referência de engenharia; seu código, marca, credenciais e infraestrutura não foram incorporados. Consulte a [proveniência](docs/08-reference/NOCAGENT_REVIEW.md).
+
+## Acesso administrativo validado e integração futura da central NOC
+
+Notebook 10.250.0.10 ↔ VPS 10.250.0.1 com SSH em TCP 5822 validado. Endpoint usado pelo notebook: `204.157.108.99:51820` (UDP); alias DNS documentado: `vpn-guarderia.awecloudsolution.com:51820`.
+
+Com o inventário da RB750r2 recebido, confirmar backup e recuperação local para integrar seu peer; RB750Gr3 e coleta de campo depois. Os sete painéis receberam restrições por origem e quatro portas diretas receberam filtro; teste externo IPv4 aprovado conforme saída enviada pelo usuário; logins pós-mudança nos quatro consoles confirmados pelo usuário. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).
+
+## Backup e persistência — atualização de 16/09/2026
+
+Volumes de Grafana/Prometheus migrados e manifestos reconciliados. Backup local criptografado e restauração isolada validados; automação diária instalada. Envio diário ao AWS S3 ativado após download/hash e restauração isolada validados. O usuário configurou expiração S3 em sete dias; a previsão de expiração foi observada no backup e no recibo. A política local mantém 7 diários/4 semanais/3 mensais. Exclusão efetiva e recuperação integral ainda não homologadas. [Resultados e limites](docs/06-validation/BACKUP_AUTOMATION.md).
+
+Alertas externos de backup por SES e Telegram implantados e ativos; incidentes sintéticos e recuperação recebidos nos dois canais. [Operação e limites](docs/06-validation/BACKUP_ALERTS.md).

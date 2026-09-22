@@ -1,6 +1,8 @@
 # Preparação da VPS
 
-Estado: procedimento planejado, não executado. Responsável: operador técnico do projeto. Dependências: `OPEN-01` a `OPEN-05`, console do provedor e backup de qualquer serviço existente.
+Evolução consolidada em 17/09/2026: volumes/S3, restrições TCP IPv4, reboot e alertas externos concluídos no escopo testado. [Estado vigente e limites](../00-project/IMPLEMENTATION_STATUS.md). As etapas de equipamentos ainda não executadas permanecem propostas.
+
+Estado em 16/09/2026: inventário e instalação inicial pelo Orion concluídos; Docker Swarm e serviços conferidos. Ver [conclusão](../06-validation/VPS_PHASE_COMPLETION.md). As etapas abaixo são referência para manutenção e itens ainda pendentes, não instrução para reinstalar a stack existente.
 
 ## Inventário somente leitura
 
@@ -58,3 +60,7 @@ Manter o backend de firewall explicitamente registrado. Não assumir que regras 
 ## Pós-testes e retorno
 
 VPS-01: OS e inventário aprovados. STACK-01: dependências saudáveis, login autenticado, dados persistentes e portas externas corretas. OPS-01: reboot não perde gerência ou dados. Se uma mudança retirar acesso, usar console e restaurar o conjunto anterior de regras/configuração; não repetir mudanças remotas às cegas.
+
+## Ponto de retomada após WireGuard
+
+Hub e notebook já implantados, com handshake/ping e SSH validados no [escopo registrado](../06-validation/NOTEBOOK_VPN_VALIDATION.md). Console Proxmox confirmado e suporte WireGuard no LXC testado. As etapas de bootstrap anteriores são referência; não reinstalar ou recriar chaves existentes. RB750r2 inventariada em 21/09/2026; integração pendente. Volumes Grafana/Prometheus e restauração isolada S3 foram posteriormente validados, conforme [backup](../06-validation/BACKUP_AUTOMATION.md). Exposição e recuperação integral seguem pendentes; iniciar pelo [plano de acesso da VPS](../04-security/VPS_ACCESS_PLAN.md).
