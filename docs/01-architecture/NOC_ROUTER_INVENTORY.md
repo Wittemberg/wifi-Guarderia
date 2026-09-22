@@ -4,7 +4,7 @@ Coleta fornecida pelo usuário em 21/09/2026: dez arquivos `noc-01` a `noc-10` e
 
 ## Estado atual
 
-**RB750r2 (hEX lite), revisão r3, RouterOS e RouterBOOT 7.23.7**, em uso como gateway da central NOC. Reset e configuração básica informados pelo usuário. WAN1 estática, LAN com DHCP/DNS e NAT presentes nas coletas. WAN2 reservada, sem link running ou endereço atribuído. Nenhuma interface WireGuard consta nas saídas; integração com a VPS permanece pendente.
+**RB750r2 (hEX lite), revisão r3, RouterOS e RouterBOOT 7.23.7**, em uso como gateway da central NOC. Em 21/09/2026, o usuário confirmou que está navegando na Internet através dela e que o gateway está plenamente operacional. Aceite funcional de navegação confirmado pelo usuário. Reset e configuração básica informados pelo usuário. WAN1 estática, LAN com DHCP/DNS e NAT presentes nas coletas. WAN2 reservada, sem link running ou endereço atribuído. Nenhuma interface WireGuard consta nas saídas; integração com a VPS permanece pendente.
 
 O campo `model` da RouterBOARD é a identificação adotada. Identidade de sistema não informada no export; `GV-NOC-01` permanece proposta.
 
@@ -75,7 +75,7 @@ Todos os testes são amostras de cinco pacotes fornecidas pelo usuário, sem tim
 | 02-teste-internet.txt | 1.1.1.1 | 5/5 | 0% | 20,387 / 29,466 / 51,732 ms |
 | 03-teste-dns.txt | 142.250.219.238 | 5/5 | 0% | 16,626 / 25,405 / 35,799 ms |
 
-Há resposta ICMP aos três destinos nas amostras. O terceiro arquivo mostra somente IP: não registra nome consultado, comando de resolução ou resposta DNS. Não afirmar DNS homologado nem disponibilidade contínua. Os testes não comprovam navegação de clientes LAN, throughput, VPN ou failover.
+Há resposta ICMP aos três destinos nas amostras. O terceiro arquivo mostra somente IP: não registra nome consultado, comando de resolução ou resposta DNS. A navegação de cliente LAN foi confirmada separadamente pelo usuário em uso real em 21/09/2026. A limitação do arquivo não representa falha de Internet ou pendência do aceite funcional do gateway. O caminho específico de resolução DNS não foi isolado; throughput, VPN e failover não foram medidos por esses pings.
 
 ## Próximas verificações
 
@@ -84,6 +84,6 @@ Há resposta ICMP aos três destinos nas amostras. O terceiro arquivo mostra som
 3. Definir implantação da LAN administrativa dedicada 10.21.0.0/24 sem substituir a LAN atual; escolher porta/VLAN e PC autorizado.
 4. Revisar serviços, fontes, IPv6, MAC/descoberta e credenciais; testar SEC-03/04.
 5. Confirmar WAN2 e seu endereçamento: o exemplo WAN1 do template coincide com a rede LAN atual, portanto não deve ser aplicado.
-6. Executar VPN-01/02/03, testes dual-WAN e carga; confirmar DNS e navegação de cliente separadamente.
+6. Executar VPN-01/02/03, testes dual-WAN e carga quando essas funções forem implantadas. Navegação pelo gateway já tem aceite funcional do usuário; investigação específica de DNS somente se necessária.
 
 O inventário da RB750Gr3 do core permanece pendente. Ver [homologação](../06-validation/HOMOLOGATION.md).

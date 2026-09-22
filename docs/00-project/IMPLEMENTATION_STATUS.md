@@ -37,4 +37,4 @@ Este documento é a entrada para o estado atual. Relatórios históricos de inst
 
 ## Atualização da central NOC — 21/09/2026
 
-[Inventário e configuração atual](../01-architecture/NOC_ROUTER_INVENTORY.md) analisados em treze anexos. Três amostras ICMP 5/5 recebidas; DNS de cliente, VPN da RB e failover permanecem não homologados. Resultados anteriores da VPS preservados; não foi executado novo teste operacional nesta revisão.
+[Inventário e configuração atual](../01-architecture/NOC_ROUTER_INVENTORY.md) analisados em treze anexos. Três amostras ICMP 5/5 recebidas; Navegação de cliente pelo gateway confirmada pelo usuário em 21/09/2026; VPN da RB e failover permanecem não homologados. Resultados anteriores da VPS preservados; não foi executado novo teste operacional nesta revisão.

@@ -35,4 +35,6 @@ Preservar arquivos e alterações existentes; segredos fora do Git. Não anuncia
 
 ## Inventário atual da central NOC
 
+Em 21/09/2026, o usuário confirmou navegação na Internet através da RB750r2 e operação plena como gateway. NOC-02 tem aceite funcional do usuário; não tratar a ausência de nome no arquivo teste-dns como falha ou impedimento de uso. VPN da RB e failover continuam etapas distintas, ainda pendentes.
+
 Modelo observado RB750r2 (hEX lite), revisão r3; 64 MiB RAM, 16 MiB flash, CPU 850 MHz; RouterOS/RouterBOOT 7.23.7. Treze anexos analisados; três amostras ICMP 5/5, sem comprovação de resolução DNS no arquivo teste-dns. Fontes no [inventário](../../docs/01-architecture/NOC_ROUTER_INVENTORY.md); originais fora do Git. LAN 10.21.0.0/24 é reserva futura, não rede em uso. Integração incremental, preservando DHCP/NAT e acesso local; não resetar/importar template. Exemplo WAN1 do template conflita com a LAN atual. Nenhum serviço remoto alterado nesta revisão.

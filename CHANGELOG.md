@@ -1,5 +1,9 @@
 # Histórico de alterações
 
+## Aceite funcional do gateway — 2026-09-21
+
+- Usuário confirmou navegação atual pela RB750r2 e operação plena como gateway; NOC-02 atualizado para aceite funcional, preservando o escopo separado de VPN/failover.
+
 ## 0.1.3 — 2026-09-21
 
 - Inventário atual da central NOC: RB750r2 (hEX lite) r3, RouterOS/RouterBOOT 7.23.7, recursos e configuração básica de gateway.

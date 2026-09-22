@@ -29,7 +29,7 @@
 
 Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
 
-**Central NOC:** RB750r2 (hEX lite), revisão r3, com RouterOS/RouterBOOT **7.23.7**, WAN1 estática, DHCP/DNS na LAN e NAT. WAN2 reservada; WireGuard ainda não configurado. As amostras recebidas mostram resposta ICMP ao gateway e a destinos externos. Consulte o [inventário e análise da configuração atual](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
+**Central NOC:** RB750r2 (hEX lite), revisão r3, com RouterOS/RouterBOOT **7.23.7**, WAN1 estática, DHCP/DNS na LAN e NAT. Gateway plenamente operacional para acesso à Internet, com navegação confirmada pelo usuário em 21/09/2026. WAN2 reservada; WireGuard ainda não configurado. As amostras recebidas mostram resposta ICMP ao gateway e a destinos externos. Consulte o [inventário e análise da configuração atual](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
 
 Os anexos RouterOS v7 recebidos foram [revisados](docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md) e incorporados como [proposta de redundância WAN da central NOC](docs/02-implementation/NOC_DUAL_WAN.md). O template original exige adaptação e testes antes de importação; a existência de dois links ainda precisa ser confirmada.
 

@@ -45,7 +45,7 @@ Baseline de critérios: 12/09/2026; estado consolidado em 17/09/2026. Estados in
 | WAN-07 | Reboot e intermitência | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
 
 | NOC-01 | ICMP básico do gateway da central NOC | Amostras recebidas: 5/5 em três destinos | [Resultados e limites](../01-architecture/NOC_ROUTER_INVENTORY.md); sem garantia contínua |
-| NOC-02 | Resolução DNS e navegação de cliente LAN | Pendente | Arquivo teste-dns mostra somente IP; sem comando/nome e sem teste de cliente |
+| NOC-02 | Navegação de cliente LAN pelo gateway | Aceite funcional confirmado pelo usuário em 21/09/2026 | Usuário informa navegação atual através da RB e gateway plenamente operacional; caminho específico de DNS não isolado |
 
 ## Testes negativos obrigatórios
 
