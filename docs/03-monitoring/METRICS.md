@@ -27,7 +27,7 @@ Estados: `valid`, `unsupported`, `timeout`, `stale`, `unauthorized`, `error`. Va
 | Saúde WireGuard | Host/RouterOS | idade handshake, bytes | 30 s | 60 s | Somar sonda de rota funcional |
 | NOC/banco/disco | Métricas internas e host | fila, atraso, bytes/% | 30–60 s | 60 s | Monitorar o monitoramento |
 
-Intervalo proposto não assegura resolução real. Medir agendamento, atraso e custo; coleta concorrente não pode sobrecarregar a RB951/core. Interface WiFi moderna e campos documentados: [MikroTik WiFi](https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi).
+Intervalo proposto não assegura resolução real. Medir agendamento, atraso e custo; coleta concorrente não pode sobrecarregar a RB750r2/core. Interface WiFi moderna e campos documentados: [MikroTik WiFi](https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi).
 
 ## Fontes e descoberta
 

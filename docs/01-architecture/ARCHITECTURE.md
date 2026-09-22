@@ -6,7 +6,7 @@ Estado: proposta de engenharia para implementação e homologação. Premissas c
 
 ```mermaid
 flowchart TD
-  PC[Computador administrativo] --> NOC[RB951G na central NOC]
+  PC[Computador administrativo] --> NOC[RB750r2 na central NOC]
   NOC -->|WireGuard iniciado de dentro do CGNAT| VPS[VPS Ubuntu: WireGuard no host]
   ISP[Provedor local / CGNAT] --> CORE[RB750Gr3 Core]
   CORE -->|WireGuard iniciado de dentro do CGNAT| VPS
@@ -19,7 +19,7 @@ flowchart TD
 
 As setas representam conexões, não exclusividade de direção do tráfego. Não há encaminhamento permanente de vídeo pela VPS.
 
-A central NOC é o local administrativo com a RB951G; os serviços de monitoramento são hospedados na VPS. A RB951G está atualizada para 7.23.5 e aguarda configuração da VPS para receber sua configuração de rede.
+A central NOC é o local administrativo com a RB750r2; os serviços de monitoramento são hospedados na VPS. A RB750r2 opera como gateway com RouterOS/RouterBOOT 7.23.7; integração WireGuard depende da VPS. A LAN administrativa dedicada no diagrama é proposta, ainda não implantada.
 
 ## Responsabilidades
 
@@ -29,7 +29,7 @@ A central NOC é o local administrativo com a RB951G; os serviços de monitorame
 | Zabbix | Coletar, armazenar métricas e avaliar alertas | Banco e caminho até os alvos |
 | Grafana | Visualizar dados do Zabbix | Plugin/API compatíveis |
 | Uptime Kuma | Resumo simples de disponibilidade | Sondas; não substitui histórico RF |
-| RB951G | Roteamento da estação administrativa para a VPN | Internet da central NOC |
+| RB750r2 | Roteamento da estação administrativa para a VPN | Internet da central NOC |
 | RB750Gr3 | Gateway WAN, firewall, NAT de Internet, rotas e QoS | Energia e provedor local |
 | mANTBox | AP de transporte 5 GHz e segregação das estações | Core, energia, compatibilidade VLAN |
 | wAP | Cliente 5 GHz; roteador da LAN; AP 2,4 GHz | Rádio e alimentação embarcada |
@@ -38,7 +38,7 @@ A central NOC é o local administrativo com a RB951G; os serviços de monitorame
 ## Caminhos de tráfego
 
 1. **Internet do barco:** LAN → wAP → trânsito dedicado → core → NAT na WAN → provedor. O wAP não faz NAT na baseline roteada.
-2. **Gerência da central NOC:** PC administrativo → RB951 → WireGuard → VPS → WireGuard → core → equipamento. Rotas de retorno são obrigatórias.
+2. **Gerência da central NOC:** PC administrativo → RB750r2 → WireGuard → VPS → WireGuard → core → equipamento. Rotas de retorno são obrigatórias.
 3. **Telemetria central:** container de coleta → host VPS → SNAT restrito ao IP WireGuard do host → core → alvo. Retorno usa conexão rastreada no host.
 4. **Medição de rádio local:** estação cabeada no lado core ↔ host de teste na LAN embarcada. Esse caminho não inclui WAN/VPS.
 5. **Vídeo:** armazenamento embarcado; visualização por aplicativo ou acesso autorizado sob demanda. Medir quando o aplicativo usa relay de nuvem.

@@ -2,7 +2,7 @@
 
 Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a aproximadamente 50–100 metros da margem, com infraestrutura compartilhada e operação por mensalidade.
 
-**Estado em 12/09/2026:** especificação inicial documentada; infraestrutura, medições e homologação de campo ainda pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
+**Estado em 21/09/2026:** gateway da central NOC em uso, com configuração básica e coletas analisadas; VPS, VPN, monitoramento e homologação de campo pendentes. Este repositório não contém uma stack implantada nem configurações prontas para aplicação em equipamentos.
 
 ## Comece por aqui
 
@@ -20,14 +20,14 @@ Projeto de conectividade e segurança náutica para 10–20 barcos fundeados a a
 | Core | MikroTik RB750Gr3 já disponível |
 | Margem | mANTBox ax 15s, prevista para a PoC |
 | Barco | wAP ax: cliente 5 GHz e AP local 2,4 GHz |
-| Administração na central NOC | RB951G-2HnD atualizada: RouterOS e RouterBOOT 7.23.5; pronta para configuração após a VPS |
+| Administração na central NOC | RB750r2 (hEX lite) atualizada: RouterOS e RouterBOOT 7.23.7; gateway em uso; VPN pendente |
 | Central | VPS existente, Ubuntu 24.04, IPv4 público |
 | VPN | WireGuard no host da VPS; proposta de engenharia |
 | Monitoramento | Zabbix + PostgreSQL + Grafana + Uptime Kuma em Docker/Portainer |
 
 Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
 
-**Central NOC:** a RB951G-2HnD foi atualizada e está pronta para receber a configuração assim que a VPS estiver configurada. O inventário informado pelo usuário registra RouterOS **7.23.5 (long-term)** e firmware atual/disponível **7.23.5**. A configuração e a homologação da VPN permanecem pendentes. Consulte o [registro técnico da RB951G](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
+**Central NOC:** RB750r2 (hEX lite), revisão r3, com RouterOS/RouterBOOT **7.23.7**, WAN1 estática, DHCP/DNS na LAN e NAT. WAN2 reservada; WireGuard ainda não configurado. As amostras recebidas mostram resposta ICMP ao gateway e a destinos externos. Consulte o [inventário e análise da configuração atual](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
 
 Os anexos RouterOS v7 recebidos foram [revisados](docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md) e incorporados como [proposta de redundância WAN da central NOC](docs/02-implementation/NOC_DUAL_WAN.md). O template original exige adaptação e testes antes de importação; a existência de dois links ainda precisa ser confirmada.
 

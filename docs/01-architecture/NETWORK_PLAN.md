@@ -7,7 +7,7 @@ Estado: **endereços reservados em projeto, não aplicados**. Conferir sobreposi
 | Rede | Finalidade | Gateway/atribuições |
 |---|---|---|
 | `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, central NOC `.2`, core `.3`, notebook de recuperação `.10` reservado |
-| `10.21.0.0/24` | LAN administrativa dedicada atrás da RB951 | RB951 `.1`; PC `.10` reservado |
+| `10.21.0.0/24` | LAN administrativa dedicada atrás da RB750r2 | RB750r2 `.1`; PC `.10` reservado |
 | `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver |
 | `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN |
 | `10.20.240.0/24` | Pool dividido em /30 de trânsito RF | Um /30 e uma VLAN por estação |
@@ -58,7 +58,7 @@ Fórmula para barco N: VLAN = 1000 + N; último octeto da rede = 4 × (N − 1);
 | VPS | Redes guarderia ativas | Peer core |
 | VPS | 10.21.0.0/24 | Peer central NOC |
 
-Sem NAT no wAP. No core, masquerade apenas das redes autorizadas quando a saída for WAN; não aplicar na VPN. Na central NOC, NAT apenas para Internet, preservando origem administrativa na VPN. O prefixo existente da central NOC não é exportado por padrão: PC usa a LAN administrativa dedicada. O acesso a essa LAN por um PC já na central NOC depende de rota adicional ou conexão física à RB951.
+Sem NAT no wAP. No core, masquerade apenas das redes autorizadas quando a saída for WAN; não aplicar na VPN. Na central NOC, NAT apenas para Internet, preservando origem administrativa na VPN. O prefixo existente da central NOC não é exportado por padrão: PC usa a LAN administrativa dedicada. O acesso a essa LAN por um PC já na central NOC depende de rota adicional ou conexão física à RB750r2.
 
 ## Mapeamento físico proposto
 
@@ -88,6 +88,12 @@ Se VLAN por estação não funcionar com autenticação e firmware escolhidos, a
 
 ## Variante dual-WAN da central NOC
 
-A [proposta recebida](../02-implementation/NOC_DUAL_WAN.md) reserva ether1/ether2 da RB951G para WAN1/WAN2 e ether3–5 para LAN administrativa, sujeita a inventário. Nessa variante, a default única é substituída por defaults recursivas com prioridades distintas. O mapeamento ether2 trunk do core permanece válido.
+A [proposta recebida](../02-implementation/NOC_DUAL_WAN.md) reserva ether1/ether2 da RB750r2 para WAN1/WAN2 e ether3–5 para LAN administrativa, sujeita a inventário. Nessa variante, a default única é substituída por defaults recursivas com prioridades distintas. O mapeamento ether2 trunk do core permanece válido.
 
 As redes 192.168.50.0/24 e 10.200.0.0/24 do anexo são exemplos divergentes, não novas reservas. Preservar as redes canônicas acima; IPs das WANs e pool DHCP administrativo dependem de confirmação. Ver [reconciliação](../02-implementation/ROUTEROS_BASELINE_REVIEW.md).
+
+## Estado observado da central NOC — 21/09/2026
+
+A RB750r2 já opera com WAN1 estática e LAN privada em bridge ether3/ether4/ether5-lan. ether2-LINK2 está reservada, sem link running/endereço. O [inventário atual](NOC_ROUTER_INVENTORY.md) registra a configuração e os testes; endereços operacionais completos permanecem nas evidências privadas.
+
+10.21.0.0/24 é reserva futura de administração, não a LAN atualmente instalada. Definir porta/VLAN e acesso do PC antes de criar essa rede; não reendereçar a LAN ativa por aplicação do plano. O exemplo WAN1 do template arquivado sobrepõe a LAN atual: não reutilizá-lo. Defaults recursivas e 10.250.0.2 no WireGuard continuam propostas.

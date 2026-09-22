@@ -73,3 +73,9 @@ Definir finalidade, responsáveis, acesso e retenção dos dados antes de produ�
 | Perda da configuração | Backup e restauração ensaiados | BAK-01 |
 
 Hash de evidência permite detectar alteração quando comparado com referência confiável; não torna o arquivo imutável por si só.
+
+## Revisão da coleta atual da central NOC — 21/09/2026
+
+A configuração IPv4 recebida bloqueia novas conexões administrativas pela lista WAN, mas permite toda a LAN no input; serviços não restringem origem no campo address. HTTP 780 e API 58728 estão habilitados sem TLS, SSH 5822 e WinBox 58292 ativos. Não há drop final explícito nas cadeias input/forward nem política IPv6 demonstrada. Isso é análise estática, não teste externo de exposição. Antes da VPN, definir ACLs específicas e política para novas interfaces; revisar MAC/descoberta, contas e necessidade de cada serviço. Detalhes no [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md).
+
+A documentação pública mantém nomes lógicos, recursos e resultados agregados. Seriais, software-id, MACs, endereços operacionais privados e export completo permanecem fora do Git.

@@ -4,7 +4,7 @@ Data: 12/09/2026. Estado: leitura integral dos dois anexos e análise estática 
 
 ## Conclusão
 
-O desenho de WAN primária/backup com sondas recursivas é referência útil para a **RB951G da central NOC**, atualizada para 7.23.5. O arquivo recebido **não está pronto para importação** no projeto. A atualização de firmware já concluída não valida o template.
+O desenho de WAN primária/backup com sondas recursivas é referência útil para a **RB750r2 da central NOC**, atualizada para 7.23.7. O arquivo recebido **não está pronto para importação** no projeto. A atualização de firmware já concluída não valida o template.
 
 A incorporação adiciona uma proposta de redundância da central NOC, sem presumir contratação/disponibilidade de dois links. Não substitui o core RB750Gr3 nem altera o IPAM adotado. A segunda WAN da guarderia permanece uma evolução distinta.
 
@@ -35,7 +35,7 @@ As instruções do anexo de análise — inclusive os sete testes — foram conv
 
 ### Sintaxe e importação
 
-O manual exige aspas quando o nome da variável contém caracteres além de letras/dígitos e descreve a visibilidade de globais entre escopos. A leitura estática identifica esses problemas no template; não substitui o parser da RB951G. A adaptação proposta deve usar nomes como `cfgIdentity` em escopo único. Referência: [Scripting](https://help.mikrotik.com/docs/spaces/ROS/pages/47579229/Scripting).
+O manual exige aspas quando o nome da variável contém caracteres além de letras/dígitos e descreve a visibilidade de globais entre escopos. A leitura estática identifica esses problemas no template; não substitui o parser da RB750r2. A adaptação proposta deve usar nomes como `cfgIdentity` em escopo único. Referência: [Scripting](https://help.mikrotik.com/docs/spaces/ROS/pages/47579229/Scripting).
 
 Depois das correções, validar em laboratório com o modo verbose/dry-run suportado pela versão alvo. Esse teste pode encontrar erros de importação sem aplicar a configuração, mas não comprova funcionamento de failover ou VPN. Referência: [Configuration Management](https://help.mikrotik.com/docs/spaces/ROS/pages/328155/Configuration+Management).
 
@@ -43,7 +43,7 @@ Depois das correções, validar em laboratório com o modo verbose/dry-run supor
 
 | Item | Anexo original | Baseline a preservar/adaptar |
 |---|---|---|
-| Alvo | GUARDERIA-POC-RB951 | RB951G da central NOC; identidade proposta `GV-NOC-01` |
+| Alvo | GUARDERIA-POC-RB951 | RB750r2 da central NOC; identidade proposta `GV-NOC-01` |
 | LAN administrativa | 192.168.50.0/24 | 10.21.0.0/24; gateway .1 e PC administrativo .10 |
 | Pool DHCP | 192.168.50.50–220 | A definir na LAN NOC; não incluir reservas administrativas |
 | Túnel local | 10.200.0.2/24 | 10.250.0.2/24 |
@@ -51,9 +51,9 @@ Depois das correções, validar em laboratório com o modo verbose/dry-run supor
 | WAN1 | 192.168.15.253/24, gateway .1 | Exemplo não confirmado; inventariar modem/provedor |
 | WAN2 | 192.168.68.253/24, gateway .1 | Exemplo não confirmado; inventariar modem/provedor |
 | Porta VPS | UDP 51820 | Mantida na proposta |
-| Porta local WireGuard | UDP 51821 | Candidata para RB951G; não muda o endpoint 51820 da VPS |
+| Porta local WireGuard | UDP 51821 | Candidata para RB750r2; não muda o endpoint 51820 da VPS |
 | Gerência WinBox | TCP 58292 | Candidata local, restrita às fontes autorizadas; não regra global de todos os equipamentos |
-| Segunda porta Ethernet | WAN2 | Somente na RB951G; ether2 do core continua trunk |
+| Segunda porta Ethernet | WAN2 | Somente na RB750r2; ether2 do core continua trunk |
 
 As diferenças exigem alterar também ACLs, DHCP, rotas, AllowedIPs e documentação de portas. Trocar somente os endereços no bloco inicial não resolve todo o escopo.
 
@@ -76,3 +76,7 @@ Originais arquivados, achados registrados e testes adicionados. A [especificaç�
 ## Conferência da versão recebida
 
 Durante a revisão, o arquivo de Downloads foi atualizado: `api disabled=yes` passou a `api disabled=no port=58728`. A cópia arquivada e seu hash correspondem à versão final relida. A mudança foi incorporada ao REV-10; não é evidência de configuração no equipamento.
+
+## Aplicabilidade à configuração atual — 21/09/2026
+
+Alvo de engenharia: RB750r2 (hEX lite), revisão r3, RouterOS 7.23.7. O template arquivado é fonte literal, não inventário do gateway. Seus comandos de rádio não se aplicam às interfaces coletadas. O [estado atual](../01-architecture/NOC_ROUTER_INVENTORY.md) já tem WAN1, LAN, DHCP, NAT e serviços em uso; não aplicar estratégia de bancada limpa/reset nem reimportar objetos. O exemplo WAN1 do template coincide com a LAN operacional. A versão adaptada deverá ser uma mudança incremental com backup, recuperação e pós-testes. Serviços atuais incluem HTTP 780, SSH 5822, WinBox 58292 e API 58728; não inferir seus estados pela tabela de achados do original.

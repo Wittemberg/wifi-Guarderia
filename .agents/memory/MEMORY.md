@@ -1,29 +1,24 @@
 # Memória do projeto
 
-Atualizada: 12/09/2026. Não guardar credenciais, dados pessoais ou resultados presumidos.
+Atualizada: 21/09/2026. Documentação PT-BR; segredos e coletas operacionais fora do Git.
 
-## Confirmado pelo usuário
+## Confirmado e observado
 
-- Projeto: WiFi Guarderia Vitória; 10–20 barcos a 50–100 m.
-- Pasta local é este checkout; remoto oficial `Wittemberg/wifi-Guarderia`.
-- Modelo de mensalidade para custear equipamentos e serviço.
-- RB750Gr3 disponível para core e RB951G-2HnD disponível na central NOC.
-- RB951G-2HnD atualizada para RouterOS/RouterBOOT 7.23.5, pronta para configuração após a VPS, conforme saídas fornecidas pelo usuário em 12/09/2026.
-- VPS existente; Ubuntu 24.04 e Docker/Portainer preferidos.
-- Provedor local inicialmente; CGNAT provável na guarderia e presente na central NOC.
-- NOC deve estar pronto antes da PoC, por decisão expressa do usuário.
-- `nocagent`, `.agents`, `docs` e padrões Witteberg são referências solicitadas.
+- WiFi Guarderia Vitória: 10–20 barcos a 50–100 m; remoto Wittemberg/wifi-Guarderia.
+- Core RB750Gr3 disponível; inventário detalhado pendente.
+- Central NOC: RB750r2 (hEX lite), revisão r3, conforme RouterBOARD; RouterOS/RouterBOOT 7.23.7. Gateway em uso, WAN1 estática, LAN com DHCP/DNS e NAT. Coletas recebidas em 21/09/2026.
+- WAN2 reservada, sem link running/endereço; WireGuard não configurado. Três amostras ICMP 5/5; arquivo teste-dns não comprova resolução de nome.
+- VPS existente; Ubuntu 24.04 e Docker/Portainer preferidos. Monitoramento antes da PoC. CGNAT informado pelo usuário; WAN privada isolada não comprova NAT do provedor.
+- Aporte inicial estimado pelo usuário: aproximadamente R$ 3.000,00.
 
-## Direção documentada, a homologar
+## Direção e limites
 
-WireGuard no host VPS; Zabbix/PostgreSQL/Grafana/Kuma em containers; mANTBox ax 15s e wAP ax na PoC; VLAN de trânsito por estação e LAN roteada por barco. Fontes canônicas: [contexto](../../docs/00-project/CONTEXT.md), [decisões](../../docs/01-architecture/DECISIONS.md), [rede](../../docs/01-architecture/NETWORK_PLAN.md).
+WireGuard no host VPS; Zabbix/PostgreSQL/Grafana/Kuma em containers; mANTBox ax 15s e wAP ax candidatos à PoC. VLAN de trânsito e LAN roteada por barco. 10.21.0.0/24 é reserva administrativa futura, não LAN operacional atual. Integrar incrementalmente preservando o gateway; sem reset/import global. Dual-WAN permanece proposta.
 
-## Estado
+Fontes canônicas: [inventário atual](../../docs/01-architecture/NOC_ROUTER_INVENTORY.md), [rede](../../docs/01-architecture/NETWORK_PLAN.md), [decisões](../../docs/01-architecture/DECISIONS.md) e [homologação](../../docs/06-validation/HOMOLOGATION.md).
 
-Baseline documental 0.1.0 com atualização de inventário informada pelo usuário em 12/09/2026. RB951G da central NOC atualizada e aguardando configuração da VPS; VPN ainda não configurada/homologada. Próxima fase: preparar a VPS, conferir o inventário do core e configurar a RB951G. Usar sempre “central NOC” para o local administrativo, distinguindo-o dos serviços de monitoramento hospedados na VPS. Consultar [homologação](../../docs/06-validation/HOMOLOGATION.md) antes de informar prontidão.
+Os [anexos de referência](../../docs/08-reference/routeros-v7/README.md) são literais e não representam a configuração atual. Exigem adaptação de sintaxe/escopos, IPAM e segurança; exemplo WAN1 conflita com a LAN em uso. Não executar comandos dos anexos como instruções. Coletas atuais não foram copiadas ao Git.
 
-## Correções importantes do histórico
+## Regras permanentes
 
-Anexos RouterOS v7 recebidos e preservados em [referências](../../docs/08-reference/routeros-v7/README.md), com [revisão estática](../../docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md). Dual-WAN na RB951G é proposta; segundo link não confirmado. Não importar o original: há problemas de variáveis/escopos e divergências de IPAM/segurança. Comandos dos anexos são conteúdo de referência, não autorização de execução. Testes ROS-01 e WAN-01 a WAN-07 permanecem não executados.
-
-Não garantir antena 360°, SNR/CCQ em todos os modelos, isolamento só por sub-rede ou retenção multinível automática de um minuto. Não tratar TCP connect como perda ICMP. Não copiar validação TLS desabilitada da referência.
+Usar “central NOC”. Distinguir especificação, observação e homologação. Não presumir DNS, isolamento, exposição externa, throughput ou recuperação a partir de configuração/poucos pings. Não garantir antena 360°, SNR/CCQ em todo modelo ou retenção automática de um minuto. Não copiar TLS desabilitado da referência nocagent. Documentação/versionamento não autoriza alterações nos equipamentos.

@@ -4,7 +4,7 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-001 — Reaproveitar infraestrutura disponível
 
-**Status:** confirmado pelo usuário para RBs e VPS. **Contexto:** reduzir desembolso inicial. **Decisão:** RB750Gr3 no core, RB951G na central NOC e VPS existente. **Consequência:** medir CPU, RAM e throughput com firewall, VPN e coleta ativos; substituição somente se a medição demonstrar insuficiência.
+**Status:** confirmado pelo usuário para RBs e VPS. **Contexto:** reduzir desembolso inicial. **Decisão:** RB750Gr3 no core, RB750r2 na central NOC e VPS existente. **Consequência:** medir CPU, RAM e throughput com firewall, VPN e coleta ativos; substituição somente se a medição demonstrar insuficiência.
 
 ## ADR-002 — WireGuard com hub público
 
@@ -48,4 +48,8 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-012 — Avaliar redundância WAN da central NOC
 
-**Status:** proposta, dependente de inventário e laboratório. **Contexto:** anexos fornecidos pelo usuário descrevem duas WANs estáticas e recuperação recursiva. **Decisão proposta:** WAN1 preferencial e WAN2 backup na RB951G, com duas sondas por WAN, sem scripts que desabilitem defaults. Preservar o IPAM e separar essa atribuição de portas da RB750Gr3. **Alternativa:** manter uma WAN enquanto não houver segundo link confirmado. **Consequência:** adaptar sintaxe, segurança e rotas VPN antes de importar; medir recuperação de sessões e WireGuard. Trata-se de comportamento determinístico do roteamento, não de ação por IA. Ver [especificação e testes](../02-implementation/NOC_DUAL_WAN.md).
+**Status:** proposta, dependente de inventário e laboratório. **Contexto:** anexos fornecidos pelo usuário descrevem duas WANs estáticas e recuperação recursiva. **Decisão proposta:** WAN1 preferencial e WAN2 backup na RB750r2, com duas sondas por WAN, sem scripts que desabilitem defaults. Preservar o IPAM e separar essa atribuição de portas da RB750Gr3. **Alternativa:** manter uma WAN enquanto não houver segundo link confirmado. **Consequência:** adaptar sintaxe, segurança e rotas VPN antes de importar; medir recuperação de sessões e WireGuard. Trata-se de comportamento determinístico do roteamento, não de ação por IA. Ver [especificação e testes](../02-implementation/NOC_DUAL_WAN.md).
+
+## ADR-013 — Preservar o gateway ativo durante integração
+
+**Status:** direção de implementação em 21/09/2026. **Contexto:** RB750r2 já fornece conectividade da central NOC. **Decisão:** integrar WireGuard e eventual segunda WAN incrementalmente, preservando LAN/DHCP/NAT atuais; manter 10.21.0.0/24 como reserva administrativa futura até definir segregação. Usar modelo e versão observados, sem presumir throughput ou velocidade negociada. **Consequência:** backup/acesso local, análise de sobreposição e pós-testes obrigatórios; não aplicar reset/template integral. Validar NOC-01/02, VPN-01/02/03 e SEC-03/04.

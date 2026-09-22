@@ -1,6 +1,6 @@
 # Proposta de redundância WAN da central NOC
 
-Estado: proposta incorporada a partir dos anexos do usuário; depende de inventário, adaptação e laboratório. Referência: [revisão do template](ROUTEROS_BASELINE_REVIEW.md). Alvo: RB951G-2HnD da central NOC, RouterOS 7.23.5. A VPS continua sendo pré-requisito da configuração WireGuard.
+Estado: proposta incorporada a partir dos anexos do usuário; depende de inventário, adaptação e laboratório. Referência: [revisão do template](ROUTEROS_BASELINE_REVIEW.md). Alvo: RB750r2 (hEX lite) da central NOC, RouterOS 7.23.7. A VPS continua sendo pré-requisito da configuração WireGuard.
 
 ## Escopo
 
@@ -8,12 +8,12 @@ WAN1 preferencial e WAN2 de contingência, com retorno automático à WAN1 depoi
 
 ## Portas propostas para esta variante
 
-| Porta RB951G | Papel |
+| Porta RB750r2 | Papel |
 |---|---|
 | ether1 | WAN1 para modem/roteador do provedor primário |
 | ether2 | WAN2 para modem/roteador do provedor de contingência |
 | ether3–5 | LAN administrativa; definir porta física de recuperação |
-| wlan1 legado | Desabilitado nesta variante |
+| Rádio WLAN | Não aplicável: nenhuma interface WLAN na RB750r2 |
 | wg-VPS | Administração roteada até VPS; IP do plano canônico |
 
 Essa atribuição não se aplica ao RB750Gr3, cujo ether2 transporta as VLANs da guarderia.
@@ -37,7 +37,7 @@ Manter defaults configuradas e sem scripts que as desabilitem ao perder Internet
 
 ## VPN e segurança
 
-Preservar IPAM/AllowedIPs/rotas do [WireGuard](WIREGUARD.md). O endpoint público da VPS deve seguir a WAN disponível, sem rota fixa que o aprisione na WAN1. A RB951G inicia a sessão e mantém keepalive; testar novo tráfego bidirecional após falha, além de observar handshake.
+Preservar IPAM/AllowedIPs/rotas do [WireGuard](WIREGUARD.md). O endpoint público da VPS deve seguir a WAN disponível, sem rota fixa que o aprisione na WAN1. A RB750r2 inicia a sessão e mantém keepalive; testar novo tráfego bidirecional após falha, além de observar handshake.
 
 Se for necessária regra UDP de entrada adicional, restringir endpoint/porta conforme desenho e teste; não abrir gerência pública. O caminho iniciado pela RB pode receber respostas via conntrack, mas mudança de WAN/NAT deve ser ensaiada. Limitar input e forward por fonte/destino/serviço. NTP/DNS/WinBox/SNMP têm funções e permissões distintas; uma lista MGMT não deve autorizar toda a LAN indiscriminadamente.
 
@@ -63,3 +63,7 @@ Os sete testes do anexo são cobertos por WAN-01, WAN-02, WAN-04, WAN-05 e WAN-0
 ## Próximo passo autorizado nesta fase
 
 Somente incorporar e documentar. A futura configuração adaptada depende de inventário das WANs, VPS pronta, backup e plano de recuperação. A proposta não autoriza executar o reset indicado no comentário do original nem configurar os equipamentos agora.
+
+## Pré-condição observada em 21/09/2026
+
+WAN1 estática já funciona em ether1-LINK1; ether2-LINK2 consta apenas como reserva. Bridge LAN ativa em ether3/ether4/ether5-lan. A default atual verifica o gateway diretamente, sem sondas recursivas. Portanto WAN-01 a WAN-07 seguem não executados. O equipamento não apresenta interface wlan1: a instrução correspondente do template não se aplica. A configuração de partida é o [inventário atual](../01-architecture/NOC_ROUTER_INVENTORY.md), não uma bancada vazia. A LAN ativa sobrepõe o exemplo WAN1 do template; parâmetros devem ser reconstruídos sem importar valores de exemplo.

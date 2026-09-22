@@ -7,7 +7,7 @@
 | OPEN-01 | IP público, CPU/RAM/disco, arquitetura e acesso de console da VPS | Responsável técnico | Instalação |
 | OPEN-02 | Serviços existentes, Compose/Swarm, proxy, portas e redes ocupadas | Responsável técnico | Instalação sem conflito |
 | OPEN-03 | Domínio/DNS e método de certificados internos/públicos | Responsável técnico | TLS e exposição controlada |
-| OPEN-04 | Parcialmente resolvida: RB951G central NOC em RouterOS/RouterBOOT 7.23.5; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB951G aguarda configuração da VPS |
+| OPEN-04 | Parcialmente resolvida: RB750r2 central NOC em RouterOS/RouterBOOT 7.23.7; inventário da RB750Gr3 ainda pendente | Responsável técnico | Provisionamento do core; RB750r2 aguarda configuração da VPS |
 | OPEN-05 | Redes existentes da central NOC, provedor e VPNs; sobreposições | Responsável técnico | IPAM e rotas |
 | OPEN-06 | Modelos/SKUs, aquisição, homologação aplicável e garantia dos rádios | Responsável técnico | Compra/instalação |
 | OPEN-07 | Mapa da área, altura, obstáculos, maré, energia na margem | Visita técnica | RF e montagem |
@@ -19,7 +19,7 @@
 | OPEN-13 | Destinatários/canais/plantão e tempos de atendimento | Operação + cliente | Alertas de produção |
 | OPEN-14 | Destino off-site, retenção aprovada, chaves e verba de backup | Responsável técnico | Recuperação |
 | OPEN-15 | Custos, contrato, tributos, vigilância e licença do projeto | Titular + especialistas | Oferta comercial |
-| OPEN-16 | Confirmar duas WANs da central NOC, modems, portas, IPs/gateways e modo estático/DHCP/PPPoE | Responsável técnico | Variante dual-WAN executável |
+| OPEN-16 | WAN1 estática inventariada; confirmar provedor/modem e segundo link na porta WAN2 reservada | Responsável técnico | Variante dual-WAN executável |
 | OPEN-17 | Adaptar variáveis/escopos, parâmetros, ACLs e rotas do template RouterOS recebido | Responsável técnico + laboratório | ROS-01 e WAN-01 a WAN-07 |
 
 ## Matriz de riscos

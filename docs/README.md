@@ -1,6 +1,6 @@
 # Índice da documentação técnica
 
-Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implantado. A distinção entre decisões, propostas e evidências é mantida em cada domínio.
+Baseline 0.1.3 — 21/09/2026. Gateway da central NOC em uso; integração VPN e infraestrutura do projeto ainda pendentes. A distinção entre decisões, propostas e evidências é mantida em cada domínio.
 
 ## 00 — Projeto
 
@@ -19,7 +19,7 @@ Baseline 0.1.2 — 12/09/2026. O projeto está especificado, ainda não implanta
 | [Plano de rede](01-architecture/NETWORK_PLAN.md) | IPAM para 20 barcos, VLANs, portas, rotas e NAT |
 | [Decisões](01-architecture/DECISIONS.md) | ADRs, alternativas e consequências |
 | [Hardware e RF](01-architecture/HARDWARE_AND_RF.md) | Modelos, perfil RF, levantamento e materiais |
-| [Inventário da RB951G central NOC](01-architecture/NOC_ROUTER_INVENTORY.md) | Atualização 7.23.5 e recursos informados pelo usuário |
+| [Inventário da RB750r2 central NOC](01-architecture/NOC_ROUTER_INVENTORY.md) | Recursos, configuração em uso e testes recebidos em 21/09/2026 |
 | [Energia e instalação](01-architecture/POWER_AND_INSTALLATION.md) | PoE, DC, autonomia e ambiente marítimo |
 
 ## 02 — Implementação

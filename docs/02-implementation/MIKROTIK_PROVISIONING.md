@@ -13,7 +13,7 @@ Estado: roteiro planejado; comandos abaixo são somente leitura. Há um [templat
 /ip route print
 ```
 
-Registrar saídas em armazenamento privado. Para rádios AX, inspecionar `/interface/wifi print detail` e `/interface/wifi/registration-table print detail` conforme pacote instalado. A ausência desse menu na RB951 não é falha: ela não será o rádio AX do projeto.
+Registrar saídas em armazenamento privado. Para rádios AX, inspecionar `/interface/wifi print detail` e `/interface/wifi/registration-table print detail` conforme pacote instalado. A ausência desse menu na RB750r2 não é falha: ela não será o rádio AX do projeto.
 
 ## Padrão comum
 
@@ -46,13 +46,13 @@ Identificar rádio 5 GHz como uplink `station`, IP WAN /30 fixo e default para c
 
 Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN de clientes recebe somente serviços locais necessários. Forward permite Internet e retorno de sessões, mas bloqueia redes de outros barcos e infraestrutura. O core repete a proteção como segunda fronteira. Validar ausência de bypass por IPv6/bridge.
 
-## Central NOC — RB951G
+## Central NOC — RB750r2
 
-Atualização concluída pelo usuário: RouterOS 7.23.5 (long-term), RouterBOOT atual/disponível 7.23.5. A RB951G está pronta para receber a configuração após a VPS estar configurada. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
+Atualização concluída pelo usuário: RouterOS 7.23.7 (long-term), RouterBOOT atual/disponível 7.23.7. A RB750r2 já opera como gateway; a configuração adicional da VPN depende da VPS. Não há necessidade de tratar sua atualização para RouterOS v7 como etapa ainda pendente. Consultar o [inventário recebido](../01-architecture/NOC_ROUTER_INVENTORY.md); manter backup, conferência das interfaces e testes antes de aplicar o plano.
 
-Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB951 em requisito da operação da guarderia.
+Usar uma porta de uplink da central NOC e uma LAN administrativa dedicada. Configurar WireGuard e rotas de gerenciamento sem alterar a rede existente da central NOC. Não publicar WinBox/API. Manter somente o tráfego administrativo autorizado no túnel, sem transformar a RB750r2 em requisito da operação da guarderia.
 
-A [variante dual-WAN](NOC_DUAL_WAN.md) propõe ether1/ether2 como WAN e ether3–5 como LAN na RB951G. Confirmar segundo link e portas antes de adotar. Resolver os achados da revisão, completar parâmetros e executar ROS-01; não importar o original nem seguir automaticamente seu comentário de reset.
+A [variante dual-WAN](NOC_DUAL_WAN.md) propõe ether1/ether2 como WAN e ether3–5 como LAN na RB750r2. Confirmar segundo link e portas antes de adotar. Resolver os achados da revisão, completar parâmetros e executar ROS-01; não importar o original nem seguir automaticamente seu comentário de reset.
 
 ## Dados mínimos para futuro template
 
@@ -61,3 +61,7 @@ Cada template exige modelo/versão, identity, mapa de portas, IPs, VLAN, credenc
 ## Critérios
 
 HW-01, LAN-01, RF-01 e SEC-01/02/03 precisam de evidência. Export real, inclusive sem senhas explícitas, pode conter identidade e detalhes sensíveis: manter fora do Git. Testar boot frio, lease DHCP, DNS, retorno VPN, isolamento e acesso de recuperação antes da instalação embarcada.
+
+## Condição de partida da central NOC — 21/09/2026
+
+O [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md) confirma gateway em uso, WAN1 estática, bridge LAN nas três últimas portas, DHCP, DNS e masquerade. Preservar essa operação. A LAN 10.21.0.0/24 é futura e exige desenho de porta/VLAN; WAN2 está reservada. Não há WireGuard. Nenhum reset/import global é necessário para preparar a integração. Conferir acesso local e backup antes de mudar ACLs, endereços ou serviços.

@@ -7,7 +7,7 @@ Estado: desenho implementável após inventário. Não inclui chaves nem comando
 | Ponta | IP WireGuard | Endpoint remoto | Keepalive proposto |
 |---|---|---|---|
 | VPS | 10.250.0.1 | Endpoints aprendidos dos clientes | Não necessário como padrão |
-| RB951 central NOC | 10.250.0.2 | IP público/DNS da VPS:51820 | 25 s |
+| RB750r2 central NOC | 10.250.0.2 | IP público/DNS da VPS:51820 | 25 s |
 | RB750 core | 10.250.0.3 | IP público/DNS da VPS:51820 | 25 s |
 | Notebook recuperação | 10.250.0.10 | VPS:51820 | Conforme NAT e uso |
 
@@ -71,6 +71,6 @@ Notebook também depende da VPS: não é contingência para falha total do hub. 
 
 ## Ensaio com duas WANs na central NOC
 
-O [template recebido](ROUTEROS_BASELINE_REVIEW.md) usa 10.200.0.0/24 e aceita somente o /32 da VPS; isso não substitui a tabela de peers, AllowedIPs e rotas desta especificação. Adaptar ambos antes do import. A porta local UDP 51821 é candidata da RB951G; o endpoint da VPS continua UDP 51820.
+O [template recebido](ROUTEROS_BASELINE_REVIEW.md) usa 10.200.0.0/24 e aceita somente o /32 da VPS; isso não substitui a tabela de peers, AllowedIPs e rotas desta especificação. Adaptar ambos antes do import. A porta local UDP 51821 é candidata da RB750r2; o endpoint da VPS continua UDP 51820.
 
 Executar WAN-06 do [plano dual-WAN](NOC_DUAL_WAN.md): falha/retorno de cada WAN, handshake e tráfego real central NOC→VPS→core, com verificação de retorno. Medir recuperação e efeito em sessões existentes; keepalive de 25 s não estabelece SLA de recuperação.

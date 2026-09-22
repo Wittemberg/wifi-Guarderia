@@ -1,5 +1,11 @@
 # Histórico de alterações
 
+## 0.1.3 — 2026-09-21
+
+- Inventário atual da central NOC: RB750r2 (hEX lite) r3, RouterOS/RouterBOOT 7.23.7, recursos e configuração básica de gateway.
+- Análise de WAN1, LAN/DHCP/DNS, NAT, firewall e serviços; testes ICMP registrados com limites de evidência.
+- Arquitetura, requisitos, integração incremental, riscos e homologação alinhados à configuração em uso. Coletas brutas mantidas fora do Git.
+
 ## 0.1.2 — 2026-09-12
 
 - Arquivados os dois anexos RouterOS v7 recebidos, preservando bytes e hashes SHA-256.

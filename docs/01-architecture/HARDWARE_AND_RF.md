@@ -1,6 +1,6 @@
 # Equipamentos, rádio e montagem
 
-Estado: especificação para aquisição e homologação; conferir SKU e revisão na entrega. Dados de fabricante consultados em 12/09/2026. As tabelas abaixo não são medições da instalação.
+Estado: especificação para aquisição e homologação; conferir SKU e revisão na entrega. Dados de fabricante consultados em 12/09/2026; hEX lite conferida em 21/09/2026. As tabelas abaixo não são medições da instalação.
 
 ## Equipamentos principais
 
@@ -9,13 +9,13 @@ Estado: especificação para aquisição e homologação; conferir SKU e revisã
 | mANTBox ax 15s, `L22UGS-5HaxD2HaxD-15S` | RouterOS v7, 256 MB RAM, 128 MB NAND; 5 GHz 15 dBi; 1 GbE e SFP com 2,5 G; IP55 | Base candidata |
 | wAP ax, `wAPG-5HaxD2HaxD` | RouterOS v7, 256 MB RAM, 128 MB NAND; dual-band 2×2; 5 GHz 7 dBi; 2 GbE; IP54 | Cliente candidato |
 | RB750Gr3 | 5 portas GbE, 256 MB RAM | Core já disponível; inventário pendente |
-| RB951G-2HnD | 5 portas GbE, 128 MB RAM | Central NOC atualizada para RouterOS/RouterBOOT 7.23.5; pronta para configuração após a VPS |
+| RB750r2 (hEX lite) | 5 portas 10/100, 64 MB RAM; CPU 850 MHz; flash 16 MiB | Central NOC atualizada para RouterOS/RouterBOOT 7.23.7; gateway em uso; VPN pendente |
 
-Fontes: [mANTBox](https://mikrotik.com/product/mantbox_ax_15s), [wAP ax](https://mikrotik.com/product/wap_ax), [hEX RB750Gr3](https://mikrotik.com/product/RB750Gr3), [RB951G](https://mikrotik.com/product/RB951G-2HnD). As especificações de alimentação estão no [projeto DC](POWER_AND_INSTALLATION.md).
+Fontes: [mANTBox](https://mikrotik.com/product/mantbox_ax_15s), [wAP ax](https://mikrotik.com/product/wap_ax), [hEX RB750Gr3](https://mikrotik.com/product/RB750Gr3), [RB750r2](https://mikrotik.com/product/RB750r2). As especificações de alimentação estão no [projeto DC](POWER_AND_INSTALLATION.md).
 
 ## Inventário antes de configurar
 
-O [inventário da RB951G da central NOC](NOC_ROUTER_INVENTORY.md) foi fornecido pelo usuário em 12/09/2026 e confirma a atualização. Os demais equipamentos e os testes de portas, alimentação e capacidade continuam pendentes.
+O [inventário da RB750r2 da central NOC](NOC_ROUTER_INVENTORY.md) foi fornecido pelo usuário em 21/09/2026 e registra recursos, configuração e amostras ICMP. Os demais equipamentos e os testes de portas, alimentação e capacidade continuam pendentes.
 
 Registrar modelo, revisão, serial privado, MAC privado, origem, nota/garantia, licença, RouterOS, RouterBOOT, pacotes e fontes entregues. Verificar estado das RBs guardadas. Testar portas e alimentação em bancada. Não confundir RB750Gr3 com hEX refresh e wAP ax com wAP ac.
 
@@ -49,7 +49,7 @@ Usar a equação de engenharia `Pr = Pt + Gt + Gr − Ltrajeto − Lcabos − Lm
 | Item | PoC | Escala 20 | Condição |
 |---|---:|---:|---|
 | RB750Gr3 | 1 existente | 1 inicialmente | Capacidade medida |
-| RB951G | 1 existente | 1 administrativo | Não participa do tráfego dos clientes |
+| RB750r2 | 1 existente | 1 administrativo | Não participa do tráfego dos clientes |
 | mANTBox ax 15s | 1 | A definir | Setores por levantamento e carga |
 | wAP ax | 1 | 20 | Depende da aprovação RF |
 | Switch gerenciável | Conforme portas/montagem | A definir | VLAN e orçamento PoE comprovados |

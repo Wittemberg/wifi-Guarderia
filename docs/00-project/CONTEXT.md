@@ -14,7 +14,7 @@ O responsável técnico deve definir alimentação mínima, manutenção prevent
 - Barcos se deslocam e giram com vento e corrente; enlace não pode depender de alinhamento direcional fixo a bordo.
 - Internet inicial será provavelmente de provedor local, com CGNAT; Starlink saiu da primeira etapa.
 - A central NOC também está atrás de CGNAT.
-- RB951G-2HnD está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.5 e pronta para configuração após a VPS; RB750Gr3 novo está disponível para o core.
+- RB750r2 (hEX lite) está disponível na central NOC, atualizada para RouterOS/RouterBOOT 7.23.7 e pronta para configuração após a VPS; RB750Gr3 novo está disponível para o core.
 - VPS já existe e, segundo o usuário, atende ao dimensionamento discutido. As características reais ainda não foram inventariadas.
 - Preferência por Ubuntu 24.04, Docker/Portainer e instalação via SetupOrion se viável.
 - Monitoramento deve estar preparado antes da PoC para registrar métricas reais desde o início.
@@ -22,7 +22,7 @@ O responsável técnico deve definir alimentação mínima, manutenção prevent
 
 ## Evolução das propostas
 
-Atualização de 12/09/2026: o usuário forneceu as saídas de inventário da RB951G, registradas em [inventário da central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md). A atualização foi realizada pelo usuário; configuração e testes da VPN ainda não foram executados. O local administrativo é denominado “central NOC” em toda a documentação.
+Inventário atual de 21/09/2026: o usuário forneceu as saídas de inventário da RB750r2, registradas em [inventário da central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md). A atualização foi realizada pelo usuário; configuração e testes da VPN ainda não foram executados. O local administrativo é denominado “central NOC” em toda a documentação.
 
 | Tema | Ideia anterior | Direção mais recente |
 |---|---|---|
@@ -47,4 +47,4 @@ Implantação, compra, contratação de vigilância, instalação elétrica, ent
 
 ## Anexos RouterOS recebidos em 12/09/2026
 
-O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise Markdown. Os [originais preservados](../08-reference/routeros-v7/README.md) são fontes documentais; seus comandos e recomendações não constituem autorização de execução. Foi acrescentada a [proposta dual-WAN para a central NOC](../02-implementation/NOC_DUAL_WAN.md). Dois links, endereços dos modems e resultados de failover não foram confirmados. A RB951G continua atualizada e aguardando a VPS para configuração.
+O usuário pediu leitura e incorporação do baseline `.rsc` e de sua análise Markdown. Os [originais preservados](../08-reference/routeros-v7/README.md) são fontes documentais; seus comandos e recomendações não constituem autorização de execução. Foi acrescentada a [proposta dual-WAN para a central NOC](../02-implementation/NOC_DUAL_WAN.md). A coleta atual confirma uma WAN estática; segundo link e resultados de failover não foram confirmados. A RB750r2 está em uso como gateway; WAN1 inventariada, WAN2 reservada e VPN dependente da VPS.

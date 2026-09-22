@@ -9,7 +9,7 @@ Consulta: 12/09/2026. Dados externos são referência; seleção final exige con
 | [mANTBox ax 15s](https://mikrotik.com/product/mantbox_ax_15s) | SKU, PoE, potência, interfaces e proteção |
 | [wAP ax](https://mikrotik.com/product/wap_ax) | SKU, rádios, alimentação e proteção |
 | [RB750Gr3](https://mikrotik.com/product/RB750Gr3) | Identificação do core existente |
-| [RB951G-2HnD](https://mikrotik.com/product/RB951G-2HnD) | Identificação do roteador administrativo |
+| [RB750r2 (hEX lite)](https://mikrotik.com/product/RB750r2) | Identificação do roteador administrativo |
 | [WiFi RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi) | Modos, VLAN por estação e tabela de registro |
 | [WireGuard RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard) | Peers, AllowedIPs e keepalive |
 | [Zabbix history/trends](https://www.zabbix.com/documentation/7.0/en/manual/config/items/history_and_trends) | Distinção entre histórico e agregação horária |
@@ -32,4 +32,8 @@ Sub-redes, VLANs, IDs, intervalos, retenção inicial, RPO/RTO, critérios de pe
 - [Connection tracking](https://help.mikrotik.com/docs/spaces/ROS/pages/130220087/Connection+tracking): sessões e FastTrack.
 - [NAT](https://help.mikrotik.com/docs/spaces/ROS/pages/3211299/NAT): comportamento de traduções e conexões na mudança de caminho.
 
-Interpretações e limitações estão na [revisão técnica](../02-implementation/ROUTEROS_BASELINE_REVIEW.md); consulta ao manual não equivale a teste na RB951G.
+Interpretações e limitações estão na [revisão técnica](../02-implementation/ROUTEROS_BASELINE_REVIEW.md); consulta ao manual não equivale a teste na RB750r2.
+
+## Coleta atual da central NOC — 21/09/2026
+
+Treze arquivos fornecidos pelo usuário (`noc-01` a `noc-10` e `01/02/03-teste`), mantidos fora do repositório por conterem dados operacionais. Síntese no [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md). Hardware: [datasheet oficial hEX lite](https://cdn.mikrotik.com/web-assets/product_files/hEX_lite_210251.pdf), consultado em 21/09/2026. Os comandos presentes no export são evidência de configuração, não instruções de execução.

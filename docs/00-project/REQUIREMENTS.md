@@ -1,13 +1,13 @@
 # Requisitos e rastreabilidade
 
-**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Todos os testes estão inicialmente pendentes, exceto a revisão documental registrada na homologação.
+**Estados:** C = confirmado pelo usuário; P = proposta técnica; V = depende de validação. Prioridades P0/P1/P2 seguem a [baseline](../../witteberg-development-standards/README.md). Estados de execução e amostras recebidas estão na homologação; configuração observada não equivale a aceite completo.
 
 | ID | Requisito verificável | Origem/estado | Prioridade | Evidência de aceite |
 |---|---|---|---|---|
 | REQ-01 | Projetar crescimento de 10 para 20 barcos | C | P0 | CAP-01: inventário, capacidade e custos para 20 |
 | REQ-02 | Validar enlace a 50 e 100 m com rotação completa | C/V | P0 | RF-01 a RF-04 |
 | REQ-03 | Um wAP ax realiza cliente 5 GHz e AP 2,4 GHz simultâneos | P/V | P0 | RF-01, LAN-01 |
-| REQ-04 | Usar RB750Gr3 e RB951G-2HnD disponíveis | C/V | P1 | HW-01: versão, recursos e capacidade |
+| REQ-04 | Usar RB750Gr3 e RB750r2 (hEX lite) disponíveis | C/V | P1 | HW-01: versão, recursos e capacidade |
 | REQ-05 | Acesso administrativo funciona com CGNAT nos dois locais | C/V | P0 | VPN-01 a VPN-03 |
 | REQ-06 | Usar VPS existente com Ubuntu 24.04 e Docker/Portainer | C/V | P0 | VPS-01, STACK-01 |
 | REQ-07 | Avaliar compatibilidade SetupOrion antes de executar | C/V | P0 | VPS-01: decisão e versão registrada |
@@ -28,6 +28,7 @@
 | REQ-22 | Vigia terceirizado é opção separada da operação de rede | Demanda/P | P1 | SECUR-01, COM-01: responsabilidades |
 | REQ-23 | Avaliar WAN1 preferencial/WAN2 backup na central NOC, recuperando rotas sem desabilitá-las por script | Anexos/P/V | P1 | WAN-01 a WAN-07 |
 | REQ-24 | Corrigir e validar o template recebido antes de qualquer import operacional | Anexos/P/V | P0 | DOC-03, ROS-01, SEC-03 e SEC-04 |
+| REQ-25 | Integrar o gateway ativo da central NOC preservando LAN, DHCP, DNS e Internet | Coletas/C/V | P0 | NOC-01/02, VPN-01/02/03 e OPS-01 |
 
 ## Requisitos não funcionais propostos
 

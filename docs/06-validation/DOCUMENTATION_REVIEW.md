@@ -24,7 +24,7 @@ Foram explicitados: rotas de retorno, SNAT restrito de coleta, política IPv6, s
 
 ## Limitações
 
-Atualização documental posterior em 12/09/2026: inventário da RB951G recebido do usuário, atualização RouterOS/RouterBOOT 7.23.5 registrada e denominação central NOC aplicada. A coleta foi realizada pelo usuário; não é homologação remota executada pelo agente. Os totais da tabela acima descrevem a baseline original.
+Os totais da tabela acima descrevem a baseline original. O inventário atual e as evidências recebidas são mantidos no documento da central NOC e na homologação.
 
 Versões exatas, domínio, segredos, inspeção local, aquisição e resultados de campo dependem da próxima fase. Critérios numéricos de PoC são propostas de aceite. Nenhum script executável de implantação foi gerado sem esses parâmetros. Comandos de inventário nos documentos não foram executados na VPS.
 
@@ -35,3 +35,9 @@ Leitura dos dois anexos e revisão estática concluídas. A conferência da vers
 Verificados 50 arquivos Markdown, 147 links locais, UTF-8, títulos e fechamento de blocos de código, sem erros. Requisitos REQ-23/24 associados a DOC-03, ROS-01 e WAN-01 a WAN-07 na homologação. O IPAM existente foi preservado e as diferenças do template foram explicitadas. A exceção de versionamento aplica-se apenas ao template recebido; exports reais permanecem excluídos.
 
 Nenhum import/dry-run RouterOS ou teste de failover foi executado. O template exige adaptação antes da validação em laboratório.
+
+## Inventário atual da central NOC — 21/09/2026
+
+Treze anexos lidos integralmente; síntese sanitizada de hardware, configuração e testes. Identificação RB750r2 r3, recursos, interfaces e serviços conferidos entre as saídas e o export. Documentação ativa apresenta o equipamento atual; anexos literais e registros de releases permanecem fontes históricas, não inventário.
+
+Verificados 50 arquivos Markdown e 153 links locais, UTF-8 e blocos de código. Nenhum serial, software-id ou MAC da coleta nos documentos. Rede administrativa futura separada da LAN em uso; testes ICMP recebidos e validação DNS pendente distinguidos. Sem alterações no gateway; sem import, testes adicionais de rede ou publicação de export real.

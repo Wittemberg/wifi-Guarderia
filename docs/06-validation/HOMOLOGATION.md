@@ -6,7 +6,7 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 |---|---|---|---|
 | DOC-01 | Estrutura, links, Git e publicação | Revisão local concluída | [Verificações](DOCUMENTATION_REVIEW.md); commit/publicação pelo histórico Git |
 | DOC-02 | Referência nocagent e padrões | Análise documental realizada | [Revisão](../08-reference/NOCAGENT_REVIEW.md) |
-| HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB951G recebido do usuário; atualização concluída | [RB951G central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
+| HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: RB750r2 r3 inventariada em 21/09/2026; RouterOS/RouterBOOT 7.23.7; carga e demais equipamentos pendentes | [RB750r2 central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
 | VPS-01 | Inventário e caminho de instalação | Não executado | VPS não acessada |
 | STACK-01 | Stack, versões, rede e persistência | Não executado | Manifesto executável futuro |
 | VPN-01 | Hub e CGNAT | Não executado | Aguardar laboratório |
@@ -43,6 +43,8 @@ Data da baseline: 12/09/2026. Estados independentes: especificação, implementa
 | WAN-05 | Recuperação isolada de cada WAN | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
 | WAN-06 | WireGuard e sessões após troca WAN | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
 | WAN-07 | Reboot e intermitência | Não executado | [Plano dual-WAN](../02-implementation/NOC_DUAL_WAN.md) |
+| NOC-01 | ICMP básico do gateway da central NOC | Amostras recebidas: 5/5 em três destinos | [Resultados e limites](../01-architecture/NOC_ROUTER_INVENTORY.md); sem garantia contínua |
+| NOC-02 | Resolução DNS e navegação de cliente LAN | Pendente | Arquivo teste-dns mostra somente IP; sem comando/nome e sem teste de cliente |
 
 ## Testes negativos obrigatórios
 
