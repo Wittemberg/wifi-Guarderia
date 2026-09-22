@@ -6,12 +6,12 @@ Estado em 16/09/2026: execução iniciada por autorização do usuário. wiregua
 
 ## Peers
 
-| Ponta | IP WireGuard | Endpoint remoto | Keepalive proposto |
-|---|---|---|---|
-| VPS | 10.250.0.1 | Endpoints aprendidos dos clientes | Não necessário como padrão |
-| RB750r2 central NOC | 10.250.0.2 | vpn-guarderia.awecloudsolution.com:51820 | 25 s |
-| RB750 core | 10.250.0.3 | vpn-guarderia.awecloudsolution.com:51820 | 25 s |
-| Notebook recuperação | 10.250.0.10 | vpn-guarderia.awecloudsolution.com:51820 | Conforme NAT e uso |
+| Ponta | IP WireGuard | Endpoint remoto | Keepalive proposto | Estado |
+|---|---|---|---|---|
+| VPS | 10.250.0.1 | Endpoints aprendidos dos clientes | Não necessário como padrão | ✅ Ativo |
+| RB750r2 central NOC | 10.250.0.2 | vpn-guarderia.awecloudsolution.com:51820 | 25 s | ✅ Implementado 22/09/2026 |
+| RB750 core | 10.250.0.3 | vpn-guarderia.awecloudsolution.com:51820 | 25 s | ❌ Pendente |
+| Notebook recuperação | 10.250.0.10 | vpn-guarderia.awecloudsolution.com:51820 | Conforme NAT e uso | ⚠️ Standby (mantido para uso externo) |
 
 Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e central NOC. O keepalive mantém o mapeamento NAT; não prova saúde do caminho. Referência: [WireGuard RouterOS](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
 
@@ -19,14 +19,16 @@ Gerar par de chaves exclusivo em cada ponta. Nunca reutilizar chave entre core e
 
 `AllowedIPs`/`allowed-address` autoriza prefixos de origem e seleciona peer; não substitui firewall nem, no RouterOS, a criação de rotas necessárias. Evitar sobreposição entre peers da mesma interface.
 
-| Configuração local | Peer | Prefixos remotos permitidos |
-|---|---|---|
-| VPS | Central NOC | 10.250.0.2/32 e 10.21.0.0/24 |
-| VPS | Core | 10.250.0.3/32, 10.20.0.0/24, LANs N ativas e /30 de trânsito ativos |
-| VPS | Notebook | 10.250.0.10/32 |
-| Central NOC | VPS/hub | 10.250.0.1/32, .3/32, .10/32 e redes guarderia ativas |
-| Core | VPS/hub | 10.250.0.1/32, .2/32, .10/32 e 10.21.0.0/24 |
-| Notebook | VPS/hub | 10.250.0.1/32, .3/32 e redes guarderia necessárias |
+| Configuração local | Peer | Prefixos remotos permitidos | Estado |
+|---|---|---|---|
+| VPS | Central NOC | 10.250.0.2/32 e 192.168.15.0/24 | ✅ Implementado |
+| VPS | Core | 10.250.0.3/32, 10.20.0.0/24, LANs N ativas e /30 de trânsito ativos | ❌ Pendente |
+| VPS | Notebook | 10.250.0.10/32 | ✅ Implementado (standby) |
+| Central NOC | VPS/hub | 10.250.0.1/32, .3/32, .10/32 e redes guarderia ativas | ✅ Implementado (.1); demais pendentes |
+| Core | VPS/hub | 10.250.0.1/32, .2/32, .10/32 e 10.21.0.0/24 | ❌ Pendente |
+| Notebook | VPS/hub | 10.250.0.1/32, .3/32 e redes guarderia necessárias | ✅ Implementado (.1); demais pendentes |
+
+**Nota sobre LAN da central NOC:** o IPAM original reservava 10.21.0.0/24 para LAN administrativa dedicada futura; a LAN operacional real é 192.168.15.0/24, anunciada no peer do MikroTik.
 
 As abreviações `.2/.3/.10` na tabela significam `10.250.0.x`. Adicionar somente o barco da PoC inicialmente e expandir junto de IPAM/ACLs. Não enviar default `0.0.0.0/0` ou `::/0` para a VPN nesta arquitetura.
 
@@ -135,11 +137,30 @@ A configuração preparada não configura LAN, rota default, NAT ou encaminhamen
 Próximo passo da RB750r2, com inventário recebido em 21/09/2026: confirmar backup e recuperação local, gerar chave do peer na própria RB, trocar somente chaves públicas e configurar primeiro o trânsito 10.250.0.1 ↔ 10.250.0.2. Só anunciar LAN depois de confirmar a faixa real. VPN-01/02 estão parciais pelo notebook; VPN-03 continua pendente.
 
 
-## Estado atual e retomada — notebook validado
+## Estado atual — VPN de borda implementada em 22/09/2026
 
-O notebook de recuperação foi integrado antes da RB750r2, por disponibilidade do usuário. Cadastro persistido com AllowedIPs 10.250.0.10/32 e rota /32 na VPS; handshake recente e ping 3/3 observados. Nova sessão SSH em 10.250.0.1:5822 confirmada pelo usuário. Ver [evidências, limites e retorno](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+A RB750r2 da central NOC foi integrada como **gateway VPN de borda**, substituindo a topologia de cliente direto no notebook. Toda a LAN local (192.168.15.0/24) agora acessa a VPS através do túnel WireGuard configurado no MikroTik, com NAT masquerade e roteamento validados.
 
-A RB750r2 tem inventário recebido em 21/09/2026. Confirmar backup e recuperação para configurar seu peer; integrar o core depois. Não há rotas de LAN ou forwarding entre peers homologados. Restrições de painéis/portas públicas e reinícios não foram executados. F2 permanece parcial.
+**Peers ativos:**
+- **VPS hub (10.250.0.1):** servidor central
+- **MikroTik RB750r2 (10.250.0.2):** gateway VPN de borda para a LAN 192.168.15.0/24 — ✅ ativo e validado
+- **Notebook (10.250.0.10):** mantido em standby; usado quando fora da rede local
+
+**Validações concluídas:**
+- ✅ Handshake WireGuard ativo entre MikroTik e VPS
+- ✅ Ping da LAN local para VPS (10.250.0.1)
+- ✅ SSH da LAN local para VPS porta 5822
+- ✅ Acesso aos painéis web (Portainer) da LAN local após atualização de IP allowlist do Traefik
+- ✅ Backup das configurações MikroTik e VPS
+
+**Documentação detalhada:** [VPN de borda no MikroTik](MIKROTIK_WIREGUARD_EDGE.md)
+
+**Pendências:**
+- Core da guarderia (RB750Gr3, peer 10.250.0.3)
+- Forwarding entre peers na VPS (NOC → core)
+- Rotas de retorno no core
+- Coleta Zabbix via VPN com SNAT
+- Testes de failover dual-WAN
 
 ## Estado da central NOC em 21/09/2026
 
