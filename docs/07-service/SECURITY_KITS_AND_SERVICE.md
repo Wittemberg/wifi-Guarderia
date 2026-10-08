@@ -10,7 +10,7 @@ Estado: requisitos e alternativas comerciais, sem seleção final de modelos. A 
 | B — Alarme e vídeo | A + câmera interna e externa com aplicativo remoto | Modelos e gravação pendentes |
 | C — Vigilância | B + empresa de monitoramento/vigilância | Prestador e contrato pendentes |
 
-A sugestão antiga de kit reduzido com dois sensores não substitui o pedido original. Qualquer redução deve aparecer como alternativa com diferença de cobertura e preço. A conectividade de cada kit usa a mesma infraestrutura de rede, com capacidade a validar.
+A sugestão antiga de kit reduzido com dois sensores não substitui o pedido original. Qualquer redução deve aparecer como alternativa com diferença de cobertura e preço. Na direção confirmada em 29/09/2026, cada kit usa modem 4G e chip próprios no barco, com capacidade e franquia a validar. O NOC monitora os kits e não distribui Internet pela margem.
 
 ## Requisitos da central e sensores
 
@@ -22,7 +22,7 @@ Testar porta, compartimento e abertura de tampa nos locais reais; vibração e m
 
 Câmera externa com proteção e montagem adequadas ao ambiente; câmera interna conforme condição da cabine. Conferir visão noturna, consumo noturno/pico, gravação local, qualidade necessária, acesso por usuário e comportamento sem Internet. RTSP/ONVIF ou aplicativo são opções dependentes do modelo, não capacidades presumidas.
 
-Dimensionar armazenamento por bitrate medido: `GB/dia ≈ Mbps × 10,8` para stream contínuo, antes de variação de codec/eventos. Validar ciclo de gravação, integridade de cartão, desgaste e retenção efetiva. Aplicativo pode usar nuvem/relay; medir upload e tempo de abertura no celular usando rede externa. VPS não recebe gravação contínua.
+Dimensionar armazenamento por bitrate medido: `GB/dia ≈ Mbps × 10,8` para stream contínuo, antes de variação de codec/eventos. Validar ciclo de gravação, integridade de cartão, desgaste e retenção efetiva. Aplicativo pode usar nuvem/relay; medir upload e tempo de abertura no celular usando rede externa. VPS não recebe gravação contínua. Quantificar bytes de consulta, relay, notificações e tráfego ocioso no plano 4G do barco; limitar qualidade/duração conforme política acordada e ensaiar franquia esgotada/linha suspensa sem impedir alarme e gravação locais. Falta de 4G impede alertas remotos quando não houver canal independente homologado.
 
 ## Separação de serviços
 
@@ -34,4 +34,4 @@ SECUR-01: disparar cada sensor; confirmar sirenes/luz, recebimento autorizado, b
 
 ## Evoluções
 
-Tensão de bateria, água no porão, fumaça e bomba são possíveis extensões; dependem de sensores, calibração, alimentação e política de resposta específicos. Não anunciar segurança de vida ou prevenção de naufrágio como capacidade validada do kit WiFi.
+Em 29/09/2026, o usuário solicitou monitoramento de bateria, fumaça e bomba no NOC, incluindo acionamento remoto da bomba se viável. Sistemas geralmente 12 V, baterias veiculares/estacionárias e potência de bomba variável. A [pesquisa IoT](../01-architecture/IOT_MONITORING_RESEARCH.md) compara dispositivos, preços e integração; modelos são candidatos, sem homologação. Água/nível alto é complemento técnico proposto para avaliar drenagem. Não anunciar segurança de vida ou prevenção de naufrágio como capacidade validada do kit WiFi.

@@ -1,61 +1,44 @@
-# Equipamentos, rádio e montagem
+# Equipamentos, cobertura celular e montagem
 
-Estado: especificação para aquisição e homologação; conferir SKU e revisão na entrega. Dados de fabricante consultados em 12/09/2026; hEX lite conferida em 21/09/2026. As tabelas abaixo não são medições da instalação.
+Direção de 29/09/2026: um modem 4G e um SIM por barco. Modelos, consumo e desempenho ainda não selecionados nem medidos. O nome deste arquivo foi mantido para preservar os links existentes.
 
-## Equipamentos principais
+## Equipamentos e reaproveitamento
 
-| Equipamento | Dados relevantes de fabricante | Papel/estado |
+| Item | Papel | Estado |
 |---|---|---|
-| mANTBox ax 15s, `L22UGS-5HaxD2HaxD-15S` | RouterOS v7, 256 MB RAM, 128 MB NAND; 5 GHz 15 dBi; 1 GbE e SFP com 2,5 G; IP55 | Base candidata |
-| wAP ax, `wAPG-5HaxD2HaxD` | RouterOS v7, 256 MB RAM, 128 MB NAND; dual-band 2×2; 5 GHz 7 dBi; 2 GbE; IP54 | Cliente candidato |
-| RB750Gr3 | 5 portas GbE, 256 MB RAM | Core já disponível; inventário pendente |
-| RB750r2 (hEX lite) | 5 portas 10/100, 64 MB RAM; CPU 850 MHz; flash 16 MiB | Central NOC atualizada para RouterOS/RouterBOOT 7.23.7; gateway em uso; VPN WireGuard funcional confirmada pelo usuário em 22/09/2026 |
+| Modem/roteador 4G | Acesso WAN de cada barco; VPN integrada se suportada | A selecionar e homologar |
+| SIM | Linha própria de cada barco | Fornecida pela operação ou proprietário; Vivo provável |
+| Roteador adicional | LAN, firewall e VPN quando modem não atender | Condicional; incluir energia/custo |
+| AP WiFi local | Conectar dispositivos a bordo | Integrado ou separado conforme cobertura |
+| RB750r2 central NOC | Gateway administrativo e VPN | Inventário e evidências existentes preservados |
+| RB750Gr3 disponível | Possível bancada ou roteamento embarcado | Sem papel obrigatório de core; inventário/consumo/capacidade pendentes |
+| mANTBox e wAP ax do desenho anterior | Distribuição margem–barco retirada | Não comprar como requisito; eventual AP local exige reavaliação |
 
-Fontes: [mANTBox](https://mikrotik.com/product/mantbox_ax_15s), [wAP ax](https://mikrotik.com/product/wap_ax), [hEX RB750Gr3](https://mikrotik.com/product/RB750Gr3), [RB750r2](https://mikrotik.com/product/RB750r2). As especificações de alimentação estão no [projeto DC](POWER_AND_INSTALLATION.md).
+O [inventário NOC](NOC_ROUTER_INVENTORY.md) documenta apenas equipamento observado. Não considerar modem integrado, rádio LTE, antena externa ou suporte VPN presentes por analogia com outros modelos.
 
-## Inventário antes de configurar
+## Matriz de aquisição a preencher
 
-O [inventário da RB750r2 da central NOC](NOC_ROUTER_INVENTORY.md) foi fornecido pelo usuário em 21/09/2026 e registra recursos, configuração e amostras ICMP. Os demais equipamentos e os testes de portas, alimentação e capacidade continuam pendentes.
+Comparar modelos usando bandas e homologação aplicáveis, SIM/APN, WireGuard ou roteador complementar, firewall IPv4/IPv6, portas e WiFi, atualização/backup, telemetria disponível, faixa DC, corrente de pico, temperatura e proteção ambiental. Registrar fonte oficial e revisão do fabricante antes da compra; validar itens essenciais em bancada. Detalhamento em [conectividade celular](../02-implementation/CELLULAR_CONNECTIVITY.md).
 
-Registrar modelo, revisão, serial privado, MAC privado, origem, nota/garantia, licença, RouterOS, RouterBOOT, pacotes e fontes entregues. Verificar estado das RBs guardadas. Testar portas e alimentação em bancada. Não confundir RB750Gr3 com hEX refresh e wAP ax com wAP ac.
+## Levantamento celular
 
-## Perfil RF inicial proposto
+Medir no local de fundeio e nas posições reais do kit, em horários de pico e fora de pico, com giro/movimento natural, cabine fechada e condições de maré/obstrução registradas. Comparar posição interna/externa e alternativas de operadora quando a candidata não atender. Os antigos 50–100 m até a margem são contexto geográfico, não orçamento de enlace nem critério de cobertura 4G.
 
-| Parâmetro | Proposta | Verificação |
-|---|---|---|
-| Enlace margem–barco | 5 GHz, AP/cliente | Associação e tráfego bidirecional |
-| LAN do barco | 2,4 GHz, 20 MHz | Compatibilidade real alarme/câmeras |
-| Canal transporte | Começar em 20 MHz; comparar 40 MHz se necessário | Ruído, utilização, perda e vazão |
-| País/instalação | Brasil e outdoor, conforme opções válidas do firmware | Perfil regulatório e canais permitidos |
-| Potência | Ajustar a partir da medição, dentro dos limites aplicáveis | Evitar saturação e interferência |
-| Autenticação transporte | Credenciais por estação, esquema a homologar | Revogação de um barco e tentativa de troca de identidade |
-| LAN IoT | WPA2-AES ou WPA3 conforme dispositivos | Desativar WPS; nenhuma rede aberta |
-| Roaming/CAPsMAN | Não requerido com um AP | Expansão exige teste específico |
+Registrar tecnologia efetiva, bandas/célula quando expostas, RSRP/RSRQ/SINR quando suportados, reconexões, vazão útil de upload/download, RTT, perda e aplicação. Ausência de métricas vira `unsupported`; não usar limites de RSSI WiFi como limites LTE. Registros de célula/localização e identificadores ficam privados.
 
-A interface moderna é `/interface/wifi`; compatibilidade de modo e VLAN depende do pacote. O projeto roteado não requer `station-bridge`. Consulte o [manual WiFi](https://help.mikrotik.com/docs/spaces/ROS/pages/224559120/WiFi) para o firmware escolhido.
+Cobertura declarada pela operadora não substitui medição embarcada. Testar WiFi local separadamente do 4G; não inferir qualidade do acesso celular a partir da LAN. Modem e antena não devem ficar encobertos por metal sem ensaio; antena externa, MIMO, cabo e conectores dependem do modelo selecionado.
 
-## Levantamento de campo
+## Lista de materiais proposta
 
-Produzir croqui com posição da base, área de fundeio, limites angulares, obstáculos e alturas nos extremos de maré. Registrar fotografias técnicas sanitizadas, distância medida, embarcações metálicas próximas e locais protegidos para passagem do cabo. Um setor só pode ser dimensionado depois da área e distribuição dos barcos.
-
-O ensaio deve distinguir giro horizontal, inclinação e bloqueio pela cabine. Antena integrada não implica diagrama uniforme; orientação favorável em um ponto não valida a volta completa. Posicionar wAP externamente, evitando superfícies metálicas junto ao rádio e mantendo acesso para manutenção.
-
-## Orçamento de enlace
-
-Usar a equação de engenharia `Pr = Pt + Gt + Gr − Ltrajeto − Lcabos − Lmontagem`. Registrar frequência, ganhos na orientação real e margem para desvanecimento. A estimativa de espaço livre serve apenas para triagem; reflexos na água e nulos de radiação podem dominar o resultado. Não usar potência máxima de catálogo como configuração automática.
-
-## Lista de materiais
-
-| Item | PoC | Escala 20 | Condição |
+| Item | PoC de um barco | Até 20 barcos | Condição |
 |---|---:|---:|---|
-| RB750Gr3 | 1 existente | 1 inicialmente | Capacidade medida |
-| RB750r2 | 1 existente | 1 administrativo | Não participa do tráfego dos clientes |
-| mANTBox ax 15s | 1 | A definir | Setores por levantamento e carga |
-| wAP ax | 1 | 20 | Depende da aprovação RF |
-| Switch gerenciável | Conforme portas/montagem | A definir | VLAN e orçamento PoE comprovados |
-| Injetor/fonte compatível | Por rádio | Por rádio | Conferir itens incluídos e tensão |
-| Nobreak na margem | 1 sistema | Dimensionar | Autonomia pelo consumo total |
-| Kit DC/caixa/cabos/fixação | 1 barco e base | 20 kits + base | Engenharia de alimentação |
-| Reserva de manutenção | A definir | A definir | Prazo/custo de reposição |
+| Modem/roteador 4G | 1 | 20 | Homologar o conjunto |
+| SIM/linha | 1 | 20 | Contrato e cobertura validados |
+| Roteador VPN complementar | Se necessário | Por kit que necessitar | Sem duplicar item integrado |
+| AP local | Se necessário | Por kit que necessitar | Cobertura/isolamento |
+| Antena LTE/cabo/conectores | Se necessário | Conforme cada instalação | Ganho e montagem medidos |
+| DC/DC, proteção, caixa, cabos/fixação | 1 kit | 20 kits | Projeto elétrico e ambiente |
+| Alarme/câmeras/armazenamento | Conforme plano A/B/C | Conforme adesões | Energia e consumo de dados medidos |
+| Reserva de modem/SIM/componentes | A definir | A definir | Prazo de reposição e reativação |
 
-NetMetal/antenas externas são alternativas a estudar se o wAP reprovar, sem especificação premium aprovada. Nenhuma compra é autorizada por este documento.
+VPS e central NOC permanecem infraestrutura administrativa existente. Não prever base/setores/nobreak na costa para distribuir Internet. O orçamento anterior da PoC deve ser recotado para esta composição; nenhum preço novo foi presumido.

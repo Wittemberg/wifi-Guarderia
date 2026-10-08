@@ -4,9 +4,13 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-001 — Reaproveitar infraestrutura disponível
 
+**Atualização 29/09/2026:** papel obrigatório de core RB750Gr3 substituído pelo ADR-022; NOC/VPS preservados. Texto original abaixo.
+
 **Status:** confirmado pelo usuário para RBs e VPS. **Contexto:** reduzir desembolso inicial. **Decisão:** RB750Gr3 no core, RB750r2 na central NOC e VPS existente. **Consequência:** medir CPU, RAM e throughput com firewall, VPN e coleta ativos; substituição somente se a medição demonstrar insuficiência.
 
 ## ADR-002 — WireGuard com hub público
+
+**Atualização 29/09/2026:** hub mantido; expansão por peer embarcado individual conforme ADR-022. VPN NOC confirmada em 22/09. Texto original abaixo.
 
 **Status:** parcialmente implementado em 16/09/2026 (hub e notebook); RBs pendentes. **Contexto:** CGNAT nos dois locais. **Decisão:** peers central NOC/core iniciam túneis até VPS; WireGuard no host. **Alternativas:** conexão IPv6 direta ou CHR. **Consequência:** VPS é ponto único de gerenciamento; Internet local não depende dela. Console e restauração documentados são obrigatórios.
 
@@ -20,9 +24,13 @@ Data da baseline: 12/09/2026. “Adotado para especificação” significa dire�
 
 ## ADR-005 — Dois rádios no wAP ax
 
+**Status em 29/09/2026: substituído pelo ADR-022.** A candidatura abaixo pertence ao enlace terrestre retirado.
+
 **Status:** candidato à PoC. **Decisão:** 5 GHz cliente e 2,4 GHz AP local; mANTBox como base. **Consequência:** simplifica kit e alimentação, porém não comprova cobertura em toda orientação. Reprovação RF pode exigir reposicionamento ou outro conjunto de antenas.
 
 ## ADR-006 — Roteamento por barco e trânsito segregado
+
+**Status em 29/09/2026: substituído pelo ADR-022.** LAN exclusiva mantida; /30/VLAN de transporte e NAT central saem do desenho.
 
 **Status:** proposta de engenharia desta baseline. **Decisão:** LAN /24 por barco, trânsito /30 em VLAN atribuída por estação, sem NAT no wAP. **Contexto:** gerência direta e defesa contra tráfego lateral. **Consequência:** rotas e ACLs devem ser criadas em conjunto. Compatibilidade e autenticação por estação são gate de laboratório.
 
@@ -60,6 +68,8 @@ Em 16/09/2026, adotados os nomes DNS das tarefas Swarm para coleta dos três ser
 
 ## ADR-015 — WireGuard por marcos de acesso
 
+**Atualização 29/09/2026:** preservar marcos executados de notebook/NOC; etapa futura do core substituída por peers embarcados. Texto original histórico abaixo.
+
 **Data:** 16/09/2026. **Status:** parcialmente implementado. **Plano inicial:** hub → RB750r2 → core. **Ajuste autorizado:** como o usuário não tinha acesso à RB750r2, ativar o hub após confirmação de console e antecipar o notebook de recuperação, mantendo a integração da central NOC antes do core. **Resultado:** notebook ↔ VPS com handshake/ping observados e SSH confirmado pelo usuário; configuração persistida e backup privado.
 
 **Consequência:** o próximo marco depende de acesso à RB750r2, inventário real de LAN/rotas e backup/recuperação. Não anunciar LANs propostas nem considerar que o notebook dá acesso a RBs ausentes. Restrição de gerência exige revisão dos caminhos públicos e dos painéis pela VPN, com pós-teste específico. Persistência testada e restauração continuam requisitos de F2. Ver [procedimento](../02-implementation/WIREGUARD.md) e [evidências](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
@@ -94,3 +104,29 @@ Consequências: não depende da VPS para avaliar ausência de heartbeat, mas dep
 ## ADR-021 — Preservar o gateway ativo durante integração
 
 **Status:** direção de implementação em 21/09/2026. **Contexto:** RB750r2 já fornece conectividade da central NOC. **Decisão:** integrar WireGuard e eventual segunda WAN incrementalmente, preservando LAN/DHCP/NAT atuais; manter 10.21.0.0/24 como reserva administrativa futura até definir segregação. Usar modelo e versão observados, sem presumir throughput ou velocidade negociada. **Consequência:** backup/acesso local, análise de sobreposição e pós-testes obrigatórios; não aplicar reset/template integral. Validar NOC-01/02, VPN-01/02/03 e SEC-03/04.
+
+## ADR-022 — Internet 4G independente por barco
+
+**Data:** 29/09/2026. **Status:** topologia confirmada pelo usuário; detalhamento de VPN/kit proposto, implantação pendente. **Motivo:** dificuldade de posicionar antenas e passar infraestrutura na costa. **Decisão:** retirar central terrestre de distribuição, provedor fixo compartilhado, base mANTBox e transporte 5 GHz. Cada barco terá modem/SIM próprios; NOC/VPS mantêm administração/observabilidade. RB750Gr3 fica disponível para uso a avaliar.
+
+**Proposta técnica:** LAN e chave/peer exclusivos por barco, Internet direta pela linha local e VPN somente para gerência/coleta. Modem/roteador integrado se atender; roteador/AP complementar se necessário. NAT na WAN do kit, isolamento no hub e nas pontas, funções de segurança locais. Não encaminhar default de Internet nem vídeo contínuo pela VPS.
+
+**Consequências:** troca do IPAM de trânsito por peers `.101–.120`, revisão de rotas/ACLs, energia, lista de materiais, coleta LTE e orçamento de dados. SIM próprio não elimina congestionamento/falha comum de operadora. RF-01 a RF-05 substituídos por CEL-01 a CEL-07; sem aceite transferido. VLANs antigas não são removidas de equipamentos por decisão documental. **Alternativa retirada:** continuar a distribuição costeira. **Liberação:** PoC celular, VPN, isolamento, energia e capacidade medidos.
+
+## ADR-023 — Chips fornecidos pela operação com gestão individual contratada
+
+**Data:** 29/09/2026. **Status:** possibilidade de fornecimento e objetivo de controle confirmados pelo usuário; operadora/plano/recursos pendentes. **Direção provável:** Vivo, sem contrato ou cobertura homologados. **Decisão:** manter identidade da linha por barco e contratar gestão individual verificável. Chip do proprietário permanece modalidade com visibilidade/controle limitados ao que for autorizado.
+
+**Consequências:** distinguir franquia, velocidade e QoS local; portal/API, pool, limites e suspensão dependem do contrato. Consumo local é estimativa a conciliar com a operadora; controle não implica velocidade garantida. Custos recorrentes entram por linha, sem usar orçamento antigo dos rádios. Definir titularidade, ciclo, excedentes, cancelamento, suporte e proteção de identificadores. **Liberação:** SIM-01, DATA-01 e COM-01, sem compra ou ação em linhas reais nesta revisão.
+
+## ADR-024 — Telemetria embarcada e atuação independente da conectividade
+
+**Data:** 29/09/2026. **Confirmado:** bateria, fumaça e bomba com métricas no NOC; acionamento remoto da bomba se viável; barcos geralmente 12 V, baterias veiculares/estacionárias e bombas variadas. **Proposta:** SmartShunt IP65 e gateway local, detector com alarme local e corrente/nível da bomba; comparação ESP32 versus gateway comercial. [Pesquisa e fontes](IOT_MONITORING_RESEARCH.md).
+
+Não homologado nem comprado. SoC deve ser calculado e calibrado, sem inferência só por tensão. Remoto adiciona comando temporizado, sem poder bloquear automático local; corrente e água confirmam efeitos distintos. Telemetria/comandos têm autorização por barco, identidade, idade, deduplicação e expiração. Metas de 1 s local, 5 s de publicação e latência no NOC são propostas a medir; funções locais independem de 4G. Liberação por IOT-01 a IOT-05, energia, isolamento e orçamento instalado.
+
+## ADR-025 — Avaliar placas disponíveis e medição de bateria própria
+
+**Data:** 29/09/2026. **Confirmado:** usuário possui UNO, MEGA e Raspberry Pi 4 Model B, sem sensores, para laboratório/campo. **Proposta:** reutilizar as placas, avaliar INA226/INA228 com shunt apropriado contra SmartShunt e comparar consumo/custo instalado. Propor MEGA para aquisição/temporização e Pi 4B como gateway; UNO auxiliar. Pico é alternativa futura, não disponível confirmada. Não escolher pinagem nem prometer custo/precisão antes de inventário e calibração. [Plano do protótipo](IOT_LOW_COST_PROTOTYPE.md). REQ-31–34 e IOT-01–05 continuam vigentes; nenhuma implementação ou atuação realizada.
+
+Complemento ADR-025: usuário acrescentou LM2596 ajustável com display e módulo GSM/GPRS identificado no chat como “SIMBOL800L”. Avaliar conversor em bancada; identidade SIM800L é hipótese. Se confirmada, manter apenas ensaio 2G separado, sem substituir o 4G previsto em REQ-03. Não presumir alimentação compartilhada Pi/modem, capacidade contínua de 3 A ou comando por SMS.

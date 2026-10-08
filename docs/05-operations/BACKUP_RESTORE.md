@@ -15,6 +15,7 @@ Metas iniciais sujeitas a ensaio: configurações e NOC com RPO de 24 h; RTO do 
 | Kuma | Banco e configuração | Diária | Método suportado pela versão; parar para cópia se necessário |
 | WireGuard | Configuração, pares e chaves | Diária e toda mudança | Cópia cifrada com permissões preservadas |
 | RouterOS | Export revisado e backup protegido | Antes/depois de mudança e diário quando automatizado | Export legível + backup compatível com equipamento |
+| Kit 4G e inventário de linhas | Configuração do modem/roteador, VPN, APN por referência, vínculo barco/SIM e ciclo | Antes/depois de mudança; rotina a definir e medir | Backup privado cifrado; export/restauração conforme modelo, ainda não implantados |
 | Host/orquestração | Manifestos, firewall, versões, rede, volumes | Toda mudança | Git sanitizado + cópia privada dos valores reais |
 | Evidências PoC | Dados brutos, marcações, relatórios | Ao fim de cada sessão | Arquivo privado com hash e metadados |
 
@@ -112,3 +113,7 @@ Depois do prazo de expiração informado pelo S3, conferir a ausência do objeto
 Se uploads falharem durante a janela externa, a quantidade de pontos recuperáveis pode diminuir até não haver cópia no S3. O timer e o status de falha existem; alertas SES/Telegram externos foram implantados e validados conforme [operação](../06-validation/BACKUP_ALERTS.md). Acompanhar idade e resultado do job conforme RB-11 em [runbooks](RUNBOOKS.md), sem anunciar RPO de 24 horas como homologado.
 
 A configuração arquivada inclui a unidade guarderia-panel-firewall.service, além dos scripts operacionais, manifestos e snapshots das regras. Em recuperação, reconciliar caminhos, interfaces e origens autorizadas antes de habilitar o filtro; backup não implica teste de reboot. [Retorno da mudança](../06-validation/VPS_ACCESS_VALIDATION.md).
+
+## Recuperação do kit 4G — proposta de 29/09/2026
+
+Restaurar em bancada modelo/firmware compatíveis, conferir interfaces, APN, LAN, firewall, peer e referência privada do SIM; testar registro celular, Internet, VPN, aplicações e coleta. Contador do modem pode zerar: preservar histórico por ciclo e conciliar com operadora. Não manter dois kits ativos com a mesma chave. Backup da configuração não restaura serviço de uma linha suspensa/cancelada; reposição/reativação depende do contrato. RPO/RTO embarcados exigem ensaio próprio, sem herdar aceite da VPS.

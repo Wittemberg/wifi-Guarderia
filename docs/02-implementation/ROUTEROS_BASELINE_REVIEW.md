@@ -1,12 +1,14 @@
 # Revisão do template RouterOS v7 recebido
 
+**Escopo em 29/09/2026:** NOC e anexos administrativos permanecem; o core/enlace terrestre citado no desenho anterior foi retirado. A expansão de campo segue [arquitetura 4G individual](../01-architecture/ARCHITECTURE.md). Não aplicar mapeamento de portas ou rotas históricas aos barcos.
+
 Data: 12/09/2026. Estado: leitura integral dos dois anexos e análise estática concluídas; nenhum import, reset, alteração de equipamento ou teste RouterOS executado. Fontes originais e hashes: [anexos](../08-reference/routeros-v7/README.md).
 
 ## Conclusão
 
 O desenho de WAN primária/backup com sondas recursivas é referência útil para a **RB750r2 da central NOC**, atualizada para 7.23.7. O arquivo recebido **não está pronto para importação** no projeto. A atualização de firmware já concluída não valida o template.
 
-A incorporação adiciona uma proposta de redundância da central NOC, sem presumir contratação/disponibilidade de dois links. Não substitui o core RB750Gr3 nem altera o IPAM adotado. A segunda WAN da guarderia permanece uma evolução distinta.
+A incorporação adiciona uma proposta de redundância da central NOC, sem presumir contratação/disponibilidade de dois links. A proposta refere-se apenas ao gateway administrativo. O desenho atual de campo usa 4G individual; segunda operadora por barco seria evolução distinta.
 
 ## Arquitetura recebida
 
@@ -53,7 +55,7 @@ Depois das correções, validar em laboratório com o modo verbose/dry-run supor
 | Porta VPS | UDP 51820 | Mantida na proposta |
 | Porta local WireGuard | UDP 51821 | Candidata para RB750r2; não muda o endpoint 51820 da VPS |
 | Gerência WinBox | TCP 58292 | Candidata local, restrita às fontes autorizadas; não regra global de todos os equipamentos |
-| Segunda porta Ethernet | WAN2 | Somente na RB750r2; ether2 do core continua trunk |
+| Segunda porta Ethernet | WAN2 | Somente na RB750r2; não aplicar esse mapa ao kit embarcado |
 
 As diferenças exigem alterar também ACLs, DHCP, rotas, AllowedIPs e documentação de portas. Trocar somente os endereços no bloco inicial não resolve todo o escopo.
 
@@ -67,7 +69,7 @@ Na falha total, as rotas permanecem configuradas; sua elegibilidade depende de n
 
 Trocar a rota preferida não garante preservar conexões TCP/UDP já estabelecidas. NAT, conntrack e mudança de caminho precisam de ensaio, inclusive com Ethernet ativa e perda de upstream. Não definir limpeza global de conntrack como reação automática. Referências: [NAT](https://help.mikrotik.com/docs/spaces/ROS/pages/3211299/NAT) e [connection tracking/FastTrack](https://help.mikrotik.com/docs/spaces/ROS/pages/130220087/Connection+tracking).
 
-O peer limitado a um /32 da VPS não permite por si só a administração direta de outras redes. AllowedIPs e rotas são partes distintas da configuração. Testar origem preservada da central NOC até o core e o retorno. Referência: [WireGuard](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
+O peer limitado a um /32 da VPS não permite por si só a administração direta de outras redes. AllowedIPs e rotas são partes distintas da configuração. Testar origem efetiva da central NOC até o barco autorizado e o retorno; considerar o NAT administrativo registrado. Referência: [WireGuard](https://help.mikrotik.com/docs/spaces/ROS/pages/69664792/WireGuard).
 
 ## Estado da incorporação
 

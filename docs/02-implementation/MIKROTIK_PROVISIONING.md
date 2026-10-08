@@ -1,6 +1,6 @@
 # Provisionamento MikroTik
 
-Estado: roteiro planejado; comandos abaixo são somente leitura. Há um [template recebido arquivado](ROUTEROS_BASELINE_REVIEW.md), ainda inadequado para importação. Scripts `.rsc` adaptados serão produzidos após inventário e homologação do modelo de VLAN/credenciais.
+Estado: roteiro planejado; comandos abaixo são somente leitura. Há um [template recebido arquivado](ROUTEROS_BASELINE_REVIEW.md), ainda inadequado para importação. Scripts `.rsc` adaptados serão produzidos após inventário e seleção do modem/roteador 4G, credenciais e homologação da VPN por barco.
 
 ## Inventário comum
 
@@ -17,34 +17,23 @@ Registrar saídas em armazenamento privado. Para rádios AX, inspecionar `/inter
 
 ## Padrão comum
 
-Identidades propostas: `GV-CORE-01`, `GV-AP-SETOR01`, `GV-NOC-01`, `GV-BARCO-001` a `020`. Usuários administrativos nominais; conta de coleta separada e privilégio mínimo; desativar contas padrão após testar substitutas. Desabilitar serviços não utilizados, WPS e descoberta/gerência MAC em interfaces não administrativas.
+Identidades propostas: `GV-NOC-01`, `GV-BARCO-001` a `020`; ativos de modem/AP separados recebem sufixo de função. Usuários administrativos nominais; conta de coleta separada e privilégio mínimo; desativar contas padrão após testar substitutas. Desabilitar serviços não utilizados, WPS e descoberta/gerência MAC em interfaces não administrativas.
 
 Atualização RouterOS/RouterBOOT deve ser feita em bancada com backup e acesso local, considerando arquitetura e espaço livre. WireGuard requer RouterOS v7; a versão exata deve ser escolhida e registrada após verificar compatibilidade das RBs. Não copiar pacotes ARM para equipamentos de outra arquitetura.
 
-## Core RB750Gr3
+## Kit 4G embarcado — proposta de 29/09/2026
 
-1. Mapear WAN real e portas físicas; WAN fora da bridge LAN.
-2. Configurar porta local de recuperação antes de VLAN filtering.
-3. Criar VLAN 10 e apenas trânsitos dos barcos ativos.
-4. Definir IP de gestão, gateways /30 e rotas LAN via wAP.
-5. Configurar cliente WAN conforme provedor e NAT restrito à saída WAN.
-6. Aplicar anti-spoof por interface de trânsito, ACL entre barcos e bloqueio da gerência.
-7. Configurar WireGuard, rotas de retorno e coleta.
-8. Configurar limites de banda conforme ensaio, evitando que vídeo monopolize upload.
+O modelo ainda não foi escolhido e pode não ser MikroTik. Aplicar comandos RouterOS somente a equipamento/versão inventariados; o procedimento geral está em [conectividade celular](CELLULAR_CONNECTIVITY.md).
 
-FastTrack e offload podem alterar passagem por filas/contadores; verificar na configuração real. Não afirmar QoS ativo só porque uma fila existe. Toda mudança de bridge/VLAN exige teste da porta de recuperação.
+1. Cadastrar modem/roteador e SIM; conferir APN e bandas com documentação do modelo/plano.
+2. Preparar recuperação local e backup; validar sessão 4G, DNS/NTP e acesso à Internet em bancada.
+3. Separar WAN celular da LAN; configurar gateway, DHCP e WiFi local conforme [IPAM](../01-architecture/NETWORK_PLAN.md).
+4. Aplicar NAT IPv4 só na WAN, firewall e política IPv6; isolar rede de clientes, kit e gerência conforme interfaces disponíveis.
+5. Adicionar peer WireGuard exclusivo à VPS, rotas de retorno e ACLs restritas; não anunciar default pelo túnel.
+6. Testar QoS/limites locais e comparar contadores com consumo da operadora. Filas não garantem velocidade no 4G; conferir efeito de FastTrack/offload quando usados.
+7. Integrar telemetria suportada, ensaiar reconexão, reboot e restauração antes da instalação embarcada.
 
-## mANTBox
-
-Identificar banda, configurar AP 5 GHz e perfil de país/instalação válido. Manter 2,4 GHz desligado durante a PoC. Uplink trunk transporta gerenciamento e trânsitos autorizados. Mapear estação autenticada para sua VLAN, validar isolamento de clientes e manter IP de gestão somente na VLAN 10.
-
-Autenticação por barco é requisito de expansão. Escolher em laboratório mecanismo suportado para credencial individual e VLAN, com revogação individual. ACL de MAC com senha compartilhada não comprova identidade contra falsificação; se houver limitação, documentar alternativa antes de liberar múltiplos clientes.
-
-## wAP ax
-
-Identificar rádio 5 GHz como uplink `station`, IP WAN /30 fixo e default para core. Criar LAN privada /24 em bridge de 2,4 GHz/Ethernet; DHCP e reservas locais. Não incluir uplink 5 GHz na bridge LAN. Não criar masquerade no wAP.
-
-Firewall input aceita gerência apenas das fontes autorizadas via trânsito; LAN de clientes recebe somente serviços locais necessários. Forward permite Internet e retorno de sessões, mas bloqueia redes de outros barcos e infraestrutura. O core repete a proteção como segunda fronteira. Validar ausência de bypass por IPv6/bridge.
+A RB750Gr3 fica disponível para avaliação de bancada ou roteador complementar; seu uso não é obrigatório. Provisionamento de mANTBox e uplink 5 GHz do wAP foi retirado com o enlace terrestre. AP local adicional exige seleção própria.
 
 ## Central NOC — RB750r2
 
@@ -56,12 +45,12 @@ A [variante dual-WAN](NOC_DUAL_WAN.md) propõe ether1/ether2 como WAN e ether3�
 
 ## Dados mínimos para futuro template
 
-Cada template exige modelo/versão, identity, mapa de portas, IPs, VLAN, credencial por referência, perfil RF, DNS/NTP, rotas, ACLs, coleta e método de rollback. Gerar um diff por equipamento; evitar reset/import global como padrão. Templates sanitizados devem ter parâmetros obrigatórios que falhem quando ausentes.
+Cada template exige modelo/versão, identity, mapa de portas, IPs, segmentação local, SIM/APN por referência, perfil celular, DNS/NTP, rotas, ACLs, coleta e método de rollback. Gerar um diff por equipamento; evitar reset/import global como padrão. Templates sanitizados devem ter parâmetros obrigatórios que falhem quando ausentes.
 
 ## Critérios
 
-HW-01, LAN-01, RF-01 e SEC-01/02/03 precisam de evidência. Export real, inclusive sem senhas explícitas, pode conter identidade e detalhes sensíveis: manter fora do Git. Testar boot frio, lease DHCP, DNS, retorno VPN, isolamento e acesso de recuperação antes da instalação embarcada.
+HW-01, LAN-01, CEL-01 e SEC-01/02/03 precisam de evidência. Export real, inclusive sem senhas explícitas, pode conter identidade e detalhes sensíveis: manter fora do Git. Testar boot frio, lease DHCP, DNS, retorno VPN, isolamento e acesso de recuperação antes da instalação embarcada.
 
 ## Condição de partida da central NOC — 21/09/2026
 
-O [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md) confirma gateway em uso, WAN1 estática, bridge LAN nas três últimas portas, DHCP, DNS e masquerade. Preservar essa operação. A LAN 10.21.0.0/24 é futura e exige desenho de porta/VLAN; WAN2 está reservada. Não há WireGuard. Nenhum reset/import global é necessário para preparar a integração. Conferir acesso local e backup antes de mudar ACLs, endereços ou serviços.
+O [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md) confirma gateway em uso, WAN1 estática, bridge LAN nas três últimas portas, DHCP, DNS e masquerade. Preservar essa operação. A LAN 10.21.0.0/24 é futura e exige desenho de porta/VLAN; WAN2 está reservada. A coleta de 21/09 não continha WireGuard; sua funcionalidade foi confirmada pelo usuário em 22/09. Nenhum reset/import global é necessário para preparar a integração. Conferir acesso local e backup antes de mudar ACLs, endereços ou serviços.

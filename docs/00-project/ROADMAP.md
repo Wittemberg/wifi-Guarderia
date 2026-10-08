@@ -1,33 +1,31 @@
 # Plano de execução
 
-Nenhum prazo de implantação foi confirmado. As fases abaixo são sequenciais por dependência, com critérios de saída observáveis.
+Revisão de 29/09/2026: acesso 4G próprio por barco, sem distribuição na costa. Não há prazo, compra ou implantação celular autorizados por esta revisão documental.
 
-| Fase | Entrega | Dependência | Critério de saída | Estado em 17/09/2026 |
-|---|---|---|---|---|
-| F0 | Especificação e Git | Contexto e referência | DOC-01/02 revisados; commit publicado | Documentação preparada |
-| F1 | Inventário VPS, RBs e levantamento local | F0 | HW-01/VPS-01 e pendências impeditivas resolvidas | Parcial: inventário VPS realizado e RB750r2 atualizada; console Proxmox confirmado; rede da RB750r2 inventariada em 21/09; core e levantamento local pendentes |
-| F2 | WireGuard e stack NOC | F1 | VPN-01/02; STACK-01; backup restaurável | Stack/coleta interna e VPN notebook ↔ VPS validadas; VPN RB750r2 ↔ VPS funcional confirmada pelo usuário em 22/09/2026; volumes e restauração isolada S3 validados; reboot, restrições TCP IPv4 e alertas de backup validados; integração das RBs e homologação integral pendentes |
-| F3 | Templates e alertas em bancada | F2 | MON-01/02/03; dados persistem após reboot | Pendente |
-| F4 | Rádio e isolamento em bancada | F3 | RF-01; LAN-01; SEC-01/02/03 | Pendente |
-| F5 | PoC embarcada 50/100 m | F4 e alimentação validada | RF-02/03/04; ENE-01 | Pendente |
-| F6 | Kit de segurança e piloto prolongado | F5 | SECUR-01; VIDEO-01; OPS-02 | Pendente |
-| F7 | Capacidade e modelo comercial | F6 | CAP-01; COM-01; riscos aceitos | Pendente |
-| F8 | Lotes graduais até 20 barcos | F7 | Repetir onboarding e aceite por lote | Pendente |
+| Fase | Entrega | Dependência e saída | Estado |
+|---|---|---|---|
+| F0 | Especificação revisada e rastreabilidade | DOC-01/02, ADR-022/023 e revisão de links/IPAM | Revisão documental; publicação não presumida |
+| F1 | Inventário do kit e levantamento celular/comercial | HW-01; modem/APN/SIM, cobertura preliminar, recuperação e orçamento de dados | NOC/VPS inventariados; kit/linha pendentes |
+| F2 | Hub e stack NOC | VPN-01/02 no escopo administrativo, STACK-01 e recuperação integral | Implantação existente preservada; homologação integral parcial |
+| F3 | Templates e consumo em bancada | MON-01/02/03, DATA-01 inicial e alertas de equipamentos | Pendente; alertas de backup existentes não substituem esta fase |
+| F4 | Kit 4G, VPN e isolamento em bancada | CEL-01/06, LAN-01, VPN-01/02/03, SEC-01/02/03/04; segundo peer de teste | Pendente |
+| F5 | Campo nos locais reais | F3/F4 e alimentação aprovada; CEL-02/03/04/07, ENE-01 | Pendente |
+| F6 | Piloto prolongado e segurança | CEL-05, SECUR-01, VIDEO-01, OPS-02 e ciclo DATA-01 | Pendente |
+| F7 | Gestão de linhas e viabilidade | SIM-01, DATA-01, CAP-01 e COM-01; proposta/contrato formalizado | Vivo provável; operadora/plano/custos pendentes |
+| F8 | Lotes até 20 barcos | Aceite por barco e repetição de capacidade, isolamento e consumo | Pendente |
 
-## Próxima execução concreta
+## Próximas ações
 
-Preparar recuperação integral da VPS em ambiente separado, usando a chave externa: definir destino, sequência e critérios antes de restaurar. Backup isolado não equivale à reconstrução completa. Não repetir reboot ou testes de acesso já aprovados sem nova mudança/falha. [Estado consolidado](IMPLEMENTATION_STATUS.md).
+Preparar comparação do kit 4G e levantamento no fundeio, obter proposta de operadora com gestão individual e definir critérios do piloto. Após autorização operacional própria, usar um kit e SIM de teste; um segundo kit/linha ou bancada equivalente atende isolamento e gestão individual, mas somente dois kits reais permitem ensaio celular simultâneo CEL-07.
 
-A VPN da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026; preservar LAN/DHCP/NAT em uso e confirmar backup e recuperação local antes de expansão. RB750Gr3 depois. Não anunciar redes não conferidas. [WireGuard](../02-implementation/WIREGUARD.md).
+Na VPS, prosseguir com plano de recuperação integral em ambiente separado e chave externa. Reboot, restrições TCP IPv4 e alertas já validados não precisam de repetição sem nova causa. Preservar o gateway NOC em uso; nenhuma etapa depende de instalar core ou base na costa. [Estado](IMPLEMENTATION_STATUS.md).
 
-## Entregas operacionais concluídas no escopo testado
+## Expansão
 
-Stack/coleta interna, volumes Grafana/Prometheus, backup diário e restauração isolada S3, notebook VPN, restrições públicas TCP IPv4, reboot controlado e alertas SES/Telegram têm evidências próprias. A automação de alertas de backup não homologa templates e alertas de equipamentos da fase F3. [Validações](../06-validation/HOMOLOGATION.md).
+Cada novo barco exige modem/SIM, IPAM, peer exclusivo, ACL, medição de energia/cobertura, monitoramento, política de dados e aceite. Comparar concorrência da rede celular e custos em lotes; o resultado de uma linha não garante vinte. Contrato em pool precisa de política individual e avaliação do impacto de franquia compartilhada.
 
-## Critério para expansão
+Separar especificado, implantado, medido e aceite humano. Toda mudança operacional requer escopo, backup, acesso de recuperação e pós-teste. [PoC](../06-validation/POC_PLAN.md) e [riscos](RISKS_AND_OPEN_ITEMS.md).
 
-Comprar e instalar por lotes pequenos após resultado do piloto. A aprovação de um barco não homologa capacidade de vinte estações. Testar concorrência, ocupação do rádio, câmeras e falha de WAN.
+## Ampliação IoT confirmada
 
-## Governança
-
-Separar especificado, implementado, medido e aceite humano. Não atribuir percentuais sem conjunto de entregas e pesos definidos. Recursos/isolamento de campo e recuperação integral continuam pendentes; F2 não está inteiramente homologada. Mudança operacional requer escopo, backup, recuperação e pós-teste.
+Incluir inventário elétrico/sensores em F1; gateway/broker, qualidade e latência em F3; IOT-01 a IOT-04 em bancada F4; energia/latência/cobertura em F5; IOT-05 e estabilidade em F6; custo instalado/calibração em F7. A pesquisa não aprova compra nem atuação em bombas em uso. [Candidatos e critérios](../01-architecture/IOT_MONITORING_RESEARCH.md).

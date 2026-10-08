@@ -1,5 +1,33 @@
 # Histórico de alterações
 
+## 29/09/2026 — Conversor e módulo GSM disponíveis
+
+- Acrescentados LM2596 ajustável com display e módulo GSM/GPRS possivelmente SIM800L ao inventário de laboratório.
+- Documentados limites de alimentação, ensaios do conversor e uso 2G separado da topologia 4G; sem ligação, teste ou compra.
+
+## 29/09/2026 — Alternativa IoT com Arduino/Raspberry disponíveis
+
+- Registrada disponibilidade de UNO, MEGA e Raspberry Pi 4B, sem sensores; proposta usa MEGA/Pi 4B e reserva UNO para testes auxiliares.
+- Proposto reaproveitamento e comparação INA226/INA228 com shunt externo versus SmartShunt; documentados consumo, custos incompletos e calibração.
+- Atualizados ADR-025, rastreabilidade de requisitos, procedimento e ensaios; nenhum firmware ou teste de hardware executado.
+
+## 29/09/2026 — Pesquisa de telemetria IoT e comando da bomba
+
+- Pesquisados monitores de bateria, detectores de fumaça, corrente/nível do porão e gateways, com fontes técnicas, preços e limites de integração.
+- Registrados sistemas geralmente 12 V, baterias veiculares/estacionárias e potência de bomba variável; solicitado monitoramento e comando remoto quando viável.
+- Acrescentados REQ-31 a REQ-34, ADR-024, ensaios IOT-01 a IOT-05, metas de atualização no NOC e atuação remota que preserva automático local.
+- Pesquisa e documentação apenas; dispositivos, broker, firmware, painéis e acionamento ainda não implantados nem homologados.
+
+
+## 29/09/2026 — Topologia 4G independente por barco
+
+- Substituída a distribuição costeira por modem/SIM próprios por barco, conforme decisão do usuário; NOC/VPS administrativos preservados.
+- Revisados arquitetura, IPAM de 20 peers/LANs, VPN, isolamento, energia, hardware, monitoramento, operação e custos por linha.
+- Documentada opção de chips fornecidos pela operação com gestão individual contratada; Vivo provável, sem contratação, preços ou capacidades presumidos.
+- Requisitos rastreados em ADR-022/023; ensaios RF retirados e novos CEL-01 a CEL-07, SIM-01 e DATA-01 pendentes de execução.
+- Orçamento anterior de R$ 3.000,00 identificado como histórico; nova PoC exige cotação. Revisão documental sem implantação, compra, ativação de linhas ou novos testes de campo.
+
+
 ## VPN funcional da RB750r2 confirmada pelo usuário — 2026-09-22
 
 - Usuário confirmou a funcionalidade da VPN WireGuard da RB750r2 com a VPS. Atualizados estado, IPAM, procedimento, riscos, homologação e memória; não foram inferidas rotas de LAN, ACLs, failover, recuperação ou métricas.

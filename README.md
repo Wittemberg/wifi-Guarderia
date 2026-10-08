@@ -2,9 +2,11 @@
 
 [Estado completo das implementações e pendências reais](docs/00-project/IMPLEMENTATION_STATUS.md). Publicação e versões rastreadas pelo histórico Git.
 
-**Estado consolidado em 22/09/2026:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard, notebook de recuperação e RB750r2 da central NOC conectados. A funcionalidade da VPN da RB750r2 foi confirmada pelo usuário em 22/09/2026. Handshake/ping e SSH do notebook pela VPN têm evidência própria. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+**Direção confirmada em 29/09/2026:** cada barco terá modem 4G e chip próprios. A distribuição de Internet por antenas na costa foi retirada devido à dificuldade de posicionamento e passagem de infraestrutura. A operação poderá fornecer os chips com gestão individual contratada; Vivo é a candidata provável. [Conectividade e gestão de linhas](docs/02-implementation/CELLULAR_CONNECTIVITY.md).
 
-**Próximo passo viável na VPS:** acompanhar os backups e planejar os ensaios restantes de recuperação integral; reboot, acesso VPN e restrições públicas TCP IPv4 já validados, conforme a [validação de acesso](docs/06-validation/VPS_ACCESS_VALIDATION.md). A VPN WireGuard da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026. Rotas de LAN, coleta, failover e recuperação da RB continuam pendentes de evidência específica. Volumes Grafana/Prometheus migrados e restauração isolada a partir do S3 ensaiada; recuperação integral, core, segurança e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
+**Estado operacional preservado:** instalação da VPS/stack NOC e coleta interna concluídas; hub WireGuard, notebook de recuperação e RB750r2 da central NOC conectados. A funcionalidade da VPN da RB750r2 foi confirmada pelo usuário em 22/09/2026. Handshake/ping e SSH do notebook pela VPN têm evidência própria. Veja o [fechamento da stack](docs/06-validation/VPS_PHASE_COMPLETION.md) e a [validação do notebook](docs/06-validation/NOTEBOOK_VPN_VALIDATION.md).
+
+**Próximo passo viável na VPS:** acompanhar os backups e planejar os ensaios restantes de recuperação integral; reboot, acesso VPN e restrições públicas TCP IPv4 já validados, conforme a [validação de acesso](docs/06-validation/VPS_ACCESS_VALIDATION.md). A VPN WireGuard da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026. Rotas de LAN, coleta, failover e recuperação da RB continuam pendentes de evidência específica. Volumes Grafana/Prometheus migrados e restauração isolada a partir do S3 ensaiada; recuperação integral, kits 4G, segurança e campo seguem pendentes; F2 não está inteiramente homologada. Este repositório reúne documentação sanitizada; configurações reais e backups ficam fora do Git.
 
 ## Comece por aqui
 
@@ -18,24 +20,27 @@
 
 | Componente | Direção |
 |---|---|
-| Internet da guarderia | Provedor local; CGNAT provável |
-| Core | MikroTik RB750Gr3 já disponível |
-| Margem | mANTBox ax 15s, prevista para a PoC |
-| Barco | wAP ax: cliente 5 GHz e AP local 2,4 GHz |
-| Administração na central NOC | RB750r2 (hEX lite) em RouterOS e RouterBOOT 7.23.7; gateway em uso e VPN WireGuard funcional confirmada pelo usuário em 22/09/2026 |
-| Central | VPS existente, Ubuntu 24.04, IPv4 público |
-| VPN | WireGuard no host da VPS, notebook e RB750r2 implantados; core e validações ampliadas pendentes |
-| Monitoramento | Zabbix/PostgreSQL, Grafana, Kuma e Prometheus/exporters instalados em Docker Swarm/Portainer |
+| Internet por barco | Modem 4G e SIM próprios; modelo/plano e cobertura a homologar |
+| Chips e banda | Fornecimento pela operação é opção confirmada; gestão individual depende do contrato |
+| Operadora | Vivo provável, sem escolha definitiva ou contratação |
+| LAN embarcada | Roteador e WiFi/Ethernet local; integrado ao modem ou separado conforme seleção |
+| Distribuição na margem | Retirada; sem core ou base de rádio obrigatórios |
+| RB750Gr3 disponível | Reaproveitamento a avaliar, sem papel de core compartilhado |
+| Central NOC | RB750r2 administrativa em uso; VPN confirmada em 22/09/2026 |
+| VPS e monitoramento | Hub e stack existentes; coleta de campo ainda pendente |
+| VPN de campo | Um peer por barco, iniciado via 4G; proposta sem implantação |
 
-Um rádio por barco é a hipótese a validar. Rotação, obstruções, maresia, energia e capacidade compartilhada são critérios de decisão, não detalhes posteriores.
+Internet sai diretamente pela linha de cada barco. NOC/VPS gerenciam e monitoram; vídeo grava localmente, com consulta sob demanda e consumo contabilizado. Cobertura embarcada, autonomia, franquia e reconexão são critérios da nova PoC. [Arquitetura](docs/01-architecture/ARCHITECTURE.md) e [plano de testes](docs/06-validation/POC_PLAN.md).
 
-**Central NOC:** RB750r2 (hEX lite), revisão r3, com RouterOS/RouterBOOT **7.23.7**, WAN1 estática, DHCP/DNS na LAN e NAT. Gateway plenamente operacional para acesso à Internet, com navegação confirmada pelo usuário em 21/09/2026. WAN2 reservada; WireGuard ainda não configurado. As amostras recebidas mostram resposta ICMP ao gateway e a destinos externos. Consulte o [inventário e análise da configuração atual](docs/01-architecture/NOC_ROUTER_INVENTORY.md).
+**Central NOC:** gateway administrativo existente, com inventário em 21/09 e VPN confirmada em 22/09. O [registro de alcance reverso](docs/06-validation/NOC_EDGE_VPN_VALIDATION.md) tem escopo específico; isolamento e failover não são presumidos. Não confundir essa administração com a central terrestre de distribuição retirada.
 
 Os anexos RouterOS v7 recebidos foram [revisados](docs/02-implementation/ROUTEROS_BASELINE_REVIEW.md) e incorporados como [proposta de redundância WAN da central NOC](docs/02-implementation/NOC_DUAL_WAN.md). O template original exige adaptação e testes antes de importação; a existência de dois links ainda precisa ser confirmada.
 
 ## Investimento inicial para a PoC
 
-Após consultas e análises de preços de mercado, estima-se a necessidade de um **aporte financeiro de aproximadamente R$ 3.000,00** para viabilizar a prova de conceito (PoC), destinado à aquisição dos equipamentos básicos necessários para iniciar os testes.
+O escopo inclui métricas de bateria, fumaça e bomba de porão por barco, com acionamento remoto da bomba quando viável. Sistemas geralmente 12 V e bombas variadas, conforme o usuário. A [pesquisa de dispositivos IoT](docs/01-architecture/IOT_MONITORING_RESEARCH.md) compara precisão, consumo, preços e integração com o NOC; compra, implantação e homologação permanecem pendentes.
+
+O aporte estimado anteriormente em R$ 3.000,00 pertencia à PoC de enlace terrestre. O orçamento 4G precisa de nova cotação de modem/roteador, SIM/plano, energia, instalação e consumo dos testes; não há novo valor aprovado. [Modelo de custos por barco](docs/07-service/COSTS_AND_COMMERCIAL_MODEL.md).
 
 ## Documentação e governança
 
@@ -58,7 +63,7 @@ A licença deste projeto ainda deve ser definida pelo titular. Nenhuma licença 
 
 Notebook 10.250.0.10 ↔ VPS 10.250.0.1 com SSH em TCP 5822 validado. Endpoint usado pelo notebook: `204.157.108.99:51820` (UDP); alias DNS documentado: `vpn-guarderia.awecloudsolution.com:51820`.
 
-Com o inventário da RB750r2 recebido, confirmar backup e recuperação local para integrar seu peer; RB750Gr3 e coleta de campo depois. Os sete painéis receberam restrições por origem e quatro portas diretas receberam filtro; teste externo IPv4 aprovado conforme saída enviada pelo usuário; logins pós-mudança nos quatro consoles confirmados pelo usuário. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).
+Preservar a VPN da RB750r2 já confirmada. Preparar backup/recuperação, seleção do kit e peers individuais dos barcos antes da coleta de campo. Os sete painéis receberam restrições por origem e quatro portas diretas receberam filtro; teste externo IPv4 aprovado conforme saída enviada pelo usuário; logins pós-mudança nos quatro consoles confirmados pelo usuário. Consulte [plano WireGuard](docs/02-implementation/WIREGUARD.md) e [pendências](docs/00-project/RISKS_AND_OPEN_ITEMS.md).
 
 ## Backup e persistência — atualização de 16/09/2026
 

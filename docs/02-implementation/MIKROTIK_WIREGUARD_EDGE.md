@@ -2,6 +2,8 @@
 
 Estado em 22/09/2026: WireGuard configurado e validado na RB750r2 (hEX lite) da central NOC como gateway VPN de borda. A topologia migrou de VPN cliente-servidor direta (notebook → VPS) para VPN de borda (LAN → MikroTik → VPS), permitindo que toda a rede local acesse a infraestrutura remota sem cliente individual.
 
+**Escopo da revisão de 29/09/2026:** este registro preserva a implantação administrativa de 22/09. A distribuição terrestre foi retirada; expansão agora por peers embarcados 4G, conforme [WireGuard vigente](WIREGUARD.md). Comandos e exemplos históricos abaixo não são template para barcos.
+
 ## Topologia implementada
 
 **Antes (16/09/2026):**
@@ -215,11 +217,12 @@ https://portainer-guarderia.awecloudsolution.com/
 - **Rota:** Notebook → Internet → VPS (10.250.0.1)
 - **Uso:** acesso administrativo remoto quando fora da central NOC
 
-### Cenário 3: Futuro — Core da guarderia
+### Cenário 3: Futuro — barcos com 4G próprio
 
-- **Peer:** RB750Gr3 (10.250.0.3) será adicionado
-- **Rota central NOC → core:** PC → MikroTik (10.250.0.2) → VPS (10.250.0.1) → Core (10.250.0.3)
-- **Coleta:** containers na VPS acessarão dispositivos da guarderia via SNAT para 10.250.0.1
+- Peer exclusivo `10.250.0.(100+N)/32` e LAN `10.20.N.0/24` por barco.
+- Caminho administrativo: NOC → VPS → peer embarcado sobre o 4G da própria linha.
+- Coleta proposta com SNAT restrito para `10.250.0.1`; firewall entre peers obrigatório.
+- Nenhum peer de barco ou coleta embarcada foi implantado nesta revisão.
 
 ## Limitações e pendências
 
@@ -229,10 +232,10 @@ https://portainer-guarderia.awecloudsolution.com/
 | Roteamento LAN → VPS | ✅ Implementado | NAT + firewall |
 | Acesso a painéis da LAN | ✅ Implementado | Allowlist atualizada |
 | Peer do notebook | ⚠️ Standby | Mantido para uso externo |
-| Peer do core (RB750Gr3) | ❌ Pendente | Aguarda configuração |
-| Forwarding VPS entre peers | ❌ Pendente | Necessário para NOC → core |
+| Peer por barco 4G | ❌ Pendente | Substitui expansão pelo core terrestre |
+| Forwarding VPS entre peers | ❌ Pendente | Necessário para NOC → barco |
 | Rota VPS → LAN NOC | ✅ Implementado | `192.168.15.0/24 dev wg0`; NVR 192.168.15.110 respondeu após reboot |
-| Rotas de retorno no core | ❌ Pendente | Core futuro precisa conhecer as redes administrativas autorizadas |
+| Rotas de retorno nos barcos | ❌ Pendente | Cada roteador embarcado precisa conhecer as redes administrativas autorizadas |
 | Coleta Zabbix via VPN | ❌ Pendente | SNAT e alvos autorizados |
 | Testes de failover WAN | ❌ Pendente | Dual-WAN NOC ainda não configurado |
 
@@ -247,11 +250,11 @@ https://portainer-guarderia.awecloudsolution.com/
 
 ### Melhorias futuras
 
-- [ ] Implementar firewall na VPS para controlar tráfego entre peers (NOC ↔ core)
+- [ ] Implementar firewall na VPS para controlar tráfego entre peers (NOC ↔ barcos)
 - [ ] Adicionar logging de conexões VPN para auditoria
 - [ ] Configurar alertas de handshake perdido (peer offline)
 - [ ] Testar rotação de chaves WireGuard
-- [ ] Implementar ACLs granulares por serviço (ex: NOC acessa Portainer, mas não SSH do core)
+- [ ] Implementar ACLs granulares por serviço (ex: NOC acessa Portainer, mas não SSH do roteador embarcado)
 
 ## Recuperação e rollback
 

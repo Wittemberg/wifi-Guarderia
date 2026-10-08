@@ -4,6 +4,8 @@ Entrada para acompanhamento: [estado consolidado das implementações](00-projec
 
 Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evidências e pendências](06-validation/VPS_PHASE_COMPLETION.md). Hub WireGuard e notebook também implantados, com SSH confirmado; [validação e limites](06-validation/NOTEBOOK_VPN_VALIDATION.md). Inventário da RB750r2 recebido em 21/09/2026; VPN WireGuard funcional confirmada pelo usuário em 22/09/2026. Instalação observada e homologação completa são estados distintos.
 
+Direção de 29/09/2026: modem 4G e chip próprios por barco, sem distribuição na costa. [Conectividade celular e gestão individual](02-implementation/CELLULAR_CONNECTIVITY.md); Vivo provável, sem contratação/homologação.
+
 ## 00 — Projeto
 
 | Documento | Conteúdo |
@@ -18,9 +20,10 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 | Documento | Conteúdo |
 |---|---|
 | [Arquitetura](01-architecture/ARCHITECTURE.md) | Topologia, fluxos e responsabilidades |
-| [Plano de rede](01-architecture/NETWORK_PLAN.md) | IPAM para 20 barcos, VLANs, portas, rotas e NAT |
+| [Plano de rede](01-architecture/NETWORK_PLAN.md) | IPAM para 20 peers/LANs, WAN celular, rotas e NAT |
 | [Decisões](01-architecture/DECISIONS.md) | ADRs, alternativas e consequências |
-| [Hardware e RF](01-architecture/HARDWARE_AND_RF.md) | Modelos, perfil RF, levantamento e materiais |
+| [Pesquisa IoT](01-architecture/IOT_MONITORING_RESEARCH.md) | Bateria, fumaça, bomba, preços, consumo, precisão e integração/atuação pelo NOC |
+| [Hardware e RF](01-architecture/HARDWARE_AND_RF.md) | Critérios de modem/roteador 4G, cobertura e materiais |
 | [Inventário da VPS](01-architecture/VPS_INVENTORY.md) | Recursos e serviços observados em 15/09/2026, limitações e pendências |
 | [Inventário da RB750r2 central NOC](01-architecture/NOC_ROUTER_INVENTORY.md) | Atualização 7.23.7 e recursos informados pelo usuário |
 | [Energia e instalação](01-architecture/POWER_AND_INSTALLATION.md) | PoE, DC, autonomia e ambiente marítimo |
@@ -32,6 +35,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 | [Domínios e DNS](02-implementation/DOMAINS_AND_DNS.md) | Aliases planejados, acesso e validação pendente |
 | [Preparação VPS](02-implementation/VPS_BOOTSTRAP.md) | Inventário, Ubuntu/Orion e sequência de implantação |
 | [Stack](02-implementation/STACK_SPEC.md) | Serviços, persistência, redes, secrets e versões |
+| [Conectividade celular](02-implementation/CELLULAR_CONNECTIVITY.md) | Kit 4G, chips, gestão contratada, consumo e ciclo de vida |
 | [WireGuard](02-implementation/WIREGUARD.md) | Peers, AllowedIPs, rotas, SNAT e recuperação |
 | [Provisionamento MikroTik](02-implementation/MIKROTIK_PROVISIONING.md) | Roteiro por equipamento e futuras configurações |
 | [Configuração do monitoramento](02-implementation/MONITORING_SETUP.md) | Sequência de templates, coleta, dashboards e alertas |
@@ -44,7 +48,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 |---|---|
 | [Métricas](03-monitoring/METRICS.md) | Fontes, unidades, frequência e qualidade |
 | [Alertas e painéis](03-monitoring/ALERTS_AND_DASHBOARDS.md) | Limiares iniciais, dependências e notificação |
-| [Capacidade e retenção](03-monitoring/CAPACITY_AND_RETENTION.md) | Taxa de amostras, disco e carga RF/WAN |
+| [Capacidade e retenção](03-monitoring/CAPACITY_AND_RETENTION.md) | Taxa de amostras, disco, franquia e carga celular |
 
 ## 04 — Segurança
 
@@ -62,7 +66,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 
 | Documento | Conteúdo |
 |---|---|
-| [Plano PoC](06-validation/POC_PLAN.md) | Bancada, 50/100 m, rotação, carga e critérios |
+| [Plano PoC](06-validation/POC_PLAN.md) | Bancada 4G, cobertura embarcada, movimento, dados e gestão de SIM |
 | [Conclusão VPS/stack](06-validation/VPS_PHASE_COMPLETION.md) | Etapa concluída, imagens observadas, evidências e pendências |
 | [Homologação](06-validation/HOMOLOGATION.md) | Estado real dos testes e aceites |
 | [Persistência e backups](06-validation/PERSISTENCE_BACKUP_AUDIT.md) | Auditoria, restauração isolada e migração preparada |
@@ -101,3 +105,7 @@ Atualização de 16/09/2026: etapa VPS/stack e coleta interna concluída; [evid�
 - [Restrição de infraestrutura e SSH](06-validation/VPS_HOST_ACCESS_VALIDATION.md): restrições aplicadas e testes TCP IPv4/VPN aprovados; limites e retorno documentados.
 - [Ensaio de reboot da VPS](06-validation/VPS_REBOOT_VALIDATION.md): pré-testes, verificador automático e recuperação.
 - [Alertas externos de backup](06-validation/BACKUP_ALERTS.md): preparação, permissões e critérios de ativação.
+
+## Protótipo econômico com placas disponíveis
+
+[Arduino/Raspberry, sensores e sequência de bancada](01-architecture/IOT_LOW_COST_PROTOTYPE.md): alternativa ao kit comercial com UNO/MEGA/Pi 4B disponíveis; sensores e ensaios pendentes.

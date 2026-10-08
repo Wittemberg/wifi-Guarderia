@@ -1,47 +1,50 @@
 # Alertas, painéis e estados operacionais
 
-Estado: política inicial proposta, a calibrar no piloto. Destinatários, plantão e canais reais permanecem em `OPEN-13`.
+Revisão de 29/09/2026: política embarcada proposta, sem dashboards LTE ou alertas de SIM implantados. Alertas de backup SES/Telegram já têm [evidência própria](../06-validation/BACKUP_ALERTS.md); não comprovam notificação de equipamentos ou integração da operadora. Plantão e destinatários embarcados seguem em OPEN-13.
 
-## Painéis
+## Painéis propostos
 
-| Painel | Público | Conteúdo |
+| Painel | Conteúdo |
+|---|---|
+| Frota | Estado por barco: Internet, VPN, última coleta, incidente e operadora lógica |
+| Linha e consumo | Ciclo, franquia/plano, bytes local/operadora, atraso e projeção claramente identificada |
+| PoC celular | Sinal suportado, posição/orientação lógica, upload/download, RTT/perda e reconexões |
+| Diagnóstico | LAN, registro 4G, sessão de dados, DNS, Internet, VPN e aplicação com fonte explícita |
+| NOC | Coletor, fila, banco, disco, backup e entrega de alertas |
+| Barco | Somente dados do barco para usuário autorizado; filtros visuais não são autorização |
+| IoT por barco | Tensão, corrente, SoC válido, fumaça, corrente/ciclos da bomba, nível alto e idade de cada dado; integração pendente |
+
+Toda visualização informa fonte, período e atualização. Usar [estados de apresentação](../../witteberg-development-standards/UX_AND_WRITING.md); sem dados, manutenção e erro de autenticação ficam distintos de normal.
+
+## Regras iniciais a calibrar
+
+| Condição | Disparo proposto | Recuperação |
 |---|---|---|
-| Operação diária | Operador | Internet, core, AP e barcos; idade do dado e incidentes |
-| PoC RF | Técnico | RSSI, taxa, perda local, throughput e marcações de orientação |
-| Diagnóstico WAN/VPN | Técnico | Sonda VPS/core, handshake, perda externa e tráfego |
-| Saúde NOC | Técnico | Filas, erros de coleta, DB, disco, backups e notificações |
-| Histórico do barco | Operador autorizado | Eventos e métricas do barco, sem dados de outros clientes |
+| Coletor sem atualização | Mais de 3 intervalos + 15 s | 3 leituras válidas |
+| Barco inacessível pela VPN | 3 falhas consecutivas da sonda | 3 sucessos e aplicação/caminho conferidos |
+| Registro ou sessão celular ausente | Estado direto persistente por 60 s, quando há coleta local | Registro e sessão restabelecidos |
+| Degradação de aplicação/Internet | Meta da PoC/contrato violada em janela válida | Meta restabelecida na janela acordada |
+| Franquia utilizada | 70%, 85% e 95% como alertas propostos | Novo ciclo ou alteração contratual confirmada |
+| Projeção excede franquia | Dados suficientes e hipótese de consumo identificada | Projeção volta ao orçamento; não confundir com cobrança real |
+| Portal/relatório de consumo atrasado | Prazo contratado + tolerância aprovada | Fonte atualizada |
+| Disco NOC | > 75% por 10 min / > 90% por 2 min | < 70% / < 85% |
 
-Aplicar o [padrão de apresentação](../../witteberg-development-standards/UX_AND_WRITING.md). Sem dados e manutenção precisam ser visualmente distintos de normal. Toda visualização informa última atualização, período e origem. A linha do RSSI deve deixar lacunas onde não houve coleta.
+Severidade depende do serviço afetado: perda de contato de um kit pode ser crítica conforme contrato, sem provar falha do alarme local. Não usar RSSI WiFi como limiar de sinal LTE. Alertas de alarme patrimonial seguem o serviço de segurança e seus próprios tempos.
 
-## Regras propostas
+## Correlação
 
-| Condição | Janela de disparo | Severidade operacional | Recuperação |
-|---|---|---|---|
-| Coletor sem atualização | > 3 intervalos + tolerância de 15 s | P1; P0 se central inteira cega | 3 coletas válidas |
-| Core inacessível por sonda | 3 falhas consecutivas em 30 s | P0 | 3 sucessos consecutivos |
-| AP inacessível com core acessível | 3 falhas consecutivas | P0 compartilhado | 3 sucessos |
-| Barco inacessível com caminho comum saudável | 3 falhas consecutivas | P1; elevar conforme contrato | 3 sucessos |
-| Perda local > 2% | Janela de 5 min com sondas suficientes | P1 | < 1% por 10 min |
-| RSSI abaixo de −75 dBm | 60 s de dados válidos | P1 técnico | Acima de −70 dBm por 120 s |
-| Disco NOC > 75% / > 90% | 10 min / 2 min | P1 / P0 | < 70% / < 85% |
-| Backup sem sucesso > 26 h | Uma avaliação confirmada | P1; P0 se nenhuma cópia válida | Backup íntegro confirmado |
-| Falha de entrega de alerta | Retry limitado com backoff | P1/P0 conforme impacto | Entrega confirmada |
+Para IoT, aplicar o [contrato de métricas](METRICS.md) e as [metas da pesquisa](../01-architecture/IOT_MONITORING_RESEARCH.md): leituras periódicas atrasadas após 15 s, gateway sem comunicação após 90 s e política própria para detector de fumaça adormecido. Esses critérios específicos prevalecem sobre o limiar genérico do coletor. Fumaça e nível alto geram evento imediato; limites de bateria, corrente e duração da bomba dependem do inventário e perfil medido. Não definir um único limiar de tensão/SoC para todas as baterias.
 
-Limiares de rádio são valores iniciais de investigação, não limites físicos universais. Alarmes de invasão/incêndio são eventos da solução de segurança e não devem herdar debounce de monitoramento de rede.
+Exibir separadamente comando solicitado, aceito e efeito físico. Pedido sem corrente e nível alto persistente exigem tratamento, mas não identificam sozinhos a causa. ACK não significa drenagem. Reconhecer um alerta não silencia detector nem desliga o automático. Acionamento remoto requer serviço autorizado próprio e registro auditável; o dashboard de consulta não concede permissão de comando.
 
-## Correlação e deduplicação
+Fingerprint por barco/linha lógica/tipo. Incidente de modem/SIM de A não suprime incidentes de B. Falha confirmada do hub/coletor pode agrupar notificações dependentes preservando eventos e lacunas. Falhas simultâneas na mesma operadora são hipótese de causa comum até confirmação, não diagnóstico automático de célula/operadora.
 
-Fingerprints por site/equipamento/tipo. Se core/WAN cair, gerar incidente pai e suprimir tempestade de notificações dos barcos dependentes, preservando suas métricas e eventos. A queda da VPN não prova que todos os barcos desligaram. Confirmação de camada local exige sonda local ou visita.
+VPN ausente não significa modem desligado. Comparar sonda local, registro de dados e portal quando disponíveis. Sem evidência adicional, informar “sem comunicação; causa não determinada”. Manutenção tem responsável e prazo, silencia apenas avisos previstos e mantém coleta. Reconhecimento não é recuperação.
 
-Manutenção silencia somente notificação conforme política, com início/fim e responsável; coleta continua. Reconhecimento não encerra o incidente. Recuperação confirmada encerra condição e registra duração. Cooldown inicial de 10 min para repetição do mesmo aviso, sem suprimir agravamento.
+## Consumo e notificações
 
-## Notificação
+Contadores locais podem alertar antes do relatório da operadora, mas mostrar fonte e diferença. Não executar suspensão automática, troca de plano, compra de pacote ou bloqueio de tráfego crítico sem política autorizada e ensaiada. Perda de franquia pode eliminar a própria gerência remota.
 
-Mensagem deve dizer evento, impacto, evidência, última observação e responsável pela próxima ação. Exemplo de formato, sem dados medidos: “Barco [ID] sem comunicação. Última coleta [horário]; base [estado]. Operação deve verificar alimentação e rádio.” Nunca incluir segredo, imagem ou telefone de outro cliente.
+Formato: “Barco [ID] sem comunicação desde [horário]. Última evidência [fonte/estado]. Verificar caminho 4G/VPN e alimentação; causa ainda não determinada.” Destinatários e envio de teste exigem canal autorizado. Nenhum envio foi realizado nesta revisão documental.
 
-Configurar primeiro um canal de teste autorizado pelo usuário, registrar entrega e falha, e só depois ativar destinatários operacionais. Nenhuma notificação foi enviada nesta fase documental.
-
-## Disponibilidade do monitoramento
-
-Kuma na mesma VPS não detecta sua própria indisponibilidade de forma independente. Monitor externo autorizado ou checagem fora da VPS deve supervisionar o NOC; origem e destinatário ainda a definir. Sem essa segunda observação, registrar a limitação no aceite.
+Kuma na VPS não observa de forma independente a queda do próprio host. O monitor externo de backup já implantado observa heartbeat, mas não comprova conectividade celular ou disponibilidade de cada aplicação.

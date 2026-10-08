@@ -1,10 +1,26 @@
 # Memória do projeto
 
-Atualizada em 22/09/2026. Fonte do estado vigente: [implementações](../../docs/00-project/IMPLEMENTATION_STATUS.md). Os números abaixo são resultados datados, não nova consulta. Não guardar credenciais ou resultados presumidos.
+Atualizada em 29/09/2026. Fonte do estado vigente: [implementações](../../docs/00-project/IMPLEMENTATION_STATUS.md). Os números abaixo são resultados datados, não nova consulta. Não guardar credenciais ou resultados presumidos.
+
+## Topologia vigente — confirmação de 29/09/2026
+
+Usuário retirou a central terrestre de distribuição por dificuldade de posicionamento de antenas e passagem de infraestrutura na costa. Cada barco terá modem 4G e chip próprios. Chips poderão ser fornecidos pela operação com gestão individual contratada; Vivo é candidata provável, sem contratação ou cobertura homologadas. NOC/VPS administrativos existentes permanecem. RB750Gr3 não é core obrigatório; mANTBox e uplink 5 GHz do wAP saíram do projeto. Reaproveitamento depende de avaliação.
+
+Proposta técnica: LAN 10.20.N.0/24 e peer 10.250.0.(100+N)/32 por barco (N=1–20), Internet direta pelo 4G, VPN apenas de gerência/coleta, ACL no hub/pontas e funções locais de alarme/gravação. Modelo, APN, energia, franquia e recursos de portal/API pendentes. Distinguir velocidade, franquia e QoS; não presumir gestão disponível por fornecer o SIM. RF-01 a RF-05 substituídos; CEL-01 a CEL-07, SIM-01 e DATA-01 não executados. ADR-022/023 e documentos ativos revisados; nenhuma mudança operacional, compra ou ativação de linha nesta revisão. Orçamento antigo de R$ 3.000,00 precisa de recotação. [Procedimento celular](../../docs/02-implementation/CELLULAR_CONNECTIVITY.md).
+
+## IoT — pesquisa de 29/09/2026
+
+Complemento do inventário de bancada: LM2596 ajustável com display confirmado; módulo GSM/GPRS informado como “SIMBOL800L”, possivelmente SIM800L, identificação da placa ainda pendente. Conversor é candidato a ensaio, sem capacidade contínua homologada. Se SIM800L, uso 2G separado, sem substituir 4G. Não presumir alimentação comum Pi/modem nem saída de 3 A sustentada; consultar o protótipo antes de orientar ligações.
+
+Usuário confirmou métricas de bateria, fumaça e bomba no NOC, com acionamento remoto da bomba se possível. Barcos geralmente 12 V, baterias veiculares comuns ou estacionárias e bombas de potência variável. Inventariar química/Ah/bancos e corrente nominal/partida por barco; não assumir um único relé para a frota.
+
+[Pesquisa documentada](../../docs/01-architecture/IOT_MONITORING_RESEARCH.md): candidatos SmartShunt IP65 via VE.Direct, gateway ESP32 ou Cerbo GX, DFC 421 UN com central/sirene local ou Shelly Plus Smoke, corrente da bomba e boia independente de nível alto. Preços são referências consultadas, sem orçamento instalado. SoC exige calibração, não deriva apenas da tensão; corrente não comprova drenagem. Remoto é demanda temporizada adicional, sem bloquear automático/manual local. Broker, serviço de comandos, firmware e painéis ainda não implantados. REQ-31–34, ADR-024 e IOT-01–05 registrados; nenhum ensaio IoT executado.
 
 ## Contexto e confirmações do usuário
 
-WiFi Guarderia Vitória: hipótese de 10–20 barcos a 50–100 m; preparar NOC antes da PoC. RB750Gr3 disponível e RB750r2 (hEX lite) da central NOC atualizada para RouterOS/RouterBOOT 7.23.7; inventário recebido em 21/09/2026: gateway ativo, WAN1 estática, LAN com DHCP/DNS/NAT e WAN2 reservada; aquela coleta ainda não continha WireGuard. A VPN da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026. Dual-WAN é proposta e segundo link não confirmado. RF, energia, capacidade, câmeras/alarme, custos e contrato continuam em validação.
+Em 29/09/2026, usuário confirmou possuir Arduino UNO, Arduino MEGA e Raspberry Pi 4 Model B, **sem sensores**, para laboratório/campo. [Protótipo econômico](../../docs/01-architecture/IOT_LOW_COST_PROTOTYPE.md): proposta MEGA para aquisição/temporização, Pi 4B gateway MQTT e UNO auxiliar; avaliar INA226/INA228 com shunt versus SmartShunt. Não comprar controlador/gateway para iniciar sem necessidade. Sensores, revisões de placas, fontes, instalação e calibração pendentes; nenhum firmware ou ensaio executado. ADR-025 registrado; consumo do Pi 4B é referência de catálogo, não medição. SoC próprio exige sincronização, persistência e calibração.
+
+WiFi Guarderia Vitória: hipótese de 10–20 barcos; os 50–100 m da margem são contexto original, não critério de cobertura 4G. Preparar NOC antes da PoC. RB750Gr3 disponível e RB750r2 (hEX lite) da central NOC atualizada para RouterOS/RouterBOOT 7.23.7; inventário recebido em 21/09/2026: gateway ativo, WAN1 estática, LAN com DHCP/DNS/NAT e WAN2 reservada; aquela coleta ainda não continha WireGuard. A VPN da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026. Dual-WAN é proposta e segundo link não confirmado. Cobertura celular, energia, capacidade, câmeras/alarme, custos e contrato continuam em validação.
 
 Pasta local e repositório oficial Wittemberg/wifi-Guarderia preservados. nocagent e padrões Witteberg são referências, sem runtime AG Kit instalado. Usuário autoriza trabalho operacional por etapa; autorização não implica commit/push ou divulgação de segredos.
 

@@ -4,13 +4,13 @@ Estado: orçamento de capacidade paramétrico, sem benchmark de carga. Inventár
 
 ## Inventário de escala
 
-Para 20 barcos, prever pelo menos core, AP(s), 20 wAPs e host VPS. Central e 1–2 câmeras por barco podem elevar o inventário para cerca de 62–82 equipamentos no local; isso não significa que todos suportem SNMP ou a mesma frequência de coleta. A RB da central NOC e serviços da VPS entram separadamente.
+Revisão de 29/09/2026: para 20 barcos, prever 20 modems/SIMs e roteamento/VPN por kit, integrados ou separados. Somar APs adicionais, centrais, câmeras e sensores IP realmente existentes; não contar sensor proprietário como host. NOC e VPS são infraestrutura administrativa, sem core/AP de distribuição na margem. Capacidade de 20 linhas não é garantia de cobertura nem ausência de congestionamento da célula.
 
 ## Taxa de amostras
 
 `Amostras/dia = Σ(número de itens × 86400 / intervalo em segundos)`
 
-**Cenário de cálculo, não inventário real:** 20 barcos × 12 itens a 5 s = 48 valores/s = 4.147.200 valores/dia, antes de base, WAN, logs e demais equipamentos. Em 14 dias são 58.060.800 valores. Com hipótese de 100 bytes efetivos por valor, seriam aproximadamente 5,8 GB decimais; índices, WAL, bloat, metadados, logs e backup podem multiplicar esse consumo. Medir bytes efetivos no banco após 24/72 h antes de aceitar capacidade.
+**Cenário de cálculo, não inventário real:** 20 barcos × 12 itens a 5 s = 48 valores/s = 4.147.200 valores/dia, antes de recursos WAN, logs e demais equipamentos. Em 14 dias são 58.060.800 valores. Com hipótese de 100 bytes efetivos por valor, seriam aproximadamente 5,8 GB decimais; índices, WAL, bloat, metadados, logs e backup podem multiplicar esse consumo. Medir bytes efetivos no banco após 24/72 h antes de aceitar capacidade.
 
 Portanto, 4 GB RAM e 60 GB SSD são ponto de partida discutido, não garantia de retenção de todos os itens a 5 s. A fase de campo começa com um barco e coleta seletiva.
 
@@ -18,7 +18,7 @@ Portanto, 4 GB RAM e 60 GB SSD são ponto de partida discutido, não garantia de
 
 | Classe | Coleta | Histórico bruto | Tendência/arquivo |
 |---|---|---|---|
-| Rádio intensivo de PoC | 5 s | 14 dias | Exportar ensaio antes da expiração |
+| Celular intensivo de PoC | 5 s | 14 dias | Exportar ensaio antes da expiração |
 | Sonda local de ensaio | 1 s | Arquivo protegido do ensaio | Conservar relatório + dados pelo período aprovado |
 | Operação normal | 30–60 s | 90 dias se capacidade aprovada | Tendências 365 dias inicialmente |
 | Logs técnicos | Evento | 30 dias inicialmente | Incidentes relevantes preservados com referência |
@@ -32,16 +32,23 @@ Reter métricas por 2–5 anos, como sugerido na conversa, é expansão a orçar
 
 CPU, RAM disponível, swap, IO wait, latência de disco, tamanho de banco/WAL, crescimento diário, itens sem suporte, fila Zabbix, atraso de ingestão e duração de backup. Coleta saudável tem atraso inferior a duas vezes o intervalo contratado para o item na maior parte do ensaio; medir percentil 95 e máxima lacuna.
 
-Meta inicial de operação: RAM sem pressão sustentada, CPU média abaixo de 70% por 15 min e pelo menos 25% de disco livre. Se extrapolado, reduzir coleta não crítica ou ampliar recursos, documentando efeito. Não reduzir silenciosamente frequência que serve ao aceite RF.
+Meta inicial de operação: RAM sem pressão sustentada, CPU média abaixo de 70% por 15 min e pelo menos 25% de disco livre. Se extrapolado, reduzir coleta não crítica ou ampliar recursos, documentando efeito. Não reduzir silenciosamente frequência que serve ao aceite celular.
 
-## Capacidade RF/WAN
+## Capacidade celular e orçamento de dados
 
-`Banda de vídeo = número de streams simultâneos × bitrate medido por stream`
+`Banda de vídeo = streams simultâneos × bitrate medido por stream`
 
-Somar upload de alarmes, consultas, retransmissões e tráfego de clientes; aplicar margem de engenharia proposta de 30% sobre a demanda medida. Taxa física WiFi é capacidade de enlace negociada e não entrega garantida a cada barco. Clientes lentos consomem tempo de rádio e afetam os demais.
+Por barco e por sentido, somar vídeo sob demanda, alarmes, navegação, atualizações, telemetria, VPN e retransmissões. Margem inicial proposta de 30% sobre a demanda medida. Upload celular é critério próprio; comparar horários de pico e desempenho sob carga, sem assumir que uma linha é capacidade dedicada da rede da operadora.
 
-Testar carga progressiva, começando em 1 e 2 estações, depois lote piloto e 20 estações reais ou emulação claramente identificada. Simulação de carga valida recursos de processamento, mas não reproduz vinte enlaces reais sobre água. Aprovar quantidade de setores por RF-04 e CAP-01.
+`GB de vídeo ≈ Mbps médio × segundos transmitidos / 8000` (GB decimais, sem overhead).
 
+Gravação local não consome 4G por si só; sincronização/nuvem/visualização podem consumir. Medir também tráfego ocioso do aplicativo e keepalive. Não dimensionar franquia só pelos minutos de vídeo previstos.
+
+`GB/mês estimados = GB fixos medidos/dia × dias do ciclo + GB de eventos/consultas/atualizações previstos`
+
+Aplicar margem aprovada, identificar projeção e conciliar com portal/fatura em DATA-01. Definir teto de bytes dos testes de vazão. Considerar reset de contadores, unidade GB/GiB, atraso de portal e pool compartilhado, se contratado.
+
+Expandir de 1 para 2 kits, lote piloto e até 20 com CEL-07/CAP-01. Simulação pode validar processamento/ingestão e VPN da VPS, mas não reproduz cobertura ou concorrência de vinte SIMs na célula real. Acompanhar crescimento do banco, custo de dados por linha e pressão no hub; não transportar vídeo contínuo por ele.
 
 ## Retenção de backup não é retenção de métricas
 

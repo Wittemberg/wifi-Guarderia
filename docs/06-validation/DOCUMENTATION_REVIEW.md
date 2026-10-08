@@ -79,3 +79,27 @@ Validação final desta consolidação: 63 documentos Markdown, 309 links locais
 Treze anexos lidos integralmente; síntese sanitizada de hardware, configuração e testes. Identificação RB750r2 r3, recursos, interfaces e serviços conferidos entre as saídas e o export. Documentação ativa apresenta o equipamento atual; anexos literais e registros de releases permanecem fontes históricas, não inventário.
 
 Após integrar os registros remotos de VPS/operação, verificados 63 arquivos Markdown e 319 links locais, UTF-8 e blocos de código. Nenhum serial, software-id ou MAC da coleta nos documentos. Rede administrativa futura separada da LAN em uso; testes ICMP recebidos e validação DNS pendente distinguidos. Sem alterações no gateway; sem import, testes adicionais de rede ou publicação de export real.
+
+## Mudança para 4G individual — 29/09/2026
+
+Revisão solicitada pelo usuário: retirada da distribuição de Internet pela costa e adoção de modem/SIM próprios por barco. Atualizados contexto, requisitos, ADR-022/023, arquitetura, IPAM, hardware/energia, VPN, provisionamento, telemetria, segurança, backup, operação, modelo comercial, PoC, homologação, índices e memória. Criado procedimento de conectividade celular e gestão de linhas. Mantidos os registros históricos e resultados operacionais no escopo original.
+
+Verificação local executada: 66 arquivos Markdown decodificados em UTF-8, títulos e fechamento de blocos conferidos; 341 links locais e uma âncora resolvidos; 20 pares de peer/LAN verificados por fórmula, gateway e ausência de sobreposição; 30 requisitos únicos e 39 IDs de testes referenciados encontrados na matriz. RF-01 a RF-05 conferidos como substituídos/não executados; CEL-01 a CEL-07, SIM-01 e DATA-01 permanecem não executados. `git diff --check` sem erros. Busca de padrões de chaves privadas, tokens GitHub e chaves AWS nas adições sem ocorrências; isso não substitui revisão humana de conteúdo.
+
+Consulta externa limitada aos manuais oficiais de WireGuard e LTE/RouterOS para fundamentar a proposta; nenhuma cotação, plano, cobertura ou capacidade de gestão da Vivo foi validada. Sem testes operacionais, alteração de infraestrutura, contratação ou envio de notificações. Commit/push não executados nesta revisão; publicação não presumida.
+
+## Pesquisa IoT e comando de bomba — 29/09/2026
+
+Pesquisa externa em fabricantes e anúncios de preço para bateria, fumaça, corrente/nível da bomba e gateways. Documentados preços e condições de consulta, interfaces, consumo e precisão declarados, limites ambientais e integração proposta com o NOC. Incorporadas as confirmações do usuário: geralmente 12 V, bateria veicular/estacionária, bombas variadas e desejo de acionamento remoto quando possível. Atualizados requisitos, ADR-024, arquitetura, painéis, segurança, procedimentos, custos, PoC, riscos, memória e changelog.
+
+Verificação executada: 67 documentos Markdown em UTF-8, títulos e blocos conferidos, 360 links locais e uma âncora resolvidos; 20 mapeamentos peer/LAN consistentes; 34 requisitos únicos e 44 IDs de testes referenciados encontrados na homologação. IOT-01 a IOT-05 conferidos como não executados. `git diff --check` sem erros. Busca por padrões de chaves privadas, tokens GitHub/AWS e chaves atribuídas nas adições e nos dois novos documentos sem ocorrências. Não equivale a ensaio de hardware, certificação marítima, implantação, compra ou publicação Git.
+
+## Protótipo econômico — 29/09/2026
+
+Registrado inventário confirmado: UNO, MEGA e Raspberry Pi 4B, sem sensores. Proposta MEGA/Pi 4B e comparação INA226/INA228 com SmartShunt documentadas, incluindo energia, referência de preço, calibração e sequência de aquisição/bancada. Atualizados ADR-025, requisitos, homologação, procedimento, custos, riscos, estado, índices e memória.
+
+Validação local: 68 Markdown em UTF-8, 371 links locais e uma âncora resolvidos, 20 mapeamentos peer/LAN, 34 requisitos únicos e 44 IDs de testes rastreados; títulos e fechamento de blocos sem erros. `git diff --check` aprovado. Nenhum firmware compilado/carregado, teste de placa/campo, compra ou implantação efetuado.
+
+## Inventário LM2596 e GSM — 29/09/2026
+
+Incluídos conversor ajustável com display e módulo GSM/GPRS possivelmente SIM800L. Fontes TI, Raspberry Pi e manual SIMCom consultadas; capacidade real da placa e identidade do modem seguem pendentes. Revisados protótipo, energia, ADR-025, requisitos, procedimento, homologação, estado, memória e changelog. Verificação: 68 Markdown, 372 links locais, uma âncora, 20 mapeamentos peer/LAN, 34 requisitos e 44 IDs de testes, sem erros; `git diff --check` aprovado. Sem ensaio elétrico, envio de mensagem ou alteração de infraestrutura.

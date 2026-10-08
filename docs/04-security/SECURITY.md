@@ -13,20 +13,20 @@ Menor privilégio, autenticação individual, isolamento de barcos, segredos for
 | Internet | VPS | UDP 51820 | VPN pública autenticada |
 | Administração autorizada | VPS | SSH/HTTPS | Na VPS implantada, novas conexões SSH e consoles pelos caminhos autorizados da VPN; ver política efetiva abaixo |
 | Coletor autorizado | Equipamentos cadastrados | ICMP, UDP 161 SNMPv3, HTTPS/API TLS conforme necessidade | Somente pela VPN e alvos ativos |
-| PC administrativo 10.21.0.10 / peer de recuperação | Gestão core/AP/wAP | SSH/WinBox/HTTPS estritamente necessários | Fonte, destino e serviço explícitos |
+| Administração autorizada via NOC / peer de recuperação | Gerência do roteador/modem e kit N | SSH/WinBox/HTTPS estritamente necessários | Fonte, destino e serviço explícitos |
 | Zabbix web/server | PostgreSQL | TCP 5432 | Rede interna de dados |
 | Grafana | Zabbix API | HTTPS ou backend privado protegido | Token somente leitura |
-| LAN barco N | Internet | Serviços contratados | NAT somente WAN core |
-| LAN barco N | wAP N | DHCP/DNS/NTP se oferecidos | Serviços locais, sem administração |
-| LAN barco N | LAN barco M/gestão/trânsitos/VPN | Qualquer | Negar |
-| Trânsito barco N | Trânsito M | Qualquer | Negar |
+| LAN barco N | Internet | Serviços contratados | NAT somente WAN celular do próprio barco |
+| LAN barco N | Roteador N | DHCP/DNS/NTP se oferecidos | Serviços locais, sem administração |
+| LAN barco N | LAN barco M/gestão/NOC/VPN | Qualquer | Negar |
+| Peer barco N | Peer M, LAN NOC e painéis da VPS | Qualquer nova conexão | Negar no hub e nas pontas |
 | Internet | WinBox, SNMP, banco, Portainer, câmeras | Qualquer | Negar |
 
 Responder a conexões estabelecidas/relacionadas conforme contexto; descartar inválidas. O recebimento de syslog e trap só será aberto se adotado e limitado à origem cadastrada. Não confundir TCP 8728 sem TLS com API-SSL 8729 ou REST HTTPS.
 
 ## Controle de origem
 
-Rejeitar endereço de origem incompatível com VLAN de entrada no core. Não aceitar LAN de outro barco apresentada por uma estação. Rejeitar VLANs não cadastradas no trunk; verificar isolamento no rádio e ausência de forwarding direto entre estações. Rotas específicas não bastam para isso.
+Na revisão de 29/09/2026, vincular cada chave WireGuard somente ao /32 e LAN do respectivo barco; negar origem de outro barco. No hub, bloquear encaminhamento lateral mesmo que as rotas existam. Restringir input e forward do kit às fontes administrativas e coletor autorizados; impedir administração pela LAN de clientes e WAN celular. Testar acesso direto, spoof, gerência do modem e rede de visitantes quando houver. CGNAT e IP dinâmico não substituem filtros.
 
 IPv6 precisa de decisão explícita: ou implementação com política equivalente e teste ou bloqueio de encaminhamento entre segmentos e ausência de anúncios acidentais. Considerar também gerência MAC, descoberta, bridge e interfaces não usadas.
 
@@ -63,8 +63,8 @@ Definir finalidade, responsáveis, acesso e retenção dos dados antes de produ�
 
 | Ameaça | Controle | Teste |
 |---|---|---|
-| Cliente tenta acessar outro barco | VLAN, ACL e autenticação individual | SEC-01 |
-| Spoof de origem/MAC | Vínculo identidade/VLAN e anti-spoof | SEC-02 |
+| Cliente tenta acessar outro barco | ACL no hub/kit e autenticação por peer | SEC-01 |
+| Spoof de origem/MAC | Vínculo chave/prefixo, segmentação local e anti-spoof | SEC-02 |
 | Gerência publicada pelo Docker | Redes privadas, bind/regras e verificação externa | SEC-03 |
 | Roubo de credencial | Menor privilégio e revogação | SEC-04 |
 | Falha TLS/servidor falso | Verificação de certificado | SEC-04 |
@@ -87,3 +87,15 @@ Alertas SES/Telegram ativos, com token em SSM SecureString e arquivo privado pro
 A configuração IPv4 recebida bloqueia novas conexões administrativas pela lista WAN, mas permite toda a LAN no input; serviços não restringem origem no campo address. HTTP 780 e API 58728 estão habilitados sem TLS, SSH 5822 e WinBox 58292 ativos. Não há drop final explícito nas cadeias input/forward nem política IPv6 demonstrada. Isso é análise estática, não teste externo de exposição. Antes da VPN, definir ACLs específicas e política para novas interfaces; revisar MAC/descoberta, contas e necessidade de cada serviço. Detalhes no [inventário](../01-architecture/NOC_ROUTER_INVENTORY.md).
 
 A documentação pública mantém nomes lógicos, recursos e resultados agregados. Seriais, software-id, MACs, endereços operacionais privados e export completo permanecem fora do Git.
+
+## SIM e portal da operadora — proposta de 29/09/2026
+
+Portal com contas nominais, MFA e escopo mínimo conforme recursos contratados. Separar leitura de consumo das permissões para suspender linha, mudar plano ou gerar custo. Credenciais, PIN/PUK, ICCID/IMSI, IMEI, número de linha e identificação de titular ficam fora do Git. Registrar ações e confirmar vínculo linha/barco antes de alterar.
+
+Bloqueio de SIM, revogação de VPN e retirada do cliente são ações diferentes. Testar revogação individual sem afetar os demais; perda de uma linha não autoriza resetar outras. Atualização/backup dos kits deve incluir referência privada da linha e recuperação sem depender da própria WAN bloqueada. O APN do contrato e eventual IPv6 público devem ser testados, sem pressupor proteção pelo nome do plano.
+
+## Comandos IoT da bomba — proposta, não habilitada
+
+[Projeto e testes](../01-architecture/IOT_MONITORING_RESEARCH.md). Liberar telemetria por barco somente ao broker autorizado via VPN/TLS; não estender allowlists administrativas aos sensores. Separar credencial de leitura/publicação de permissão de comando. Operação remota exige identidade do operador/barco, motivo, expiração, ID único e auditoria de solicitação/ack/efeito físico.
+
+Proibir comandos retidos ou executados após retorno de conexão sem nova validade; rejeitar replay e comando cruzado entre barcos. Watchdog/timeout local encerra solicitação remota e preserva automático. Ausência de confirmação deixa estado desconhecido; não reenviar comando mutável indefinidamente. Não permitir silenciamento automático de fumaça ou desligamento remoto do automático da bomba.

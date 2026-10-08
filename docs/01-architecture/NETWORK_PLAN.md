@@ -1,105 +1,72 @@
 # Plano de rede, endereçamento e interfaces
 
-Estado em 16/09/2026: VPS 10.250.0.1/32, notebook 10.250.0.10/32 e RB750r2 10.250.0.2/32 estão em uso na VPN; LANs, VLANs, rotas de LAN e o endereço do core abaixo continuam reservas de projeto. Docker Swarm já foi instalado com redes overlay interna/ingress e bridges locais; conferir sobreposições antes de aplicar este IPAM. A instalação da stack não comprova implantação destas reservas nem isolamento IPv6.
+Revisão de 29/09/2026: LAN por barco e peer direto à VPS sobre 4G. Endereços de campo são reservas propostas, sem implantação. Conferir conflito com redes Docker, LAN administrativa e rede de gerência de cada modem antes de aplicar.
 
 ## Redes canônicas
 
-| Rede | Finalidade | Gateway/atribuições |
+| Rede/endereço | Finalidade | Estado |
 |---|---|---|
-| `10.250.0.0/24` | WireGuard de gerenciamento | VPS `.1`, RB750r2 `.2` e notebook `.10` ativos; core `.3` reservado |
-| `10.21.0.0/24` | LAN administrativa dedicada atrás da RB750r2 | RB750r2 `.1`; PC `.10` reservado |
-| `10.20.0.0/24` | Gerenciamento fixo da guarderia, VLAN 10 | Core `.1`; mANTBox `.10`; switch `.11` se houver |
-| `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | wAP `.1` na respectiva LAN |
-| `10.20.240.0/24` | Pool dividido em /30 de trânsito RF | Um /30 e uma VLAN por estação |
-| `172.30.20.0/24` | Rede Docker de coleta proposta | Zabbix server `.10`; IPs devem ser reservados no manifesto |
-| `172.30.21.0/24` | Rede Docker de dados proposta | PostgreSQL acessível somente aos serviços autorizados |
+| `10.250.0.1/32` | Hub WireGuard VPS | Existente |
+| `10.250.0.2/32` | RB750r2 central NOC | VPN confirmada em 22/09 |
+| `10.250.0.10/32` | Notebook de recuperação | Existente; uso externo/recuperação |
+| `10.250.0.101/32` a `10.250.0.120/32` | Peers dos barcos 01–20 | Reservas; uma chave por barco |
+| `10.20.1.0/24` a `10.20.20.0/24` | LAN privada de cada barco | Reservas mantidas; gateway `.1` no roteador embarcado |
+| `10.21.0.0/24` | LAN administrativa dedicada futura | Reserva; não substituir LAN NOC em uso |
+| `172.30.20.0/24`, `172.30.21.0/24` | Redes Docker propostas de coleta e dados | Conferir redes efetivas antes de qualquer alteração |
 
-O restante de `10.20.0.0/16` não está atribuído. Usar somente prefixos realmente ativos nas ACLs e AllowedIPs; um resumo /16, se adotado em rotas futuras, deve ter descarte para sub-redes não atribuídas.
+A LAN NOC operacional e seu NAT/roteamento existentes têm registro próprio em [VPN de borda](../02-implementation/MIKROTIK_WIREGUARD_EDGE.md). Não reendereçá-la nem anunciar a reserva futura automaticamente.
 
-## Trânsito por barco
+Retirados da topologia ativa: `10.250.0.3/32` (core), `10.20.0.0/24` (gestão da margem), `10.20.240.0/24` (/30 de trânsito), VLAN 10 da margem e VLANs 1001–1020 de transporte. Manter esses blocos indisponíveis para reutilização até conferir ausência de uso real; a retirada documental não remove rotas em produção.
 
-A VLAN é atribuída no AP à estação cadastrada; o wAP opera em `station` roteado e recebe o trânsito como acesso sem tag. O uplink AP–core transporta VLANs tagged. Esta combinação precisa ser validada no RouterOS/pacote real. Não transportar a bridge LAN do barco sobre o rádio.
+## Atribuição por barco
 
-| Barco | VLAN trânsito | Rede /30 | Core | WAN wAP | LAN |
-|---|---:|---|---|---|---|
-| 01 | 1001 | 10.20.240.0/30 | 10.20.240.1 | 10.20.240.2 | 10.20.1.0/24 |
-| 02 | 1002 | 10.20.240.4/30 | 10.20.240.5 | 10.20.240.6 | 10.20.2.0/24 |
-| 03 | 1003 | 10.20.240.8/30 | 10.20.240.9 | 10.20.240.10 | 10.20.3.0/24 |
-| 04 | 1004 | 10.20.240.12/30 | 10.20.240.13 | 10.20.240.14 | 10.20.4.0/24 |
-| 05 | 1005 | 10.20.240.16/30 | 10.20.240.17 | 10.20.240.18 | 10.20.5.0/24 |
-| 06 | 1006 | 10.20.240.20/30 | 10.20.240.21 | 10.20.240.22 | 10.20.6.0/24 |
-| 07 | 1007 | 10.20.240.24/30 | 10.20.240.25 | 10.20.240.26 | 10.20.7.0/24 |
-| 08 | 1008 | 10.20.240.28/30 | 10.20.240.29 | 10.20.240.30 | 10.20.8.0/24 |
-| 09 | 1009 | 10.20.240.32/30 | 10.20.240.33 | 10.20.240.34 | 10.20.9.0/24 |
-| 10 | 1010 | 10.20.240.36/30 | 10.20.240.37 | 10.20.240.38 | 10.20.10.0/24 |
-| 11 | 1011 | 10.20.240.40/30 | 10.20.240.41 | 10.20.240.42 | 10.20.11.0/24 |
-| 12 | 1012 | 10.20.240.44/30 | 10.20.240.45 | 10.20.240.46 | 10.20.12.0/24 |
-| 13 | 1013 | 10.20.240.48/30 | 10.20.240.49 | 10.20.240.50 | 10.20.13.0/24 |
-| 14 | 1014 | 10.20.240.52/30 | 10.20.240.53 | 10.20.240.54 | 10.20.14.0/24 |
-| 15 | 1015 | 10.20.240.56/30 | 10.20.240.57 | 10.20.240.58 | 10.20.15.0/24 |
-| 16 | 1016 | 10.20.240.60/30 | 10.20.240.61 | 10.20.240.62 | 10.20.16.0/24 |
-| 17 | 1017 | 10.20.240.64/30 | 10.20.240.65 | 10.20.240.66 | 10.20.17.0/24 |
-| 18 | 1018 | 10.20.240.68/30 | 10.20.240.69 | 10.20.240.70 | 10.20.18.0/24 |
-| 19 | 1019 | 10.20.240.72/30 | 10.20.240.73 | 10.20.240.74 | 10.20.19.0/24 |
-| 20 | 1020 | 10.20.240.76/30 | 10.20.240.77 | 10.20.240.78 | 10.20.20.0/24 |
+| Barco | Peer WireGuard | LAN | Gateway LAN |
+|---|---|---|---|
+| 01 | 10.250.0.101/32 | 10.20.1.0/24 | 10.20.1.1 |
+| 02 | 10.250.0.102/32 | 10.20.2.0/24 | 10.20.2.1 |
+| 03 | 10.250.0.103/32 | 10.20.3.0/24 | 10.20.3.1 |
+| 04 | 10.250.0.104/32 | 10.20.4.0/24 | 10.20.4.1 |
+| 05 | 10.250.0.105/32 | 10.20.5.0/24 | 10.20.5.1 |
+| 06 | 10.250.0.106/32 | 10.20.6.0/24 | 10.20.6.1 |
+| 07 | 10.250.0.107/32 | 10.20.7.0/24 | 10.20.7.1 |
+| 08 | 10.250.0.108/32 | 10.20.8.0/24 | 10.20.8.1 |
+| 09 | 10.250.0.109/32 | 10.20.9.0/24 | 10.20.9.1 |
+| 10 | 10.250.0.110/32 | 10.20.10.0/24 | 10.20.10.1 |
+| 11 | 10.250.0.111/32 | 10.20.11.0/24 | 10.20.11.1 |
+| 12 | 10.250.0.112/32 | 10.20.12.0/24 | 10.20.12.1 |
+| 13 | 10.250.0.113/32 | 10.20.13.0/24 | 10.20.13.1 |
+| 14 | 10.250.0.114/32 | 10.20.14.0/24 | 10.20.14.1 |
+| 15 | 10.250.0.115/32 | 10.20.15.0/24 | 10.20.15.1 |
+| 16 | 10.250.0.116/32 | 10.20.16.0/24 | 10.20.16.1 |
+| 17 | 10.250.0.117/32 | 10.20.17.0/24 | 10.20.17.1 |
+| 18 | 10.250.0.118/32 | 10.20.18.0/24 | 10.20.18.1 |
+| 19 | 10.250.0.119/32 | 10.20.19.0/24 | 10.20.19.1 |
+| 20 | 10.250.0.120/32 | 10.20.20.0/24 | 10.20.20.1 |
 
-Fórmula para barco N: VLAN = 1000 + N; último octeto da rede = 4 × (N − 1); core = base + 1; wAP = base + 2. Não reutilizar /30 de embarcação ativa.
+Fórmula: barco N usa peer `10.250.0.(100+N)/32` e LAN `10.20.N.0/24`, N entre 1 e 20. No hub, associar somente o /32 e a LAN do próprio barco à sua chave. Não cadastrar /16 ou /24 completo de peers como AllowedIPs de uma embarcação.
 
-## Rotas e NAT
+## WAN, rotas e NAT
 
-| Equipamento | Destino | Próximo salto |
+| Local | Destino | Caminho proposto |
 |---|---|---|
-| wAP N | Default | IP core do /30 correspondente |
-| Core | LAN N /24 | WAN wAP N |
-| Core | 10.21.0.0/24, 10.250.0.1/32, .2/32 e .10/32 | WireGuard/hub |
-| Core | Default | Gateway real do provedor |
-| Central NOC | Prefixos de guarderia ativos e peers de gerência | WireGuard/hub |
-| Central NOC | Default | Gateway existente da central NOC |
-| VPS | Redes guarderia ativas | Peer core |
-| VPS | 10.21.0.0/24 | Peer central NOC |
+| Roteador N | Default de Internet e endpoint público da VPS | WAN celular de N |
+| Roteador N | `10.250.0.1/32`, `.2/32`, `.10/32` | Peer hub; rotas explícitas e ACL de serviços |
+| VPS | Peer N e `10.20.N.0/24` | Peer N exclusivo |
+| Central NOC/notebook | Peer N/LAN N autorizados | Hub VPS; adicionar rotas junto das ACLs |
+| Dispositivos LAN N | Default | Gateway `10.20.N.1` |
 
-Sem NAT no wAP. No core, masquerade apenas das redes autorizadas quando a saída for WAN; não aplicar na VPN. Na central NOC, NAT apenas para Internet, preservando origem administrativa na VPN. O prefixo existente da central NOC não é exportado por padrão: PC usa a LAN administrativa dedicada. O acesso a essa LAN por um PC já na central NOC depende de rota adicional ou conexão física à RB750r2.
+Os `.2/.10` acima são endereços `10.250.0.x`. Para administração originada no NOC, preservar o NAT existente para `.2` enquanto essa for a política ativa. Se for adotado roteamento sem NAT, cadastrar somente as origens administrativas reais e suas rotas de retorno; a reserva `10.21.0.0/24` não deve entrar por inferência.
 
-## Mapeamento físico proposto
+NAT IPv4 apenas na saída Internet de cada kit. Não mascarar LAN N ao entrar na VPN; a proposta de coleta usa SNAT delimitado no host VPS. Se modem separado operar como roteador, registrar a sub-rede de enlace e o NAT adicional, sem sobrepor LAN/VPN/Docker. Bridge/passthrough depende do modelo e de ensaio. Não requerer IP público ou redirecionamento de portas no SIM para o túnel iniciado a bordo.
 
-| Equipamento | Porta lógica | Função |
-|---|---|---|
-| RB750Gr3 | ether1 | WAN provedor, fora da bridge LAN |
-| RB750Gr3 | ether2 | Trunk tagged VLAN 10 e VLANs 1001–1020 ativas |
-| RB750Gr3 | ether3 | Acesso local VLAN 10 para recuperação física |
-| RB750Gr3 | ether4/5 | Reservadas/desabilitadas conforme necessidade |
-| mANTBox | Ethernet | Trunk, gerência somente VLAN 10 |
-| mANTBox | Rádio 5 GHz | AP, associação cadastra VLAN de trânsito |
-| mANTBox | Rádio 2,4 GHz | Desabilitado na PoC |
-| wAP | Rádio 5 GHz | Cliente roteado de trânsito |
-| wAP | Rádio 2,4 GHz + Ethernet LAN | Bridge LAN privada; confirmar portas reais |
+Não enviar `0.0.0.0/0` ou `::/0` à VPN. AllowedIPs, rotas instaladas e firewall são verificações distintas. A [especificação WireGuard](../02-implementation/WIREGUARD.md) define ida/retorno, SNAT e testes.
 
-Não assumir `wifi1` como 5 GHz. Identificar banda/rádio pelo inventário. Ether1 do wAP pode alimentar via PoE e pertencer à LAN se o uplink é exclusivamente rádio; etiquetar para evitar ligações em redes externas.
+## Interfaces e serviços locais
 
-## Serviços da LAN embarcada
+WAN LTE integrada ou porta Ethernet/USB dedicada ao modem, fora da bridge LAN. LAN: Ethernet e WiFi local conforme modelo; porta de recuperação protegida. Não presumir nome de interface, suporte a VLAN ou quantidade de rádios.
 
-Gateway `.1`; central `.10`; câmeras `.20` e `.21`; sensores IP `.30–.49`; pool DHCP `.100–.199`. São reservas propostas, não dispositivos descobertos. Sensores proprietários sem fio não recebem IP individual se conectados somente à central. DHCP/DNS local no wAP; DNS recursivo não deve escutar no rádio ou WAN pública.
+Reservas locais: gateway `.1`; central `.10`; câmeras `.20/.21`; sensores IP `.30–.49`; DHCP `.100–.199`. Sensores proprietários ligados à central podem não ter IP. DHCP/DNS apenas nas interfaces locais autorizadas. Rede de visitantes, se oferecida, deve ficar separada do kit e da gerência, com endereçamento próprio aprovado antes de uso.
 
-## Isolamento e alternativa
+## Isolamento
 
-No AP, validar a VLAN efetivamente atribuída a cada cliente e isolamento de estações. No core, rejeitar origem incompatível com a VLAN de entrada antes de aceitar encaminhamento. No wAP, rejeitar gerência vinda da LAN de clientes. No trunk, rejeitar tags não autorizadas e quadros sem tag fora da porta de recuperação.
-
-Se VLAN por estação não funcionar com autenticação e firmware escolhidos, a PoC de um barco pode continuar fisicamente isolada; expansão multicliente fica bloqueada até ADR de alternativa testada. Não substituir silenciosamente por bridge compartilhada. Credencial individual forte e teste de troca de MAC/VLAN são condições para homologar segregação.
-
-## Variante dual-WAN da central NOC
-
-A [proposta recebida](../02-implementation/NOC_DUAL_WAN.md) reserva ether1/ether2 da RB750r2 para WAN1/WAN2 e ether3–5 para LAN administrativa, sujeita a inventário. Nessa variante, a default única é substituída por defaults recursivas com prioridades distintas. O mapeamento ether2 trunk do core permanece válido.
-
-As redes 192.168.50.0/24 e 10.200.0.0/24 do anexo são exemplos divergentes, não novas reservas. Preservar as redes canônicas acima; IPs das WANs e pool DHCP administrativo dependem de confirmação. Ver [reconciliação](../02-implementation/ROUTEROS_BASELINE_REVIEW.md).
-
-## Subconjunto implantado
-
-Na VPS, wg0 usa 10.250.0.1/32 e somente o peer do notebook, com AllowedIPs 10.250.0.10/32 e rota de host por wg0. Isso não instala a rede /24 inteira nem rotas para as LANs propostas. O notebook informou 10.250.0.10/32; a configuração completa de AllowedIPs do cliente não foi coletada. Seu acesso à VPS foi validado por ping/SSH conforme [registro](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
-
-Não inferir implementação das rotas da tabela a partir desse teste. LAN da central NOC e topologia Docker precisam ser conferidas antes de qualquer expansão.
-
-## Estado observado da central NOC — 21/09/2026
-
-A RB750r2 já opera com WAN1 estática e LAN privada em bridge ether3/ether4/ether5-lan. ether2-LINK2 está reservada, sem link running/endereço. O [inventário atual](NOC_ROUTER_INVENTORY.md) registra a configuração e os testes; endereços operacionais completos permanecem nas evidências privadas.
-
-10.21.0.0/24 é reserva futura de administração, não a LAN atualmente instalada. Definir porta/VLAN e acesso do PC antes de criar essa rede; não reendereçar a LAN ativa por aplicação do plano. O exemplo WAN1 do template arquivado sobrepõe a LAN atual: não reutilizá-lo. Defaults recursivas e 10.250.0.2 no WireGuard continuam propostas.
+Na VPS, negar barco → barco e barco → NOC/painéis; permitir somente administração/coleta autorizadas e retorno rastreado. No kit, negar gerência pela WAN e pela LAN de clientes; liberar somente fontes VPN e serviços necessários. Vincular origens do túnel ao peer correto, testar spoof de LAN alheia e política IPv6. Redes celulares distintas e sub-redes diferentes não comprovam isolamento por si sós.

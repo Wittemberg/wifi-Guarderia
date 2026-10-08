@@ -9,20 +9,20 @@ Baseline de critérios: 12/09/2026; estado consolidado em 17/09/2026. Estados in
 | HW-01 | Inventário e compatibilidade elétrica/firmware | Parcial: inventário RB750r2 recebido do usuário; atualização concluída | [RB750r2 central NOC](../01-architecture/NOC_ROUTER_INVENTORY.md); demais equipamentos e testes pendentes |
 | VPS-01 | Inventário e caminho de instalação | Parcial: inventário e instalação inicial concluídos em 16/09/2026 | [Conclusão](VPS_PHASE_COMPLETION.md); console confirmado e suporte WireGuard validado; recursos garantidos e versão/hash Orion pendentes |
 | STACK-01 | Stack, versões, rede e persistência | Parcial: instalação e coleta interna concluídas | 12 serviços 1/1 e três alvos UP; volumes Grafana/Prometheus e manifestos reconciliados; logins e restrições TCP IPv4 confirmados após reboot; compatibilidade integral e recuperação completa pendentes. [Estado](../00-project/IMPLEMENTATION_STATUS.md) |
-| VPN-01 | Hub e CGNAT | Parcial: hub/notebook e RB750r2 conectados | Notebook: handshake, ping e SSH. RB750r2: funcionalidade da VPN confirmada pelo usuário em 22/09/2026; core e ensaios CGNAT/failover pendentes. [WireGuard](../02-implementation/WIREGUARD.md) |
+| VPN-01 | Hub e CGNAT | Parcial: hub/notebook e RB750r2 conectados | Notebook: handshake, ping e SSH. RB750r2: funcionalidade da VPN confirmada pelo usuário em 22/09/2026; barcos 4G e ensaios CGNAT/failover pendentes. [WireGuard](../02-implementation/WIREGUARD.md) |
 | VPN-02 | Rotas, retorno e coleta container | Parcial: rota e retorno notebook ↔ VPS; VPN RB750r2 funcional confirmada pelo usuário | Rotas de LAN, trânsito entre peers, serviços administrativos da RB e coleta container pendentes; [WireGuard](../02-implementation/WIREGUARD.md) |
 | VPN-03 | Falhas/recuperação e independência da central NOC | Não executado | Aguardar laboratório |
 | MON-01 | Coleta real e comparação direta | Não executado | Aguardar equipamentos |
 | MON-02 | Sem dados, credencial e campos não suportados | Não executado | Preparar ensaios de perda de coleta e credenciais |
 | MON-03 | Diagnóstico por camada | Não executado | Preparar ensaios por camada e integrar equipamentos |
-| RF-01 | Rádio dual-band e trânsito em bancada | Não executado | Aguardar rádios |
-| RF-02 | 50/100 m por orientação | Não executado | Aguardar campo |
-| RF-03 | Rotação completa | Não executado | Aguardar campo |
-| RF-04 | Carga e estabilidade | Não executado | Aguardar campo |
-| RF-05 | 24 h e 7 dias | Não executado | Aguardar campo |
+| RF-01 | Ensaio histórico de enlace terrestre: Rádio dual-band e trânsito em bancada | Substituído em 29/09/2026; não executado | ADR-022; novos ensaios CEL-01 a CEL-07 sem transferência de aceite |
+| RF-02 | Ensaio histórico de enlace terrestre: 50/100 m por orientação | Substituído em 29/09/2026; não executado | ADR-022; novos ensaios CEL-01 a CEL-07 sem transferência de aceite |
+| RF-03 | Ensaio histórico de enlace terrestre: Rotação completa | Substituído em 29/09/2026; não executado | ADR-022; novos ensaios CEL-01 a CEL-07 sem transferência de aceite |
+| RF-04 | Ensaio histórico de enlace terrestre: Carga e estabilidade | Substituído em 29/09/2026; não executado | ADR-022; novos ensaios CEL-01 a CEL-07 sem transferência de aceite |
+| RF-05 | Ensaio histórico de enlace terrestre: 24 h e 7 dias | Substituído em 29/09/2026; não executado | ADR-022; novos ensaios CEL-01 a CEL-07 sem transferência de aceite |
 | LAN-01 | DHCP/DNS/serviços simultâneos | Não executado | Aguardar laboratório |
 | SEC-01 | Bloqueio entre barcos | Não executado | Dois clientes ou bancada equivalente |
-| SEC-02 | Spoof, VLAN, L2 e IPv6 | Não executado | Aguardar laboratório |
+| SEC-02 | Spoof de peer/LAN, segmentação local e IPv6 | Não executado | Aguardar laboratório |
 | SEC-03 | Exposição externa e firewall Docker | Parcial | Sete routers restritos e quatro portas filtradas; simulação interna e teste externo IPv4 negaram acesso, inclusive cabeçalhos forjados; nove portas TCP sem conexão pública e sete nomes 403, repetidos após reboot. UDP/IPv6 externo e revisão integral pendentes. [Evidências](VPS_REBOOT_VALIDATION.md) |
 | SEC-04 | Credenciais, privilégios e TLS | Parcial | TLS dos sete domínios pela VPN validado antes e depois da mudança; usuário confirmou os quatro logins pós-mudança. Revisão de privilégios/revogação e demais critérios pendentes |
 | ENE-01 | Consumo, proteção e autonomia | Não executado | Aguardar kit e inspeção |
@@ -47,9 +47,27 @@ Baseline de critérios: 12/09/2026; estado consolidado em 17/09/2026. Estados in
 | NOC-01 | ICMP básico do gateway da central NOC | Amostras recebidas: 5/5 em três destinos | [Resultados e limites](../01-architecture/NOC_ROUTER_INVENTORY.md); sem garantia contínua |
 | NOC-02 | Navegação de cliente LAN pelo gateway | Aceite funcional confirmado pelo usuário em 21/09/2026 | Usuário informa navegação atual através da RB e gateway plenamente operacional; caminho específico de DNS não isolado |
 
+## Novos testes da topologia 4G — 29/09/2026
+
+Todos permanecem **não executados**. Critérios e instrumentação no [plano PoC](POC_PLAN.md).
+
+| ID | Escopo | Estado | Evidência necessária |
+|---|---|---|---|
+| CEL-01 | Bancada 4G/SIM/APN, LAN e VPN | Não executado | Registro/dados e serviços simultâneos |
+| CEL-02 | Cobertura no fundeio e horários | Não executado | Sinal suportado, upload/download, RTT/perda e aplicação |
+| CEL-03 | Movimento, orientação e obstrução | Não executado | Pior caso e lacunas, sem extrapolar orientação ausente |
+| CEL-04 | Carga/QoS e aplicações | Não executado | Demanda por sentido, prioridades e bytes |
+| CEL-05 | Estabilidade 24 h e 7 dias | Não executado | Histórico real e cobertura de medição |
+| CEL-06 | Reconexão celular/VPN e reboot | Não executado | Mudança de IP, tempo de retorno e persistência |
+| CEL-07 | Independência e concorrência de dois kits | Não executado | Falha isolada não afeta B; limites comuns registrados |
+| SIM-01 | Gestão individual contratada | Não executado | Controle de A e ausência de impacto indevido em B, prazos e permissões |
+| DATA-01 | Consumo por ciclo e franquia | Não executado | Contadores/portal conciliados, alertas e ciclo completo |
+
+VPN-01/02/03, MON-01/02/03, LAN-01, SEC-01/02/03/04, ENE-01, CAP-01 e COM-01 passam a incluir os novos kits e linhas nos escopos pendentes. Aprovações administrativas anteriores não homologam esse escopo adicional. RF-01 a RF-05 estão retirados, não aprovados.
+
 ## Testes negativos obrigatórios
 
-SEC-01: barco A não alcança LAN, WAN/gerência ou serviços de B; administração autorizada alcança ambos. SEC-02: tentativa de usar endereço de B, quadros com tags indevidas, caminho direto entre estações e IPv6 não abre acesso. SEC-03: sondagem externa autorizada verifica ausência de banco, SNMP, API/WinBox e Portainer públicos, incluindo após restart Docker. SEC-04: coletor não altera configuração; credencial revogada e certificado inválido são recusados.
+SEC-01: barco A não alcança LAN, WAN/gerência ou serviços de B; administração autorizada alcança ambos. SEC-02: tentativa de usar endereço de B, quadros com tags indevidas, caminho entre peers pelo hub e entre segmentos locais e IPv6 não abre acesso. SEC-03: sondagem externa autorizada verifica ausência de banco, SNMP, API/WinBox e Portainer públicos, incluindo após restart Docker. SEC-04: coletor não altera configuração; credencial revogada e certificado inválido são recusados.
 
 ## Registro de cada execução
 
@@ -62,8 +80,26 @@ Usar [modelo de evidência](EVIDENCE_TEMPLATES.md). Preencher responsável, data
 - [Reboot](VPS_REBOOT_VALIDATION.md): novo boot observado, pós-testes automáticos e testes externos repetidos, quatro logins confirmados. Aceite funcional desse ensaio concluído.
 - [Alertas de backup](BACKUP_ALERTS.md): monitor externo ativo, dez testes locais e ensaios sintéticos integrados aprovados; e-mail/Telegram e recuperação recebidos pelo usuário. Isso não substitui MON-01/02/03 de equipamentos de campo.
 
-Doze serviços 1/1 e três alvos UP no último pós-teste completo registrado, 17/09/2026 03:09:54 UTC; não é consulta contínua. Critérios integrais continuam parciais pelos limites dos ensaios, não por etapas já concluídas. RBs, RF, energia e isolamento de campo ainda dependem de acesso/bancada. [Estado consolidado](../00-project/IMPLEMENTATION_STATUS.md).
+Doze serviços 1/1 e três alvos UP no último pós-teste completo registrado, 17/09/2026 03:09:54 UTC; não é consulta contínua. Critérios integrais continuam parciais pelos limites dos ensaios, não por etapas já concluídas. Kits 4G, energia e isolamento de campo ainda dependem de acesso/bancada. [Estado consolidado](../00-project/IMPLEMENTATION_STATUS.md).
 
 ## Atualização HW-01 — 21/09/2026
 
 Inventário de recursos e rede da RB750r2 r3 recebido, RouterOS/RouterBOOT 7.23.7. Gateway em uso confirmado pelo usuário; sem homologação de carga, firewall externo da RB ou segundo link. A funcionalidade da VPN WireGuard foi posteriormente confirmada pelo usuário em 22/09/2026; rotas de LAN, serviços, failover e recuperação não foram homologados. Evidências da VPS permanecem válidas nos respectivos escopos registrados.
+
+## Telemetria e atuação IoT — pesquisa de 29/09/2026
+
+Escopo em [pesquisa e ensaios](../01-architecture/IOT_MONITORING_RESEARCH.md). Dados de catálogo e pesquisa de preço não são ensaios.
+
+| ID | Escopo | Estado | Evidência necessária |
+|---|---|---|---|
+| IOT-01 | Bateria: tensão/corrente, instalação, SoC e sincronização | Não executado | Referência de medição, erros e ciclo real por tipo de bateria |
+| IOT-02 | Fumaça e alarme local/supervisão | Não executado | Alarme com/sem WAN, circuito/alimentação, reset e latência |
+| IOT-03 | Bomba, corrente, ciclos e nível alto | Não executado | Nominal/pico, atuação local, corrente e comportamento hidráulico |
+| IOT-04 | Comando remoto e isolamento | Não executado | Expiração/replay, identidade, timeout local, perda de rede/reboot e automático preservado |
+| IOT-05 | Energia, qualidade, latência e entrega no NOC | Não executado | Wh/dia, timestamps, buffer, bytes e dois barcos isolados |
+
+## Variante Arduino/Raspberry — 29/09/2026
+
+Aplicar IOT-01–05 ao [protótipo econômico](../01-architecture/IOT_LOW_COST_PROTOTYPE.md), acrescentando calibração do shunt/monitor, zero/deriva, perda do cálculo de carga após reset, reinício ao abrir USB serial, desconexão entre placas e consumo na entrada de 12 V. Comparar medição própria com referência adequada; não pressupor equivalência ao SmartShunt. Todos os ensaios permanecem não executados.
+
+Complemento ENE-01/IOT-05: LM2596 disponível ainda não ensaiado. Conferir placa, ajuste, ripple, corrente/picos, temperatura, queda nos cabos e retorno por USB antes de conectar Pi/Arduino/modem. Eventual ensaio SIM800L precisa de identificação e cobertura 2G; resultado não homologa CEL-01 a CEL-07.

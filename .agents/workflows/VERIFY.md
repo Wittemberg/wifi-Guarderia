@@ -3,7 +3,7 @@
 ## Documentação
 
 - Conferir Markdown UTF-8, títulos, blocos de código e links locais.
-- Validar endereços, /30, VLANs, gateways e rotas de retorno.
+- Validar LAN e peer exclusivo por barco, gateways, NAT da WAN celular, ACLs no hub/pontas e rotas de retorno; /30 e VLANs do transporte terrestre são históricos.
 - Conferir requisitos contra matriz de testes.
 - Revisar credenciais, dados pessoais, afirmações de implantação e fontes.
 - Executar `git diff --check`; revisar o conteúdo staged antes de commit.

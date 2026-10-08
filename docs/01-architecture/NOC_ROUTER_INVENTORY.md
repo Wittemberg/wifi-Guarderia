@@ -1,5 +1,7 @@
 # Inventário e configuração atual da central NOC
 
+**Escopo em 29/09/2026:** NOC e anexos administrativos permanecem; o core/enlace terrestre citado no desenho anterior foi retirado. A expansão de campo segue [arquitetura 4G individual](../01-architecture/ARCHITECTURE.md). Não aplicar mapeamento de portas ou rotas históricas aos barcos.
+
 Coleta fornecida pelo usuário em 21/09/2026: dez arquivos `noc-01` a `noc-10` e três testes de conectividade. Cabeçalhos: 21:20:49–21:20:50; timezone configurado America/Sao_Paulo, sem comprovação de sincronização NTP. Análise documental, sem acesso remoto ou alteração do gateway. Seriais, software-id e MACs omitidos; arquivos brutos ficam em armazenamento privado.
 
 ## Estado atual
@@ -86,4 +88,4 @@ Há resposta ICMP aos três destinos nas amostras. O terceiro arquivo mostra som
 5. Confirmar WAN2 e seu endereçamento: o exemplo WAN1 do template coincide com a rede LAN atual, portanto não deve ser aplicado.
 6. Executar VPN-01/02/03, testes dual-WAN e carga quando essas funções forem implantadas. Navegação pelo gateway já tem aceite funcional do usuário; investigação específica de DNS somente se necessária.
 
-O inventário da RB750Gr3 do core permanece pendente. Ver [homologação](../06-validation/HOMOLOGATION.md).
+O inventário da RB750Gr3 disponível permanece pendente para eventual reaproveitamento, sem core terrestre obrigatório. Ver [homologação](../06-validation/HOMOLOGATION.md).

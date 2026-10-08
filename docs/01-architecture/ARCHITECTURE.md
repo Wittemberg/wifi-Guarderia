@@ -1,67 +1,62 @@
 # Arquitetura da solução
 
-Estado em 16/09/2026: stack NOC instalada na VPS e coleta interna concluída; hub WireGuard e notebook implantados, com SSH confirmado. VPN do core, rede de campo e homologação integral continuam pendentes; a VPN da RB750r2 foi confirmada funcional pelo usuário em 22/09/2026. Ver [registro da fase](../06-validation/VPS_PHASE_COMPLETION.md), [contexto](../00-project/CONTEXT.md) e [plano de rede](NETWORK_PLAN.md).
+**Direção confirmada pelo usuário em 29/09/2026:** cada barco terá modem 4G e chip próprios. A dificuldade de posicionar antenas e passar infraestrutura ao longo da costa motivou a retirada da central terrestre de distribuição de Internet. Chips poderão ser fornecidos pela operação, com gestão individual contratada; Vivo é a candidata provável, sem contratação ou cobertura homologadas.
 
-## Topologia de destino e caminho já implantado
+**Estado:** revisão documental. VPS, stack, notebook e VPN da RB750r2 conservam as evidências anteriores; nenhum kit 4G foi implantado ou testado nesta revisão. Ver [estado real](../00-project/IMPLEMENTATION_STATUS.md) e [ADR-022/023](DECISIONS.md).
+
+## Topologia de destino
 
 ```mermaid
-flowchart TD
-  NOTEBOOK[Notebook de recuperação] -->|WireGuard e SSH validados| VPS
-  PC[Computador administrativo] --> NOC[RB750r2 na central NOC]
-  NOC -->|WireGuard iniciado de dentro do CGNAT| VPS[VPS Ubuntu: WireGuard no host]
-  ISP[Provedor local / CGNAT] --> CORE[RB750Gr3 Core]
-  CORE -->|WireGuard iniciado de dentro do CGNAT| VPS
-  CORE --> POE[Distribuição Ethernet e PoE compatível]
-  POE --> AP[mANTBox ax 15s na margem]
-  AP -->|5 GHz / trânsito segregado| WAP[wAP ax por barco]
-  WAP -->|2,4 GHz ou Ethernet| KIT[Central, câmeras e sensores IP]
-  VPS --> MONITORING[Docker: Zabbix, PostgreSQL, Grafana, Kuma]
+flowchart LR
+  A[LAN do barco 01: alarme, câmeras e IoT] --> R1[Roteador e modem 4G 01 + SIM 01]
+  B[LAN do barco 02: alarme, câmeras e IoT] --> R2[Roteador e modem 4G 02 + SIM 02]
+  R1 -->|Internet própria| OP[Rede da operadora]
+  R2 -->|Internet própria| OP
+  OP --> NET[Internet]
+  R1 -.->|WireGuard iniciado a bordo via 4G| VPS[VPS: hub e monitoramento]
+  R2 -.->|WireGuard iniciado a bordo via 4G| VPS
+  NOC[Central NOC: RB750r2] -->|VPN existente| VPS
+  NB[Notebook de recuperação] -->|VPN existente| VPS
+  OPS[Gestão operacional das linhas] -.-> PORTAL[Portal da operadora: recursos a contratar]
 ```
 
-As setas representam conexões, não exclusividade de direção do tráfego. Os caminhos notebook ↔ VPS, RB750r2 ↔ VPS e a stack têm implantação registrada; o enlace do core e o campo permanecem topologia de destino. Não há encaminhamento permanente de vídeo pela VPS.
+As linhas pontilhadas são caminhos lógicos propostos. A VPN passa pelo acesso 4G; não é conexão física adicional. Repetir o kit e a identidade por barco até 20. O roteador e modem podem ser integrados ou equipamentos separados, conforme seleção e ensaio. A RB750r2 é administração; não distribui Internet aos barcos. A VPS centraliza gerência e observação.
 
-A central NOC é o local administrativo com a RB750r2; os serviços de monitoramento são hospedados na VPS. A RB750r2 está atualizada para 7.23.7 e opera como gateway; inventário recebido em 21/09/2026 e VPN WireGuard funcional confirmada pelo usuário em 22/09/2026. Rotas de LAN, serviços administrativos e failover permanecem pendentes.
+## Responsabilidades e fluxos
 
-## Responsabilidades
-
-| Elemento | Responsabilidades | Dependências |
+| Elemento | Responsabilidade | Estado |
 |---|---|---|
-| VPS/host | Terminar VPN, rotear gerência, firewall e sistema | Provedor VPS e IP público |
-| Zabbix | Coletar, armazenar métricas e avaliar alertas | Banco e caminho até os alvos |
-| Grafana | Visualizar dados do Zabbix | Plugin/API compatíveis |
-| Uptime Kuma | Resumo simples de disponibilidade | Sondas; não substitui histórico RF |
-| RB750r2 | Roteamento da estação administrativa para a VPN | Internet da central NOC |
-| RB750Gr3 | Gateway WAN, firewall, NAT de Internet, rotas e QoS | Energia e provedor local |
-| mANTBox | AP de transporte 5 GHz e segregação das estações | Core, energia, compatibilidade VLAN |
-| wAP | Cliente 5 GHz; roteador da LAN; AP 2,4 GHz | Rádio e alimentação embarcada |
-| Central/câmeras | Alarme e gravação locais; acesso remoto homologado | Alimentação e protocolos do fabricante |
+| Modem e SIM por barco | Acesso 4G individual, registro na operadora e sessão de dados | Seleção/contratação pendentes |
+| Roteador embarcado | DHCP/DNS local, firewall, NAT IPv4 na WAN, VPN e política de tráfego | Integrado ao modem se atender; caso contrário, separado |
+| WiFi/Ethernet local | Conectar kit de segurança e clientes autorizados | Cobertura interna e segregação a testar |
+| Operadora | Transporte celular e recursos contratados de gestão de cada linha | Vivo provável; plano, franquia e controles a confirmar |
+| VPS e stack | Hub WireGuard, coleta, histórico, painéis e alertas técnicos | Infraestrutura existente; coleta embarcada pendente |
+| Central NOC/notebook | Administração autorizada através da VPS | Caminhos existentes preservados |
+| Central de alarme/câmeras | Alarme e gravação locais; acesso remoto sob demanda | Modelos e autonomia pendentes |
 
-## Caminhos de tráfego planejados para o campo
+1. Internet: LAN N → roteador/NAT WAN N → modem/SIM N → operadora → Internet. Não há core compartilhado nem passagem obrigatória pela VPS.
+2. Administração: operador autorizado → VPN da central NOC ou notebook → VPS → peer exclusivo N → gerência do kit N. Aplicar rotas de retorno e ACLs nos dois lados.
+3. Coleta: container autorizado → SNAT restrito no host para `10.250.0.1` → peer N → alvo permitido. Confirmar origem real antes do aceite.
+4. Vídeo: gravação embarcada; aplicativo/nuvem ou acesso autorizado sob demanda. Tráfego de vídeo consome a franquia do barco; a VPS não será NVR nem relay permanente.
+5. Gestão de SIM: portal ou API contratada → linha individual. Essa gestão não exige rotear Internet dos barcos pela VPS. Recursos exatos estão em [conectividade celular](../02-implementation/CELLULAR_CONNECTIVITY.md).
+6. IoT proposto: sensores de bateria/fumaça/bomba → gateway embarcado → MQTT autenticado pela VPN → broker a implantar → Zabbix/Grafana. Comando da bomba usa serviço separado com autorização, expiração e confirmação física; automático local independe da rede. Liberar aos kits apenas o endpoint de telemetria necessário, sem acesso administrativo. [Pesquisa e desenho detalhado](IOT_MONITORING_RESEARCH.md).
 
-1. **Internet do barco:** LAN → wAP → trânsito dedicado → core → NAT na WAN → provedor. O wAP não faz NAT na baseline roteada.
-2. **Gerência da central NOC:** PC administrativo → RB750r2 → WireGuard → VPS → WireGuard → core → equipamento. Rotas de retorno são obrigatórias.
-3. **Telemetria central:** container de coleta → host VPS → SNAT restrito ao IP WireGuard do host → core → alvo. Retorno usa conexão rastreada no host.
-4. **Medição de rádio local:** estação cabeada no lado core ↔ host de teste na LAN embarcada. Esse caminho não inclui WAN/VPS.
-5. **Vídeo:** armazenamento embarcado; visualização por aplicativo ou acesso autorizado sob demanda. Medir quando o aplicativo usa relay de nuvem.
+## Confiança e continuidade
 
-## Fronteiras de confiança
+Cada barco tem LAN e chave VPN exclusivas. Bloquear comunicação lateral entre peers e LANs na VPS e nos roteadores; negar acesso dos barcos à administração e aos painéis. CGNAT não substitui firewall. A política IPv6 deve ser equivalente ou o encaminhamento deve permanecer desabilitado até homologação.
 
-Cada barco constitui um domínio separado. A rede de rádio é transporte não confiável. Gerenciamento é permitido somente a identidades administrativas e ao coletor autorizado. SSID oculto ou lista de MAC não substitui autenticação. Isolamento deve impedir tráfego lateral mesmo se alguém alterar o IP do equipamento.
-
-## Continuidade e falhas
-
-| Falha | O que deve continuar | O que fica prejudicado |
+| Falha | Impacto previsto | O que deve continuar |
 |---|---|---|
-| Internet da central NOC | Guarderia e monitoramento na VPS | Administração pela central NOC |
-| VPS | Internet local, alarme e gravação | Monitoramento central e VPN hub |
-| WAN guarderia | LANs, rádio local, alarme e gravação | Acesso remoto e coleta central |
-| mANTBox/core | Segurança local alimentada | Conectividade compartilhada |
-| wAP | Alarme autônomo, gravação local quando suportada | Rede do barco |
+| Modem/SIM/franquia de N | Acesso remoto e Internet de N | Outros barcos; alarme/gravação locais de N conforme autonomia |
+| Rede da operadora ou célula compartilhada | Pode atingir vários barcos simultaneamente | Funções locais alimentadas; independência física não elimina falha comum da operadora |
+| VPS/hub | Perda de gerência/coleta central | Internet direta de cada barco e funções locais |
+| Internet da central NOC | Administração por esse local | Internet embarcada e coleta na VPS |
+| Roteador ou energia do barco | Rede local/remota do kit afetado | Alarme autônomo e gravação somente conforme alimentação e arquitetura ensaiadas |
 
-Não há alta disponibilidade nesta etapa. Uma segunda WAN, segundo setor e central redundante exigem projeto e ensaio próprios. O alarme local não pode depender da sessão do painel de monitoramento.
+Não há redundância celular confirmada. Dual-SIM, segunda operadora e antena LTE externa são evoluções condicionadas à necessidade medida. O dual-WAN da central NOC continua escopo administrativo separado.
 
-## Integração futura
+## O que foi substituído
 
-O NOC-Agent pode consumir métricas e eventos via API depois da homologação. Não é componente obrigatório nem dependência de execução. A integração inicia em leitura, conforme [contrato](../07-service/NOCAGENT_INTEGRATION.md).
+Saem do desenho de distribuição: provedor fixo da margem, core RB750Gr3 obrigatório, mANTBox, enlace 5 GHz margem–barco, VLANs e /30 de trânsito RF. A RB750Gr3 disponível pode servir à bancada ou a um kit, mediante inventário; wAP ax só será reavaliado como AP local se necessário. Equipamento existente não é descartado nem reconfigurado por esta documentação.
 
-O caminho administrativo já validado é notebook → WireGuard → VPS → SSH TCP 5822. Não inclui core nem painéis web; ver [registro](../06-validation/NOTEBOOK_VPN_VALIDATION.md).
+O [IPAM](NETWORK_PLAN.md), os [requisitos](../00-project/REQUIREMENTS.md), a [PoC](../06-validation/POC_PLAN.md) e o [modelo comercial](../07-service/COSTS_AND_COMMERCIAL_MODEL.md) passam a seguir acesso celular individual. NOC-Agent continua evolução opcional de leitura.

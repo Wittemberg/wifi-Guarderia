@@ -1,5 +1,7 @@
 # Proposta de redundância WAN da central NOC
 
+**Escopo em 29/09/2026:** NOC e anexos administrativos permanecem; o core/enlace terrestre citado no desenho anterior foi retirado. A expansão de campo segue [arquitetura 4G individual](../01-architecture/ARCHITECTURE.md). Não aplicar mapeamento de portas ou rotas históricas aos barcos.
+
 Estado: proposta incorporada a partir dos anexos do usuário; depende de inventário, adaptação e laboratório. Referência: [revisão do template](ROUTEROS_BASELINE_REVIEW.md). Alvo: RB750r2 (hEX lite) da central NOC, RouterOS 7.23.7. A VPS continua sendo pré-requisito da configuração WireGuard.
 
 ## Escopo
@@ -16,7 +18,7 @@ WAN1 preferencial e WAN2 de contingência, com retorno automático à WAN1 depoi
 | Rádio WLAN | Não aplicável: nenhuma interface WLAN na RB750r2 |
 | wg-VPS | Administração roteada até VPS; IP do plano canônico |
 
-Essa atribuição não se aplica ao RB750Gr3, cujo ether2 transporta as VLANs da guarderia.
+Essa atribuição pertence somente à RB750r2 administrativa; o antigo ether2 trunk do core terrestre deixou de ser requisito. As portas de cada kit 4G dependem do modelo selecionado.
 
 ## Parâmetros a confirmar
 
@@ -55,7 +57,7 @@ Todos os casos abaixo estão **não executados**. Registrar em [homologação](.
 | WAN-03 | Falha de uma sonda e depois das duas da WAN1 com Ethernet ativa | Uma sonda sobrevivente mantém WAN1; ambas indisponíveis tornam WAN2 elegível |
 | WAN-04 | Queda simultânea | Defaults sem caminho ficam inativas, não desabilitadas; rotas de sondas mantidas |
 | WAN-05 | Recuperar somente WAN2 após falha total; repetir só WAN1 | Recuperação automática em cada cenário, sem editar rotas |
-| WAN-06 | Repetir falha/retorno com WireGuard e sessões ativas | Tráfego real central NOC→VPS→core retorna; registrar efeito em sessões existentes |
+| WAN-06 | Repetir falha/retorno com WireGuard e sessões ativas | Tráfego real central NOC→VPS→barco autorizado retorna; registrar efeito em sessões existentes |
 | WAN-07 | Reboot e intermitência | Configuração persiste; contagem de trocas e estabilidade registradas |
 
 Os sete testes do anexo são cobertos por WAN-01, WAN-02, WAN-04, WAN-05 e WAN-06; WAN-03 e WAN-07 ampliam a cobertura. Dry-run não equivale a esses ensaios.

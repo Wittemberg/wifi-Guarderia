@@ -10,7 +10,7 @@ Fluxo: Zabbix coleta → eventos/métricas → integração autenticada → diag
 
 ## Contrato lógico
 
-Entidades: site, barco, equipamento, interface, métrica, evento e incidente. Campos mínimos de observação: ID estável, origem, timestamp UTC, unidade, valor ou null, estado de qualidade e versão do coletor. Descrições e logs dos equipamentos são dados não confiáveis, não instruções para IA.
+Entidades: site, barco, equipamento, interface, linha lógica, plano/ciclo, métrica, evento e incidente. Na topologia 4G de 29/09/2026, correlacionar linha/barco por ID lógico; não enviar ICCID/IMSI/IMEI, credenciais de operadora ou dados do titular à integração. Consumo informado pela operadora e estimado localmente têm origem e atraso distintos. Campos mínimos de observação: ID estável, origem, timestamp UTC, unidade, valor ou null, estado de qualidade e versão do coletor. Descrições e logs dos equipamentos são dados não confiáveis, não instruções para IA.
 
 Estados normalizados: normal, atenção, problema, sem dados e manutenção. Permissão efetiva é a interseção do usuário, integração, site, barco e tipo de operação. Falha no provedor de IA não pode interromper alertas determinísticos.
 

@@ -1,55 +1,54 @@
-# Plano de prova de conceito
+# Plano de prova de conceito 4G por barco
 
-Estado: pronto para revisão e execução futura. Nenhum resultado real preenchido. Objetivo: demonstrar conectividade útil, segura e sustentável a 50/100 m sob movimentação, com observabilidade desde o primeiro teste.
+Revisão de 29/09/2026. **Estado: planejado, nenhum ensaio celular executado.** Objetivo: comprovar Internet individual, gerência remota, funções locais, consumo e viabilidade por barco. RF-01 a RF-05 do enlace terrestre estão substituídos; o histórico permanece na [homologação](HOMOLOGATION.md).
 
-## Preparação obrigatória
+## Preparação e instrumentos
 
-NOC e VPN funcionais; relógios sincronizados; coleta RF validada; backup restaurado; alimentação em bancada aprovada; equipamentos e versões inventariados; local e intervenção na embarcação autorizados. Um wAP pode ser usado sequencialmente nas distâncias de 50 e 100 m; isso não equivale a testar dois barcos simultâneos.
+Inventariar modem, SIM/plano/APN e eventual roteador/AP; autorizar instalação e ensaios, preparar backup e recuperação local, definir autonomia e demanda do kit. Homologar coleta embarcada em bancada antes do campo. Usar orçamento máximo de dados por sessão: definir bytes/tempo e interromper tráfego de carga ao atingi-lo, evitando excedente automático.
 
-## Instrumentação
+Computador de teste a bordo registra localmente LAN, Internet celular, VPN, aplicação, energia e horários sincronizados. A sonda local de LAN não mede a rede celular; a sonda VPS via VPN inclui operadora e túnel. Usar endpoint externo autorizado para upload/download, com direção e bytes registrados. Não depender da VPS para conservar evidência durante falha WAN. Não transmitir imagens identificáveis como carga de teste.
 
-- mANTBox na montagem candidata; core e estação de teste cabeada na margem.
-- wAP na montagem candidata; computador de teste conectado à LAN embarcada.
-- Zabbix a 5 s nos itens essenciais, registrando atraso real.
-- Sonda ICMP local de 1 s com enviados/recebidos, RTT e horário em arquivo local protegido.
-- Gerador de tráfego TCP/UDP em hosts de teste; evitar usar CPU dos roteadores como única fonte de throughput.
-- Multímetro/medidor de energia adequados e registro das condições físicas.
-- Marcações de distância, orientação, vento, maré, inclinação, obstáculos, canal e carga aplicada.
+## Ensaios propostos
 
-## Casos de ensaio
-
-| ID | Execução | Duração mínima proposta | Evidência |
+| ID | Execução | Duração/amostra proposta | Evidência |
 |---|---|---|---|
-| RF-01 | Bancada: cliente 5 GHz e LAN 2,4 GHz simultâneos | 1 h | Config/associação/tráfego/logs |
-| RF-02 | Campo a 50 m e 100 m, orientações 0/90/180/270° | 10 min por orientação/distância | Dados brutos e marcações |
-| RF-03 | Giro lento completo, ambos os sentidos quando viável | 3 ciclos por distância | Piores trechos, perda e reconexões |
-| RF-04 | Carga progressiva com fluxos de vídeo/alarme | 30 min por cenário | Vazão útil, RTT, perda e CPU |
-| RF-05 | Permanência com variação natural | 24 h e depois 7 dias | Cobertura de coleta e incidentes |
-| LAN-01 | DHCP/DNS, Internet e acesso administrativo | 10 repetições funcionais | Falhas e tempos |
-| ENE-01 | Carga normal, noturna e sirene; autonomia | Período acordado do kit | Wh/Ah e tensão nos terminais |
+| CEL-01 | Bancada: SIM/APN, registro 4G, dados, LAN e VPN simultâneos | 1 h | Modelo/firmware, tecnologia, rotas, logs, bytes |
+| CEL-02 | Campo nos locais reais de fundeio, pico e fora de pico | 10 min por posição/horário | Sinal suportado, upload/download, RTT/perda, aplicações |
+| CEL-03 | Giro e movimento natural; obstáculos/cabine na condição de uso | Orientações 0/90/180/270° quando seguras; 3 ciclos se viável | Pior caso, lacunas e reconexões; sem manobra insegura |
+| CEL-04 | Carga de alarme, consultas de vídeo e navegação prevista | 30 min por perfil, limitado ao orçamento de dados | Demanda, filas/prioridades, CPU, perda, bytes |
+| CEL-05 | Permanência, variando horários e condições naturais | 24 h e depois 7 dias | Cobertura de coleta, incidentes e projeção de consumo |
+| CEL-06 | Perda/retorno celular, mudança de IP e reboot controlado | 3 ciclos por falha quando viável | Registro 4G, DNS, túnel, aplicação e recuperação |
+| CEL-07 | Dois kits com SIMs próprios: falha isolada e carga concorrente | 30 min por cenário | Independência dos barcos e limitações da célula/operadora |
+| SIM-01 | Gestão individual de duas linhas de teste; suspensão/reativação se contratadas e autorizadas | Um ciclo por controle contratado | Ação/efeito/prazo em A; B preservada; portal ou atendimento |
+| DATA-01 | Conciliar bytes do kit, VPN/vídeo e operadora; alertas/ciclo/franquia | 24 h inicial + fechamento de ciclo | Fonte, atraso, unidade, reset, quota e custo |
+| LAN-01 | DHCP/DNS, WiFi/Ethernet, Internet e gerência | 10 repetições funcionais | Tempo/falha por camada |
+| ENE-01 | Repouso, transmissão, noite, sirene, reboot e autonomia | Período de autonomia acordado | Wh/Ah, pico e tensão nos terminais |
 
-Orientação 0° significa proa voltada à margem; registrar a orientação do próprio wAP em relação ao barco. Registrar como “não executado” quando a manobra não puder ser feita com segurança; não interpolar resultado faltante.
+0° é referência de proa registrada no croqui privado; não precisa apontar para a margem. Os 50–100 m da ideia anterior não são critérios de cobertura celular. Cenários impossíveis ficam não executados, nunca interpolados.
 
-## Critérios de aceite propostos
+## Critérios de aceite propostos, a aprovar antes do ensaio
 
-| Medida | Critério inicial | Interpretação |
+| Medida | Critério inicial | Limite de interpretação |
 |---|---|---|
-| Perda local | ≤ 1% em cada janela de orientação e no ensaio total | Reprovar orientação ruim mesmo com média total boa |
-| Interrupção local | Nenhuma sequência > 5 s sem resposta durante teste controlado | Investigar interferência, energia e medição |
-| Latência local | p95 ≤ 30 ms em repouso; ≤ 100 ms com carga contratada | Exclui WAN/VPS |
-| Vazão útil | ≥ 1,3 × demanda simultânea medida do kit | Valor em Mbps depende do kit real |
-| Associação | Sem reconexões espontâneas nos testes controlados | Eventos intencionais são anotados |
-| Coleta RF | ≥ 99% das amostras previstas dos itens suportados habilitados | Relatar lacunas e itens excluídos; não inventar dados |
-| Relógios | Desvio ≤ 1 s entre fontes do ensaio | Condição para correlação temporal |
-| Segurança | Todos os testes negativos de isolamento passam | Falha bloqueia multicliente |
-| Alimentação | Sem reset/subtensão durante carga e autonomia definida | Limites pelo projeto do kit |
+| Aplicações | Alarme entregue e consulta de vídeo dentro dos prazos definidos para o kit antes do teste | Prazo depende do serviço/modelo; sem prazo aprovado, aceite pendente |
+| Vazão útil por sentido | Pelo menos 1,3 × demanda simultânea medida naquele sentido | Não é SLA nem promessa de velocidade da operadora |
+| Perda para endpoint Internet do ensaio | ≤ 2% por janela de 10 min, com enviados/recebidos registrados | ICMP depende do destino; correlacionar com aplicação e não inferir por TCP |
+| Latência Internet em repouso | p95 ≤ 150 ms ao endpoint definido | Meta técnica inicial; não reutilizar limites do antigo enlace local |
+| Retorno 4G/VPN | Até 180 s após retorno da rede e boot concluído | Medir também tempo total desde energização; falhas sem tempo conhecido ficam inconclusivas |
+| Coleta | ≥ 99% das amostras programadas de itens suportados durante janela de conectividade | Relatar separadamente lacunas totais, falhas induzidas e log local |
+| Dados | Consumo projetado com margem cabe na franquia aprovada | Projeção identificada; DATA-01 só completo após conciliação do ciclo |
+| Isolamento | SEC-01/02 aprovados no hub e kits, incluindo IPv6 | Falha bloqueia multicliente |
+| Autonomia | Sem subtensão/reset na carga e duração acordadas | Base em medição do kit, sem usar consumo de rádio antigo |
+| Relógios | Desvio ≤ 1 s entre fontes do ensaio | Registrar desvios e impacto na correlação |
 
-RSSI alvo inicial de investigação: preferir margem estável acima de −70 dBm; abaixo de −75 dBm requer análise. Não aprovar/reprovar exclusivamente pelo RSSI se taxa, perda e aplicação indicarem outra situação. SNR/CCQ indisponível deve constar como lacuna, não valor inventado.
+RSRP/RSRQ/SINR são diagnósticos quando expostos, sem limiar universal de aceite. Ausência de um campo não vira zero. Falha do modem, SIM, operadora, DNS, VPN, coletor e aplicação exige identificação separada em MON-03.
 
-## Testes de falha
+## Falhas e independência
 
-Desconectar WAN, interromper VPS, desligar a conexão da central NOC e reiniciar equipamento em janela controlada, um cenário por vez. Alarme e gravação locais devem continuar quando aplicável. Proposta de recuperação de rede: até 180 s após retorno do serviço/energia e boot concluído; medir também tempo total desde energização, separadamente. Verificar DNS, túnel, rotas e coleta, não somente LEDs.
+Induzir, uma por vez e com recuperação preparada: perda 4G do barco A, indisponibilidade do hub, Internet da central NOC, reinício do kit e restrição de linha autorizada. Alarme e gravação locais continuam conforme alimentação independente; Internet de B não deve depender de A. Falha de uma operadora pode atingir ambos e não demonstra dependência entre kits. Não bloquear a única linha remotamente sem acesso local.
 
-## Decisão ao final
+## Decisão
 
-Resultado: aprovado, aprovado com restrições identificadas ou reprovado. Reprovação por rotação exige nova posição/antena ou arquitetura alternativa e repetição do ensaio afetado. Aprovação de um kit não homologa 20 barcos nem estabelece SLA comercial. Dados brutos e configuração exata devem acompanhar a conclusão.
+O piloto inclui [IOT-01 a IOT-05](../01-architecture/IOT_MONITORING_RESEARCH.md): bancada de bateria/fumaça/bomba, calibração, comandos com falhas induzidas e automático preservado, seguida de energia, latência e consumo no barco. Integrar os bytes ao DATA-01 e a energia ao ENE-01. Nenhuma atuação em bomba em uso é autorizada apenas por este plano; preparar inventário, recuperação e escopo operacional antes do ensaio.
+
+Aprovar por barco, local, operadora/plano, kit e configuração ensaiados, com evidência privada e aceite humano. Restrições devem indicar impacto e teste faltante; item P0 reprovado impede o serviço afetado. Ausência de cobertura exige rever posição/antena/operadora e repetir campo. Um barco aprovado não homologa 20; CAP-01 verifica concorrência, observabilidade e custos de expansão. A PoC não estabelece SLA comercial.
